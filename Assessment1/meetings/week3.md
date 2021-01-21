@@ -12,7 +12,7 @@ After a week of work we were ready to move to the next step.
 
 
 
-![gantt chart](/assets/static/week3.png "Gantt chart")
+![gantt chart](assets/static/week3.png "Gantt chart")
 
 ## Meeting 4 (22/10/2020)
 

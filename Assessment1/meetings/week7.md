@@ -14,9 +14,9 @@ Other miscellaneous things included:
 * AI development
 * Improved HUD
 
-![gantt chart](/assets/static/week7.png "Gantt chart")
+![gantt chart](assets/static/week7.png "Gantt chart")
 
-![Collision demo](/assets/static/11-09.gif "Collision demo")
+![Collision demo](ssets/static/11-09.gif "Collision demo")
 
 
 ## Meeting 10 (17/11/2020)
