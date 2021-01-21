@@ -33,7 +33,7 @@
 
 <hr/>
 
-## Teame
+## Team
 
 ### [Team](team.md)
 
