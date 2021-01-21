@@ -15,7 +15,7 @@
 ## Method selection & planning
 
 ### File: [Method selection and planning](deliverables/Plan1.pdf)
-### Weekly Plan Snapshots: [Here](plan/plan.md)
+### Weekly Plan Snapshots: [Here](meetings/meetings.md)
 
 <hr/>
 
@@ -29,13 +29,12 @@
 
 ### Deliverable: [Implementation (b)](deliverables/Impl1.pdf)
 ### Game: [JAR](Dragon-Boat-Race.jar)
-### Documentation: [Javadocs](javadoc/index.html)
-### Repository: [Here](https://github.com/ENG1-Team-8/Dragon-Race)
+### Repository: [Here](https://github.com/hardgforgifs/game)
 
 <hr/>
 
-## Self-assessment table
+## Teame
 
-### File: [Self-assessment](deliverables/SelfAss1.pdf)
+### [Team](team.md)
 
 
