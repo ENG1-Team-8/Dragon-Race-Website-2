@@ -1,3 +1,9 @@
+---
+layout: default
+title: Week 7
+parent: Original Meetings and Plan
+---
+
 # Week 7
 
 We have everything ready for the 1.0 release of the game, so we focused on bug fixing, revising deliverables, adding code documentation and updating whatever is necessary so the project accurately matches the concrete architecture, including variable names and method names.

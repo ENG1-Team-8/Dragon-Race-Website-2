@@ -1,3 +1,9 @@
+---
+layout: default
+title: Week 5
+parent: Original Meetings and Plan
+---
+
 # Week 5
 
 In the fifth week, the first prototype of the game was ready. We now needed to focus on the documentation aspect of the project, which included the systematic justification, a first draft of the risk assessment and more work on method selection and planning.  

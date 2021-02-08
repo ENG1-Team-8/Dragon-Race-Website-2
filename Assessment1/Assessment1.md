@@ -1,3 +1,10 @@
+---
+layout: default
+title: Original Assessment 1 Deliverables
+parent: Assessment 1
+nav_order: 1
+---
+
 # Deliverables
 
 ## Requirements
@@ -30,11 +37,5 @@
 ### Deliverable: [Implementation (b)](deliverables/Impl1.pdf)
 ### Game: [JAR](Dragon-Boat-Race.jar)
 ### Repository: [Here](https://github.com/hardgforgifs/game)
-
-<hr/>
-
-## Team
-
-### [Team](team.md)
 
 

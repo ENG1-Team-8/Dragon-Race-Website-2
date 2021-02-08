@@ -1,3 +1,9 @@
+---
+layout: default
+title: Week 3
+parent: Original Meetings and Plan
+---
+
 # Week 3
 
 After these two weeks, we had everything ready to create a rough abstract architecture of the game. This was a very important step, as now we were ready to distribute some tasks between the team members, in order to be able to create small bits of code that fulfill some of the tasks in the abstract architecture. We decided to follow the same tutorial and build some of the requirements we designed last weeks as standalone, small projects. These included:

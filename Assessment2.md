@@ -1,5 +1,12 @@
-# Dragon Boat Punk 1987
-## User manual: [PDF](Manual.pdf), [Editable](https://docs.google.com/document/d/1lbSnsSHv3OtX6UTB7_a88IKCYVQeLWyLdHjS0hyNLB4/edit?usp=sharing)
+---
+layout: default
+title: Deliverables
+parent: Assessment 2
+nav_order: 1
+---
+
+# Assessment 2 deliverables
+### User manual: [PDF](Manual.pdf), [Editable](https://docs.google.com/document/d/1lbSnsSHv3OtX6UTB7_a88IKCYVQeLWyLdHjS0hyNLB4/edit?usp=sharing)
 ---
 ## Change Report
 

@@ -1,3 +1,10 @@
+---
+layout: default
+title: Updated Plan
+parent: Assessment 2
+nav_order: 3
+---
+
 # Plan
 
 ## Collapsed plan

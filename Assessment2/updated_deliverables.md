@@ -1,3 +1,10 @@
+---
+layout: default
+title: Updated Assessment 1 Deliverables
+parent: Assessment 2
+nav_order: 2
+---
+
 # Updated Deliverables
 
 ## Requirements

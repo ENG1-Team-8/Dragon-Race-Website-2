@@ -1,3 +1,9 @@
+---
+layout: default
+title: Week 8
+parent: Original Meetings and Plan
+---
+
 # Week 8
 
 We Finalising on the documents, going through them to ensure that they are meeting the criteria as much as possible.

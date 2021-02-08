@@ -1,6 +1,30 @@
-# Team Members
+---
+layout: default
+title: Team
+nav_order: 4
+---
 
-These are the members working on the project, feel free to either get in touch with our group email listed on the [homepage](/) or reaching out through github.
+# Version 2 (Assesssment 2) Team Members
+
+These are the new team members working on the new version:
+
+## Charlie Hayes
+
+## Matilda Garcia
+
+## Ionut Manasia
+
+## David Kayode
+
+## Josh Stafford
+
+## Matt Tomlinson
+
+---
+
+# Version 1 (Assesssment 1) Team Members
+
+These are the original team members who created the first version:
 
 ## Bowen Lyu
 

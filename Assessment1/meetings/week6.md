@@ -1,3 +1,9 @@
+---
+layout: default
+title: Week 6
+parent: Original Meetings and Plan
+---
+
 # Week 6
 
 This week had a lot of our software development efforts come together as we merged multiple branches together and completed a large chunk of the features required. Example of this that where added include:

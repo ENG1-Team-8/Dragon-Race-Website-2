@@ -1,3 +1,9 @@
+---
+layout: default
+title: Week 4
+parent: Original Meetings and Plan
+---
+
 # Week 4
 
 Starting in the fourth week, we already had a lot of scripts that were working great by themselves, but we now had to focus on putting everything together.  
