@@ -1,7 +1,8 @@
 ---
 layout: default
 title: Week 7
-parent: Original Meetings and Plan
+parent: Original Plan and Meetings
+grand_parent: Assessment 1
 ---
 
 # Week 7
