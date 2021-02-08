@@ -10,8 +10,9 @@ We are attempting to complete the development of a game called "Dragon Boat Punk
 
 **New assessment 2 deliverables, updated deliverables and original (unchanged) deliverables can be found on the side-bar or below:**
 
-[Assessment 2 Deliverables](Assessment2){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 } [Updated Assessment 1 Deliverables](Assessment2/updated_deliverables){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
- [Assessment 1 Original Deliverables](Assessment1/Assessment1){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
+[Assessment 2 Deliverables](Assessment2){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 } 
+[Updated Assessment 1 Deliverables](Assessment2/updated_deliverables){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 } 
+[Assessment 1 Original Deliverables](Assessment1/Assessment1){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
 
 ---
 
@@ -19,6 +20,7 @@ We are attempting to complete the development of a game called "Dragon Boat Punk
 
 [Updated Plan](Assessment2/plan/plan){: .btn .fs-5 .mb-4 .mb-md-0 } [Original Plan](Assessment1/meetings/meetings){: .btn .fs-5 .mb-4 .mb-md-0 }
 
+---
 
 ## Game files
 
