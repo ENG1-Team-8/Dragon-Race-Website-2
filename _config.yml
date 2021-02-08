@@ -1,7 +1,8 @@
 remote_theme: pmarsceill/just-the-docs
-color_scheme: dark
+colour_scheme: dark
 title: ENG1-Team-8
-logo: /logo.png
+logo: logo.png
 aux_links:
   "Game repository":
     - "//github.com/ENG1-Team-8/Dragon-Race-2"
+aux_links_new_tab: false
