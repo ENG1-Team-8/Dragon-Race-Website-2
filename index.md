@@ -4,7 +4,7 @@ title: Home
 nav_order: 1
 ---
 
-# ENG1 - Team 8 - The 8-Team
+# ENG1 - The 8-Team
 We are attempting to complete the development of a game called "Dragon Boat Punk 1987".
 
 
