@@ -17,7 +17,7 @@ nav_order: 1
 
 ## Implementation
 
-### Deliverable: [Implementation (b)](Assessment1/new_deliverables/Impl2.pdf)
+### Deliverable: [Implementation (b)](Assessment2/new_deliverables/Impl2.pdf)
 ### Game: [JAR](Dragon-Race-2.jar)
 ### Documentation: [Javadoc](javadoc/index.html)
 ### Repository: [Here](https://github.com/ENG1-Team-8/Dragon-Race-2)
