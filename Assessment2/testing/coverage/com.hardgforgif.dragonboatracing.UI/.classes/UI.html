@@ -1,0 +1,155 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: UI</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.hardgforgif.dragonboatracing.UI</a> ]
+</div>
+
+<h1>Coverage Summary for Class: UI (com.hardgforgif.dragonboatracing.UI)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">UI</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (1/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    25%
+  </span>
+  <span class="absValue">
+    (1/ 4)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.hardgforgif.dragonboatracing.UI;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.badlogic.gdx.graphics.g2d.Batch;
+<i>4</i>&nbsp;import com.badlogic.gdx.math.Vector2;
+<i>5</i>&nbsp;import com.hardgforgif.dragonboatracing.GameData;
+<i>6</i>&nbsp;import com.hardgforgif.dragonboatracing.core.Player;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;/**
+<i>9</i>&nbsp; * An abstract class from which to extend concrete UI classes.
+<i>10</i>&nbsp; * 
+<i>11</i>&nbsp; * @since 1
+<i>12</i>&nbsp; * @version 1
+<i>13</i>&nbsp; * @author Team 10
+<i>14</i>&nbsp; * 
+<i>15</i>&nbsp; */
+<b class="fc"><i>16</i>&nbsp;public abstract class UI {</b>
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;    /**
+<i>19</i>&nbsp;     * This method draws UI elements that are not related to the player boat.
+<i>20</i>&nbsp;     * 
+<i>21</i>&nbsp;     * @param batch       The batch to draw to
+<i>22</i>&nbsp;     * @param mousePos    The location of the mouse, necessary for buttons
+<i>23</i>&nbsp;     * @param screenWidth The width of the screen
+<i>24</i>&nbsp;     * @param delta       The time passed since the last frame
+<i>25</i>&nbsp;     * 
+<i>26</i>&nbsp;     * @since 1
+<i>27</i>&nbsp;     * @version 1
+<i>28</i>&nbsp;     * @author Team 10
+<i>29</i>&nbsp;     * 
+<i>30</i>&nbsp;     */
+<i>31</i>&nbsp;    public abstract void drawUI(Batch batch, Vector2 mousePos, float screenWidth, float delta);
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;    /**
+<i>34</i>&nbsp;     * Draws UI elements related to the player boat.
+<i>35</i>&nbsp;     * 
+<i>36</i>&nbsp;     * @param batch      The batch to draw to
+<i>37</i>&nbsp;     * @param playerBoat The player boat
+<i>38</i>&nbsp;     * 
+<i>39</i>&nbsp;     * @since 1
+<i>40</i>&nbsp;     * @version 1
+<i>41</i>&nbsp;     * @author Team 10
+<i>42</i>&nbsp;     */
+<i>43</i>&nbsp;    public abstract void drawPlayerUI(Batch batch, Player playerBoat);
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;    /**
+<i>46</i>&nbsp;     * Handles input given by the user.
+<i>47</i>&nbsp;     * 
+<i>48</i>&nbsp;     * @param screenWidth The width of the screen
+<i>49</i>&nbsp;     * @param mousePos    the location of the mouse when it is clicked
+<i>50</i>&nbsp;     * 
+<i>51</i>&nbsp;     * @since 1
+<i>52</i>&nbsp;     * @version 1
+<i>53</i>&nbsp;     * @author Team 10
+<i>54</i>&nbsp;     */
+<i>55</i>&nbsp;    public abstract void getInput(float screenWidth, Vector2 mousePos);
+<i>56</i>&nbsp;
+<i>57</i>&nbsp;    /**
+<i>58</i>&nbsp;     * Plays the current music available in the GameData static class.
+<i>59</i>&nbsp;     * 
+<i>60</i>&nbsp;     * @since 1
+<i>61</i>&nbsp;     * @version 1
+<i>62</i>&nbsp;     * @author Team 10
+<i>63</i>&nbsp;     */
+<i>64</i>&nbsp;    public void playMusic() {
+<i>65</i>&nbsp;
+<b class="nc"><i>66</i>&nbsp;        if (!GameData.music.isPlaying()) {</b>
+<b class="nc"><i>67</i>&nbsp;            GameData.music.play();</b>
+<i>68</i>&nbsp;        }
+<i>69</i>&nbsp;
+<b class="nc"><i>70</i>&nbsp;    }</b>
+<i>71</i>&nbsp;
+<i>72</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-02-09 16:25</div>
+</div>
+</body>
+</html>

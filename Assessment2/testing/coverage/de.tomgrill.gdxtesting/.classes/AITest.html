@@ -1,0 +1,188 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: AITest</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">de.tomgrill.gdxtesting</a> ]
+</div>
+
+<h1>Coverage Summary for Class: AITest (de.tomgrill.gdxtesting)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AITest</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (8/ 8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (44/ 44)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package de.tomgrill.gdxtesting;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.badlogic.gdx.math.Vector2;
+<i>4</i>&nbsp;import com.badlogic.gdx.physics.box2d.World;
+<i>5</i>&nbsp;import com.hardgforgif.dragonboatracing.core.AI;
+<i>6</i>&nbsp;import com.hardgforgif.dragonboatracing.core.Map;
+<i>7</i>&nbsp;import com.hardgforgif.dragonboatracing.core.Obstacle;
+<i>8</i>&nbsp;import org.junit.Before;
+<i>9</i>&nbsp;import org.junit.Test;
+<i>10</i>&nbsp;import org.junit.runner.RunWith;
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;import static org.junit.Assert.*;
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;@RunWith(GdxTestRunner.class)
+<b class="fc"><i>16</i>&nbsp;public class AITest {</b>
+<i>17</i>&nbsp;
+<b class="fc"><i>18</i>&nbsp;    World testWorld = new World(new Vector2(0f, 0f), true);</b>
+<b class="fc"><i>19</i>&nbsp;    Map testMap = new Map(&quot;Map1/Map1.tmx&quot;, 1000);</b>
+<i>20</i>&nbsp;    AI testAI;
+<i>21</i>&nbsp;    Obstacle testObstacle;
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    @Before
+<i>24</i>&nbsp;    public void initializeVariables()
+<i>25</i>&nbsp;    {
+<b class="fc"><i>26</i>&nbsp;        testMap.createLanes(testWorld,1);</b>
+<b class="fc"><i>27</i>&nbsp;        testAI = new AI(100f, 100f, 100f, 100f, 1, testMap.lanes[0],1f);</b>
+<b class="fc"><i>28</i>&nbsp;        testAI.createBoatBody(testWorld,2,0,&quot;boat1.json&quot;);</b>
+<b class="fc"><i>29</i>&nbsp;        testObstacle = testMap.lanes[0].obstacles[0];</b>
+<b class="fc"><i>30</i>&nbsp;    }</b>
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;    //test the capability of the AI to spot an obstacle in front of it
+<i>33</i>&nbsp;    @Test
+<i>34</i>&nbsp;    public void testAwareness()
+<i>35</i>&nbsp;    {
+<i>36</i>&nbsp;        // test for no obstacle in front of the AI
+<b class="fc"><i>37</i>&nbsp;        testObstacle.obstacleSprite.setPosition(900,300);</b>
+<b class="fc"><i>38</i>&nbsp;        testAI.updateAI(0.01f);</b>
+<b class="fc"><i>39</i>&nbsp;        assertFalse(testAI.obstaclesInRange());</b>
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;        // test for an actual obstacle in range
+<b class="fc"><i>42</i>&nbsp;        testObstacle.obstacleSprite.setPosition(200,300);</b>
+<b class="fc"><i>43</i>&nbsp;        testAI.updateAI(0.01f);</b>
+<b class="fc"><i>44</i>&nbsp;        assertTrue(testAI.obstaclesInRange());</b>
+<b class="fc"><i>45</i>&nbsp;    }</b>
+<i>46</i>&nbsp;
+<i>47</i>&nbsp;    //test the ability of the AI to avoid an obstacle in its path
+<i>48</i>&nbsp;    @Test
+<i>49</i>&nbsp;    public void testDodgingRight()
+<i>50</i>&nbsp;    {
+<i>51</i>&nbsp;        //place an obstacle in front and to the right of the AI
+<b class="fc"><i>52</i>&nbsp;        testAI.boatBody.setTransform(3.4f,2,0);</b>
+<b class="fc"><i>53</i>&nbsp;        testObstacle.obstacleSprite.setPosition(320,500);</b>
+<b class="fc"><i>54</i>&nbsp;        testAI.updateAI(0.01f);</b>
+<b class="fc"><i>55</i>&nbsp;        float obstacleSpriteX = testObstacle.obstacleSprite.getX();</b>
+<b class="fc"><i>56</i>&nbsp;        assertTrue(testAI.objectChecker.x&gt;obstacleSpriteX);</b>
+<b class="fc"><i>57</i>&nbsp;    }</b>
+<i>58</i>&nbsp;
+<i>59</i>&nbsp;    @Test
+<i>60</i>&nbsp;    public void testDodgingLeft()
+<i>61</i>&nbsp;    {
+<i>62</i>&nbsp;        //place an obstacle in front and to the left of the AI
+<b class="fc"><i>63</i>&nbsp;        testAI.boatBody.setTransform(3.3f,2,-10);</b>
+<b class="fc"><i>64</i>&nbsp;        testObstacle.obstacleSprite.setPosition(370,500);</b>
+<b class="fc"><i>65</i>&nbsp;        testAI.updateAI(0.01f);</b>
+<b class="fc"><i>66</i>&nbsp;        float obstacleSpriteX = testObstacle.obstacleSprite.getX();</b>
+<b class="fc"><i>67</i>&nbsp;        assertTrue(testAI.objectChecker.x&lt;obstacleSpriteX);</b>
+<b class="fc"><i>68</i>&nbsp;    }</b>
+<i>69</i>&nbsp;
+<i>70</i>&nbsp;    //test the ability of the AI to stay in lane by checking its target for movement against the limit of its lane
+<i>71</i>&nbsp;    @Test
+<i>72</i>&nbsp;    public void testGoingOutOfLaneLeft()
+<i>73</i>&nbsp;    {
+<i>74</i>&nbsp;        //move the ai close to the left boundary of the lane
+<b class="fc"><i>75</i>&nbsp;        testAI.boatBody.setTransform(2.3f,1,0);</b>
+<b class="fc"><i>76</i>&nbsp;        testAI.updateAI(0.1f);</b>
+<b class="fc"><i>77</i>&nbsp;        float laneLimitX = testAI.lane.leftBoundary[1][1];</b>
+<b class="fc"><i>78</i>&nbsp;        assertTrue(testAI.laneChecker.x&gt;laneLimitX);</b>
+<b class="fc"><i>79</i>&nbsp;    }</b>
+<i>80</i>&nbsp;
+<i>81</i>&nbsp;
+<i>82</i>&nbsp;    @Test
+<i>83</i>&nbsp;    public void testGoingOutOfLaneRight()
+<i>84</i>&nbsp;    {
+<i>85</i>&nbsp;        //move the ai close to the right boundary of the lane
+<b class="fc"><i>86</i>&nbsp;        testAI.boatBody.setTransform(3.7f,1,0);</b>
+<b class="fc"><i>87</i>&nbsp;        testAI.updateAI(0.1f);</b>
+<b class="fc"><i>88</i>&nbsp;        float laneLimitX = testAI.lane.rightBoundary[1][1];</b>
+<b class="fc"><i>89</i>&nbsp;        assertTrue(testAI.laneChecker.x &lt; laneLimitX);</b>
+<b class="fc"><i>90</i>&nbsp;    }</b>
+<i>91</i>&nbsp;
+<i>92</i>&nbsp;
+<i>93</i>&nbsp;    @Test
+<i>94</i>&nbsp;    public void testStayingInLane()
+<i>95</i>&nbsp;    {
+<i>96</i>&nbsp;        //move the ai close to the center of the lane
+<b class="fc"><i>97</i>&nbsp;        testAI.boatBody.setTransform(3f,1,0);</b>
+<b class="fc"><i>98</i>&nbsp;        testAI.updateAI(0.1f);</b>
+<b class="fc"><i>99</i>&nbsp;        float laneLimitXLeft = testAI.lane.leftBoundary[1][1];</b>
+<b class="fc"><i>100</i>&nbsp;        float laneLimitXRight = testAI.lane.rightBoundary[1][1];</b>
+<b class="fc"><i>101</i>&nbsp;        assertTrue(testAI.laneChecker.x &gt; laneLimitXLeft);</b>
+<b class="fc"><i>102</i>&nbsp;        assertTrue(testAI.laneChecker.x &lt; laneLimitXRight);</b>
+<b class="fc"><i>103</i>&nbsp;    }</b>
+<i>104</i>&nbsp;
+<i>105</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-02-09 16:25</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,216 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ScrollingBackground</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.hardgforgif.dragonboatracing.UI</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ScrollingBackground (com.hardgforgif.dragonboatracing.UI)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ScrollingBackground</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    80%
+  </span>
+  <span class="absValue">
+    (4/ 5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    42.9%
+  </span>
+  <span class="absValue">
+    (15/ 35)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.hardgforgif.dragonboatracing.UI;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.badlogic.gdx.Gdx;
+<i>4</i>&nbsp;import com.badlogic.gdx.graphics.Texture;
+<i>5</i>&nbsp;import com.badlogic.gdx.graphics.g2d.Batch;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;/**
+<i>8</i>&nbsp; * Displays a scrolling background, used for menu backgrounds.
+<i>9</i>&nbsp; * 
+<i>10</i>&nbsp; * @see MenuUI
+<i>11</i>&nbsp; * @see ChoosingUI
+<i>12</i>&nbsp; * 
+<i>13</i>&nbsp; * @since 1
+<i>14</i>&nbsp; * @version 1
+<i>15</i>&nbsp; * @author Team 10
+<i>16</i>&nbsp; */
+<i>17</i>&nbsp;public class ScrollingBackground {
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;    public static final int DEFAULT_SPEED = 80;
+<i>20</i>&nbsp;    public static final int ACCELERATION = 50;
+<i>21</i>&nbsp;    public static final int TARGET_ACQUIRED_ACCELERATION = 200;
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    Texture image;
+<i>24</i>&nbsp;    float y1, y2;
+<i>25</i>&nbsp;    int speed; // in pixels/sec
+<i>26</i>&nbsp;    int targetSpeed;
+<i>27</i>&nbsp;    boolean speedFixed;
+<i>28</i>&nbsp;    float imageScale;
+<i>29</i>&nbsp;    float scaledHeight;
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;    /**
+<i>32</i>&nbsp;     * Constructs a scrolling background.
+<i>33</i>&nbsp;     * 
+<i>34</i>&nbsp;     * @since 1
+<i>35</i>&nbsp;     * @version 1
+<i>36</i>&nbsp;     * @author Team 10
+<i>37</i>&nbsp;     */
+<b class="fc"><i>38</i>&nbsp;    public ScrollingBackground() {</b>
+<i>39</i>&nbsp;
+<b class="fc"><i>40</i>&nbsp;        image = new Texture(&quot;square.png&quot;);</b>
+<i>41</i>&nbsp;
+<b class="fc"><i>42</i>&nbsp;        y1 = 0;</b>
+<b class="fc"><i>43</i>&nbsp;        y2 = image.getHeight();</b>
+<b class="fc"><i>44</i>&nbsp;        speed = 0;</b>
+<b class="fc"><i>45</i>&nbsp;        targetSpeed = DEFAULT_SPEED;</b>
+<b class="fc"><i>46</i>&nbsp;        imageScale = 0;</b>
+<b class="fc"><i>47</i>&nbsp;        speedFixed = true;</b>
+<i>48</i>&nbsp;
+<b class="fc"><i>49</i>&nbsp;    }</b>
+<i>50</i>&nbsp;
+<i>51</i>&nbsp;    /**
+<i>52</i>&nbsp;     * Updates and renders the Scrolling background object on a batch.
+<i>53</i>&nbsp;     * 
+<i>54</i>&nbsp;     * @param deltaTime The time passes since the last frame
+<i>55</i>&nbsp;     * @param batch     The batch to render to
+<i>56</i>&nbsp;     * 
+<i>57</i>&nbsp;     * @since 1
+<i>58</i>&nbsp;     * @version 1
+<i>59</i>&nbsp;     * @author Team 10
+<i>60</i>&nbsp;     */
+<i>61</i>&nbsp;    public void updateAndRender(float deltaTime, Batch batch) {
+<i>62</i>&nbsp;
+<i>63</i>&nbsp;        // speed adjustment to reach goal
+<b class="nc"><i>64</i>&nbsp;        if (speed &lt; targetSpeed) {</b>
+<b class="nc"><i>65</i>&nbsp;            speed += TARGET_ACQUIRED_ACCELERATION * deltaTime;</b>
+<b class="nc"><i>66</i>&nbsp;            if (speed &gt; targetSpeed)</b>
+<b class="nc"><i>67</i>&nbsp;                speed = targetSpeed;</b>
+<b class="nc"><i>68</i>&nbsp;        } else if (speed &gt; targetSpeed) {</b>
+<b class="nc"><i>69</i>&nbsp;            speed -= TARGET_ACQUIRED_ACCELERATION * deltaTime;</b>
+<b class="nc"><i>70</i>&nbsp;            if (speed &lt; targetSpeed)</b>
+<b class="nc"><i>71</i>&nbsp;                speed = targetSpeed;</b>
+<i>72</i>&nbsp;        }
+<i>73</i>&nbsp;
+<b class="nc"><i>74</i>&nbsp;        if (!speedFixed)</b>
+<b class="nc"><i>75</i>&nbsp;            speed += ACCELERATION * deltaTime;</b>
+<i>76</i>&nbsp;
+<b class="nc"><i>77</i>&nbsp;        y1 -= speed * deltaTime;</b>
+<b class="nc"><i>78</i>&nbsp;        y2 -= speed * deltaTime;</b>
+<i>79</i>&nbsp;
+<i>80</i>&nbsp;        // if image reaches the bottom of screen and is not visible,
+<i>81</i>&nbsp;        // put it back on top
+<i>82</i>&nbsp;
+<b class="nc"><i>83</i>&nbsp;        scaledHeight = image.getHeight() * imageScale;</b>
+<i>84</i>&nbsp;
+<b class="nc"><i>85</i>&nbsp;        if (y1 + scaledHeight &lt;= 0)</b>
+<b class="nc"><i>86</i>&nbsp;            y1 = y2 + scaledHeight;</b>
+<b class="nc"><i>87</i>&nbsp;        if (y2 + scaledHeight &lt;= 0)</b>
+<b class="nc"><i>88</i>&nbsp;            y2 = y1 + scaledHeight;</b>
+<i>89</i>&nbsp;
+<i>90</i>&nbsp;        // render
+<b class="nc"><i>91</i>&nbsp;        batch.draw(image, 0, y1, Gdx.graphics.getWidth(), scaledHeight);</b>
+<b class="nc"><i>92</i>&nbsp;        batch.draw(image, 0, y2, Gdx.graphics.getWidth(), scaledHeight);</b>
+<i>93</i>&nbsp;
+<b class="nc"><i>94</i>&nbsp;    }</b>
+<i>95</i>&nbsp;
+<i>96</i>&nbsp;    /**
+<i>97</i>&nbsp;     * Resize the object to a given size.
+<i>98</i>&nbsp;     * 
+<i>99</i>&nbsp;     * @param width  Width of the object
+<i>100</i>&nbsp;     * @param height Height of the object
+<i>101</i>&nbsp;     * 
+<i>102</i>&nbsp;     * @since 1
+<i>103</i>&nbsp;     * @version 1
+<i>104</i>&nbsp;     * @author Team 10
+<i>105</i>&nbsp;     */
+<i>106</i>&nbsp;    public void resize(int width, int height) {
+<i>107</i>&nbsp;
+<b class="fc"><i>108</i>&nbsp;        imageScale = width / image.getWidth();</b>
+<i>109</i>&nbsp;
+<b class="fc"><i>110</i>&nbsp;    }</b>
+<i>111</i>&nbsp;
+<i>112</i>&nbsp;    /**
+<i>113</i>&nbsp;     * Set the scrolling speed in pixels/sec.
+<i>114</i>&nbsp;     * 
+<i>115</i>&nbsp;     * @param targetSpeed The scrolling speed
+<i>116</i>&nbsp;     * 
+<i>117</i>&nbsp;     * @since 1
+<i>118</i>&nbsp;     * @version 1
+<i>119</i>&nbsp;     * @author Team 10
+<i>120</i>&nbsp;     */
+<i>121</i>&nbsp;    public void setSpeed(int targetSpeed) {
+<i>122</i>&nbsp;
+<b class="fc"><i>123</i>&nbsp;        this.targetSpeed = targetSpeed;</b>
+<i>124</i>&nbsp;
+<b class="fc"><i>125</i>&nbsp;    }</b>
+<i>126</i>&nbsp;
+<i>127</i>&nbsp;    public void setSpeedFixed(boolean speedFixed) {
+<i>128</i>&nbsp;
+<b class="fc"><i>129</i>&nbsp;        this.speedFixed = speedFixed;</b>
+<i>130</i>&nbsp;
+<b class="fc"><i>131</i>&nbsp;    }</b>
+<i>132</i>&nbsp;
+<i>133</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-02-09 16:25</div>
+</div>
+</body>
+</html>

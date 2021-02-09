@@ -1,0 +1,313 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ChoosingUI</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.hardgforgif.dragonboatracing.UI</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ChoosingUI (com.hardgforgif.dragonboatracing.UI)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ChoosingUI</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 85)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">ChoosingUI$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 5)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 90)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.hardgforgif.dragonboatracing.UI;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import java.util.ArrayList;
+<i>4</i>&nbsp;import java.util.Collections;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;import com.badlogic.gdx.Gdx;
+<i>7</i>&nbsp;import com.badlogic.gdx.graphics.Color;
+<i>8</i>&nbsp;import com.badlogic.gdx.graphics.Texture;
+<i>9</i>&nbsp;import com.badlogic.gdx.graphics.g2d.Batch;
+<i>10</i>&nbsp;import com.badlogic.gdx.graphics.g2d.BitmapFont;
+<i>11</i>&nbsp;import com.badlogic.gdx.graphics.g2d.Sprite;
+<i>12</i>&nbsp;import com.badlogic.gdx.math.Vector2;
+<i>13</i>&nbsp;import com.hardgforgif.dragonboatracing.GameData;
+<i>14</i>&nbsp;import com.hardgforgif.dragonboatracing.core.Player;
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;/**
+<i>17</i>&nbsp; * The UI class for the player to choose a boat to race with, extends from UI.
+<i>18</i>&nbsp; * 
+<i>19</i>&nbsp; * @see UI
+<i>20</i>&nbsp; * 
+<i>21</i>&nbsp; * @since 1
+<i>22</i>&nbsp; * @version 1
+<i>23</i>&nbsp; * @author Team 10
+<i>24</i>&nbsp; */
+<i>25</i>&nbsp;public class ChoosingUI extends UI {
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;    private Texture background;
+<i>28</i>&nbsp;    private Sprite background_sprite;
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;    private Texture bar;
+<b class="nc"><i>31</i>&nbsp;    private Sprite[] barSprites = new Sprite[4];</b>
+<i>32</i>&nbsp;    private Texture boatTexture;
+<b class="nc"><i>33</i>&nbsp;    private Sprite[] boatSprites = new Sprite[4];</b>
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;    private BitmapFont label;
+<i>36</i>&nbsp;
+<b class="nc"><i>37</i>&nbsp;    private float[] currentStats = new float[4];</b>
+<i>38</i>&nbsp;
+<b class="nc"><i>39</i>&nbsp;    ScrollingBackground scrollingBackground = new ScrollingBackground();</b>
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;    /**
+<i>42</i>&nbsp;     * Construct the UI for choosing a boat.
+<i>43</i>&nbsp;     * 
+<i>44</i>&nbsp;     * @since 1
+<i>45</i>&nbsp;     * @version 1
+<i>46</i>&nbsp;     * @author Team 10
+<i>47</i>&nbsp;     */
+<b class="nc"><i>48</i>&nbsp;    public ChoosingUI() {</b>
+<i>49</i>&nbsp;
+<b class="nc"><i>50</i>&nbsp;        scrollingBackground.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());</b>
+<b class="nc"><i>51</i>&nbsp;        scrollingBackground.setSpeedFixed(true);</b>
+<b class="nc"><i>52</i>&nbsp;        scrollingBackground.setSpeed(ScrollingBackground.DEFAULT_SPEED);</b>
+<i>53</i>&nbsp;
+<b class="nc"><i>54</i>&nbsp;        background = new Texture(Gdx.files.internal(&quot;Background.png&quot;));</b>
+<b class="nc"><i>55</i>&nbsp;        background_sprite = new Sprite(background);</b>
+<b class="nc"><i>56</i>&nbsp;        background_sprite.setPosition(200, 410);</b>
+<b class="nc"><i>57</i>&nbsp;        background_sprite.setSize(900, 260);</b>
+<i>58</i>&nbsp;
+<b class="nc"><i>59</i>&nbsp;        label = new BitmapFont();</b>
+<b class="nc"><i>60</i>&nbsp;        label.getData().setScale(1.4f);</b>
+<b class="nc"><i>61</i>&nbsp;        label.setColor(Color.BLACK);</b>
+<i>62</i>&nbsp;
+<b class="nc"><i>63</i>&nbsp;        bar = new Texture(&quot;Robustness_bar.png&quot;);</b>
+<b class="nc"><i>64</i>&nbsp;        barSprites[0] = new Sprite(bar);</b>
+<b class="nc"><i>65</i>&nbsp;        barSprites[0].setPosition(430, 600);</b>
+<i>66</i>&nbsp;
+<b class="nc"><i>67</i>&nbsp;        bar = new Texture(&quot;Speed_bar.png&quot;);</b>
+<b class="nc"><i>68</i>&nbsp;        barSprites[1] = new Sprite(bar);</b>
+<b class="nc"><i>69</i>&nbsp;        barSprites[1].setPosition(430, 550);</b>
+<i>70</i>&nbsp;
+<b class="nc"><i>71</i>&nbsp;        bar = new Texture(&quot;Acceleration_bar.png&quot;);</b>
+<b class="nc"><i>72</i>&nbsp;        barSprites[2] = new Sprite(bar);</b>
+<b class="nc"><i>73</i>&nbsp;        barSprites[2].setPosition(430, 500);</b>
+<i>74</i>&nbsp;
+<b class="nc"><i>75</i>&nbsp;        bar = new Texture(&quot;Maneuverability_bar.png&quot;);</b>
+<b class="nc"><i>76</i>&nbsp;        barSprites[3] = new Sprite(bar);</b>
+<b class="nc"><i>77</i>&nbsp;        barSprites[3].setPosition(430, 450);</b>
+<i>78</i>&nbsp;
+<b class="nc"><i>79</i>&nbsp;        for (int i = 1; i &lt;= 4; i++) {</b>
+<b class="nc"><i>80</i>&nbsp;            boatTexture = new Texture(&quot;Boat&quot; + i + &quot;.png&quot;);</b>
+<b class="nc"><i>81</i>&nbsp;            boatSprites[i - 1] = new Sprite(boatTexture);</b>
+<b class="nc"><i>82</i>&nbsp;            boatSprites[i - 1].scale(-0.6f);</b>
+<b class="nc"><i>83</i>&nbsp;            boatSprites[i - 1].setPosition(150 + 300f * (i - 1), -200f);</b>
+<i>84</i>&nbsp;        }
+<i>85</i>&nbsp;
+<b class="nc"><i>86</i>&nbsp;    }</b>
+<i>87</i>&nbsp;
+<i>88</i>&nbsp;    /**
+<i>89</i>&nbsp;     * @since 1
+<i>90</i>&nbsp;     * @version 1
+<i>91</i>&nbsp;     * @author Team 10
+<i>92</i>&nbsp;     */
+<i>93</i>&nbsp;    @Override
+<i>94</i>&nbsp;    public void drawUI(Batch batch, Vector2 mousePos, float screenWidth, float delta) {
+<i>95</i>&nbsp;
+<i>96</i>&nbsp;        // Check if the mouse is hovering over a boat, and update the bars displayed
+<b class="nc"><i>97</i>&nbsp;        for (int i = 0; i &lt; 4; i++) {</b>
+<i>98</i>&nbsp;            // Get the position of the boat
+<b class="nc"><i>99</i>&nbsp;            float boatX = boatSprites[i].getX() + boatSprites[i].getWidth() / 2</b>
+<b class="nc"><i>100</i>&nbsp;                    - boatSprites[i].getWidth() / 2 * boatSprites[i].getScaleX();</b>
+<b class="nc"><i>101</i>&nbsp;            float boatY = boatSprites[i].getY() + boatSprites[i].getHeight() / 2</b>
+<b class="nc"><i>102</i>&nbsp;                    - boatSprites[i].getHeight() / 2 * boatSprites[i].getScaleY();</b>
+<b class="nc"><i>103</i>&nbsp;            float boatWidth = boatSprites[i].getWidth() * boatSprites[i].getScaleX();</b>
+<b class="nc"><i>104</i>&nbsp;            float boatHeight = boatSprites[i].getHeight() * boatSprites[i].getScaleY();</b>
+<i>105</i>&nbsp;
+<i>106</i>&nbsp;            // Check if the mouse is hovered over it
+<b class="nc"><i>107</i>&nbsp;            if (mousePos.x &gt; boatX &amp;&amp; mousePos.x &lt; boatX + boatWidth &amp;&amp; mousePos.y &gt; boatY</b>
+<i>108</i>&nbsp;                    &amp;&amp; mousePos.y &lt; boatY + boatHeight) {
+<b class="nc"><i>109</i>&nbsp;                currentStats[0] = GameData.boatsStats[i][0];</b>
+<b class="nc"><i>110</i>&nbsp;                currentStats[1] = GameData.boatsStats[i][1];</b>
+<b class="nc"><i>111</i>&nbsp;                currentStats[2] = GameData.boatsStats[i][2];</b>
+<b class="nc"><i>112</i>&nbsp;                currentStats[3] = GameData.boatsStats[i][3];</b>
+<i>113</i>&nbsp;            }
+<i>114</i>&nbsp;        }
+<i>115</i>&nbsp;
+<b class="nc"><i>116</i>&nbsp;        float full_bar = screenWidth / 3;</b>
+<b class="nc"><i>117</i>&nbsp;        batch.begin();</b>
+<b class="nc"><i>118</i>&nbsp;        scrollingBackground.updateAndRender(delta, batch);</b>
+<b class="nc"><i>119</i>&nbsp;        background_sprite.draw(batch);</b>
+<i>120</i>&nbsp;
+<i>121</i>&nbsp;        // Display the bars based on the selected boat
+<b class="nc"><i>122</i>&nbsp;        for (int i = 0; i &lt; 4; i++) {</b>
+<b class="nc"><i>123</i>&nbsp;            barSprites[i].setSize(full_bar * (currentStats[i] / 100), 30);</b>
+<b class="nc"><i>124</i>&nbsp;            barSprites[i].draw(batch);</b>
+<i>125</i>&nbsp;        }
+<i>126</i>&nbsp;
+<b class="nc"><i>127</i>&nbsp;        label.draw(batch, &quot;Robustness:&quot;, 260, 625);</b>
+<b class="nc"><i>128</i>&nbsp;        label.draw(batch, &quot;Speed:&quot;, 260, 575);</b>
+<b class="nc"><i>129</i>&nbsp;        label.draw(batch, &quot;Acceleration:&quot;, 260, 525);</b>
+<b class="nc"><i>130</i>&nbsp;        label.draw(batch, &quot;Maneuverability:&quot;, 260, 475);</b>
+<i>131</i>&nbsp;
+<i>132</i>&nbsp;        // Display the boats
+<b class="nc"><i>133</i>&nbsp;        for (int i = 0; i &lt; 4; i++) {</b>
+<b class="nc"><i>134</i>&nbsp;            batch.draw(boatSprites[i], boatSprites[i].getX(), boatSprites[i].getY(), boatSprites[i].getOriginX(),</b>
+<b class="nc"><i>135</i>&nbsp;                    boatSprites[i].getOriginY(), boatSprites[i].getWidth(), boatSprites[i].getHeight(),</b>
+<b class="nc"><i>136</i>&nbsp;                    boatSprites[i].getScaleX(), boatSprites[i].getScaleY(), boatSprites[i].getRotation());</b>
+<i>137</i>&nbsp;        }
+<b class="nc"><i>138</i>&nbsp;        batch.end();</b>
+<i>139</i>&nbsp;
+<b class="nc"><i>140</i>&nbsp;        playMusic();</b>
+<i>141</i>&nbsp;
+<b class="nc"><i>142</i>&nbsp;    }</b>
+<i>143</i>&nbsp;
+<i>144</i>&nbsp;    /**
+<i>145</i>&nbsp;     * @since 1
+<i>146</i>&nbsp;     * @version 1
+<i>147</i>&nbsp;     * @author Team 10
+<i>148</i>&nbsp;     */
+<i>149</i>&nbsp;    @Override
+<i>150</i>&nbsp;    public void getInput(float screenWidth, Vector2 mousePos) {
+<i>151</i>&nbsp;
+<i>152</i>&nbsp;        // Check which of the boat was pressed
+<b class="nc"><i>153</i>&nbsp;        for (int i = 0; i &lt; 4; i++) {</b>
+<b class="nc"><i>154</i>&nbsp;            float boatX = boatSprites[i].getX() + boatSprites[i].getWidth() / 2</b>
+<b class="nc"><i>155</i>&nbsp;                    - boatSprites[i].getWidth() / 2 * boatSprites[i].getScaleX();</b>
+<b class="nc"><i>156</i>&nbsp;            float boatY = boatSprites[i].getY() + boatSprites[i].getHeight() / 2</b>
+<b class="nc"><i>157</i>&nbsp;                    - boatSprites[i].getHeight() / 2 * boatSprites[i].getScaleY();</b>
+<b class="nc"><i>158</i>&nbsp;            float boatWidth = boatSprites[i].getWidth() * boatSprites[i].getScaleX();</b>
+<b class="nc"><i>159</i>&nbsp;            float boatHeight = boatSprites[i].getHeight() * boatSprites[i].getScaleY();</b>
+<i>160</i>&nbsp;
+<b class="nc"><i>161</i>&nbsp;            if (mousePos.x &gt; boatX &amp;&amp; mousePos.x &lt; boatX + boatWidth &amp;&amp; mousePos.y &gt; boatY</b>
+<i>162</i>&nbsp;                    &amp;&amp; mousePos.y &lt; boatY + boatHeight) {
+<i>163</i>&nbsp;                // Set the player&#39;s boat type based on the clicked boat
+<b class="nc"><i>164</i>&nbsp;                GameData.boatTypes[0] = i;</b>
+<i>165</i>&nbsp;
+<i>166</i>&nbsp;                // Randomise the AI boats
+<b class="nc"><i>167</i>&nbsp;                ArrayList&lt;Integer&gt; intList = new ArrayList&lt;Integer&gt;() {</b>
+<i>168</i>&nbsp;                    {
+<b class="nc"><i>169</i>&nbsp;                        add(0);</b>
+<b class="nc"><i>170</i>&nbsp;                        add(1);</b>
+<b class="nc"><i>171</i>&nbsp;                        add(2);</b>
+<b class="nc"><i>172</i>&nbsp;                        add(3);</b>
+<i>173</i>&nbsp;                    }
+<i>174</i>&nbsp;                };
+<b class="nc"><i>175</i>&nbsp;                intList.remove(new Integer(i));</b>
+<b class="nc"><i>176</i>&nbsp;                Collections.shuffle(intList);</b>
+<b class="nc"><i>177</i>&nbsp;                GameData.boatTypes[1] = intList.get(0);</b>
+<b class="nc"><i>178</i>&nbsp;                GameData.boatTypes[2] = intList.get(1);</b>
+<b class="nc"><i>179</i>&nbsp;                GameData.boatTypes[3] = intList.get(2);</b>
+<i>180</i>&nbsp;
+<i>181</i>&nbsp;                // Change the music
+<b class="nc"><i>182</i>&nbsp;                GameData.music.stop();</b>
+<b class="nc"><i>183</i>&nbsp;                GameData.music = Gdx.audio.newMusic(Gdx.files.internal(&quot;Love_Drama.ogg&quot;));</b>
+<i>184</i>&nbsp;
+<i>185</i>&nbsp;                // Set the game state to the game play state
+<b class="nc"><i>186</i>&nbsp;                GameData.choosingBoatState = false;</b>
+<b class="nc"><i>187</i>&nbsp;                GameData.gamePlayState = true;</b>
+<b class="nc"><i>188</i>&nbsp;                GameData.currentUI = new GamePlayUI();</b>
+<i>189</i>&nbsp;            }
+<i>190</i>&nbsp;        }
+<i>191</i>&nbsp;
+<b class="nc"><i>192</i>&nbsp;    }</b>
+<i>193</i>&nbsp;
+<i>194</i>&nbsp;    /**
+<i>195</i>&nbsp;     * @since 1
+<i>196</i>&nbsp;     * @version 1
+<i>197</i>&nbsp;     * @author Team 10
+<i>198</i>&nbsp;     */
+<i>199</i>&nbsp;    @Override
+<i>200</i>&nbsp;    public void drawPlayerUI(Batch batch, Player playerBoat) {
+<i>201</i>&nbsp;
+<b class="nc"><i>202</i>&nbsp;    }</b>
+<i>203</i>&nbsp;
+<i>204</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-02-09 16:25</div>
+</div>
+</body>
+</html>

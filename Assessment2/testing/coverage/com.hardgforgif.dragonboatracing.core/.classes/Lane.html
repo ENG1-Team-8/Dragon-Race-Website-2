@@ -1,0 +1,277 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Lane</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.hardgforgif.dragonboatracing.core</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Lane (com.hardgforgif.dragonboatracing.core)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Lane</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/ 5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (66/ 66)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.hardgforgif.dragonboatracing.core;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import java.util.Random;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;import com.badlogic.gdx.maps.MapLayer;
+<i>6</i>&nbsp;import com.badlogic.gdx.maps.MapObjects;
+<i>7</i>&nbsp;import com.badlogic.gdx.maps.objects.RectangleMapObject;
+<i>8</i>&nbsp;import com.badlogic.gdx.math.Rectangle;
+<i>9</i>&nbsp;import com.badlogic.gdx.physics.box2d.World;
+<i>10</i>&nbsp;import com.hardgforgif.dragonboatracing.GameData;
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;/**
+<i>13</i>&nbsp; * Class representing a lane to race in.
+<i>14</i>&nbsp; * 
+<i>15</i>&nbsp; * @since 1
+<i>16</i>&nbsp; * @version 2
+<i>17</i>&nbsp; * @author Team 10
+<i>18</i>&nbsp; * @author Matt Tomlinson
+<i>19</i>&nbsp; */
+<i>20</i>&nbsp;public class Lane {
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;    public float[][] leftBoundary;
+<b class="fc"><i>23</i>&nbsp;    public int leftIterator = 0;</b>
+<i>24</i>&nbsp;    public float[][] rightBoundary;
+<b class="fc"><i>25</i>&nbsp;    public int rightIterator = 0;</b>
+<i>26</i>&nbsp;    private MapLayer leftLayer;
+<i>27</i>&nbsp;    private MapLayer rightLayer;
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;    public Obstacle[] obstacles;
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;    // MODIFIED: array for powerups
+<i>32</i>&nbsp;    public Powerup[] powerups;
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;    /**
+<i>35</i>&nbsp;     * Constructs a Lane object on which boats race.
+<i>36</i>&nbsp;     * 
+<i>37</i>&nbsp;     * @param mapHeight  The height of the map
+<i>38</i>&nbsp;     * @param left       The left map layer
+<i>39</i>&nbsp;     * @param right      The right map layer
+<i>40</i>&nbsp;     * @param difficulty The difficulty for the lane
+<i>41</i>&nbsp;     * 
+<i>42</i>&nbsp;     * @since 1
+<i>43</i>&nbsp;     * @version 2
+<i>44</i>&nbsp;     * @author Team 10
+<i>45</i>&nbsp;     * @author Matt Tomlinson
+<i>46</i>&nbsp;     */
+<b class="fc"><i>47</i>&nbsp;    public Lane(int mapHeight, MapLayer left, MapLayer right, float difficulty) {</b>
+<i>48</i>&nbsp;
+<b class="fc"><i>49</i>&nbsp;        leftBoundary = new float[mapHeight][2];</b>
+<b class="fc"><i>50</i>&nbsp;        rightBoundary = new float[mapHeight][2];</b>
+<i>51</i>&nbsp;
+<b class="fc"><i>52</i>&nbsp;        leftLayer = left;</b>
+<b class="fc"><i>53</i>&nbsp;        rightLayer = right;</b>
+<i>54</i>&nbsp;
+<i>55</i>&nbsp;        // MODIFIED: number of obstacles is weighted by difficulty now
+<b class="fc"><i>56</i>&nbsp;        obstacles = new Obstacle[Math.round((difficulty * 1.5f) * 30)];</b>
+<i>57</i>&nbsp;
+<i>58</i>&nbsp;        // MODIFIED: set number of powerups on each lane
+<b class="fc"><i>59</i>&nbsp;        powerups = new Powerup[20];</b>
+<i>60</i>&nbsp;
+<b class="fc"><i>61</i>&nbsp;    }</b>
+<i>62</i>&nbsp;
+<i>63</i>&nbsp;    /**
+<i>64</i>&nbsp;     * Construct bodies that match the lane separators.
+<i>65</i>&nbsp;     * 
+<i>66</i>&nbsp;     * @param unitScale The size of a tile in pixels
+<i>67</i>&nbsp;     * 
+<i>68</i>&nbsp;     * @since 1
+<i>69</i>&nbsp;     * @version 1
+<i>70</i>&nbsp;     * @author Team 10
+<i>71</i>&nbsp;     */
+<i>72</i>&nbsp;    public void constructBoundaries(float unitScale) {
+<i>73</i>&nbsp;
+<b class="fc"><i>74</i>&nbsp;        MapObjects objects = leftLayer.getObjects();</b>
+<i>75</i>&nbsp;
+<b class="fc"><i>76</i>&nbsp;        for (RectangleMapObject rectangleObject : objects.getByType(RectangleMapObject.class)) {</b>
+<b class="fc"><i>77</i>&nbsp;            Rectangle rectangle = rectangleObject.getRectangle();</b>
+<b class="fc"><i>78</i>&nbsp;            float height = rectangle.getY() * unitScale;</b>
+<b class="fc"><i>79</i>&nbsp;            float limit = (rectangle.getX() * unitScale) + (rectangle.getWidth() * unitScale);</b>
+<b class="fc"><i>80</i>&nbsp;            leftBoundary[leftIterator][0] = height;</b>
+<b class="fc"><i>81</i>&nbsp;            leftBoundary[leftIterator++][1] = limit;</b>
+<b class="fc"><i>82</i>&nbsp;        }</b>
+<i>83</i>&nbsp;
+<b class="fc"><i>84</i>&nbsp;        objects = rightLayer.getObjects();</b>
+<i>85</i>&nbsp;
+<b class="fc"><i>86</i>&nbsp;        for (RectangleMapObject rectangleObject : objects.getByType(RectangleMapObject.class)) {</b>
+<b class="fc"><i>87</i>&nbsp;            Rectangle rectangle = rectangleObject.getRectangle();</b>
+<b class="fc"><i>88</i>&nbsp;            float height = rectangle.getY() * unitScale;</b>
+<b class="fc"><i>89</i>&nbsp;            float limit = rectangle.getX() * unitScale;</b>
+<b class="fc"><i>90</i>&nbsp;            rightBoundary[rightIterator][0] = height;</b>
+<b class="fc"><i>91</i>&nbsp;            rightBoundary[rightIterator++][1] = limit;</b>
+<b class="fc"><i>92</i>&nbsp;        }</b>
+<i>93</i>&nbsp;
+<b class="fc"><i>94</i>&nbsp;    }</b>
+<i>95</i>&nbsp;
+<i>96</i>&nbsp;    /**
+<i>97</i>&nbsp;     * Gets the left and right limits of a lane at a given y-position.
+<i>98</i>&nbsp;     * 
+<i>99</i>&nbsp;     * @param yPosition The y-position to check left and right limits at.
+<i>100</i>&nbsp;     * @return A list of length 2, 0 index left boundary, 1 index right boundary
+<i>101</i>&nbsp;     * 
+<i>102</i>&nbsp;     * @since 1
+<i>103</i>&nbsp;     * @version 1
+<i>104</i>&nbsp;     * @author Team 10
+<i>105</i>&nbsp;     */
+<i>106</i>&nbsp;    public float[] getLimitsAt(float yPosition) {
+<i>107</i>&nbsp;
+<b class="fc"><i>108</i>&nbsp;        float[] lst = new float[2];</b>
+<i>109</i>&nbsp;        int i;
+<b class="fc"><i>110</i>&nbsp;        for (i = 1; i &lt; leftIterator; i++) {</b>
+<b class="fc"><i>111</i>&nbsp;            if (leftBoundary[i][0] &gt; yPosition) {</b>
+<b class="fc"><i>112</i>&nbsp;                break;</b>
+<i>113</i>&nbsp;            }
+<i>114</i>&nbsp;        }
+<b class="fc"><i>115</i>&nbsp;        lst[0] = leftBoundary[i - 1][1];</b>
+<i>116</i>&nbsp;
+<b class="fc"><i>117</i>&nbsp;        for (i = 1; i &lt; rightIterator; i++) {</b>
+<b class="fc"><i>118</i>&nbsp;            if (rightBoundary[i][0] &gt; yPosition) {</b>
+<b class="fc"><i>119</i>&nbsp;                break;</b>
+<i>120</i>&nbsp;            }
+<i>121</i>&nbsp;        }
+<b class="fc"><i>122</i>&nbsp;        lst[1] = rightBoundary[i - 1][1];</b>
+<b class="fc"><i>123</i>&nbsp;        return lst;</b>
+<i>124</i>&nbsp;
+<i>125</i>&nbsp;    }
+<i>126</i>&nbsp;
+<i>127</i>&nbsp;    /**
+<i>128</i>&nbsp;     * Spawn obstacles randomly on the lane.
+<i>129</i>&nbsp;     * 
+<i>130</i>&nbsp;     * @param world     World to spawn obstacles in
+<i>131</i>&nbsp;     * @param mapHeight Height of the map to draw on
+<i>132</i>&nbsp;     * 
+<i>133</i>&nbsp;     * @since 1
+<i>134</i>&nbsp;     * @version 1
+<i>135</i>&nbsp;     * @author Team 10
+<i>136</i>&nbsp;     */
+<i>137</i>&nbsp;    public void spawnObstacles(World world, float mapHeight) {
+<i>138</i>&nbsp;
+<b class="fc"><i>139</i>&nbsp;        int nrObstacles = obstacles.length;</b>
+<b class="fc"><i>140</i>&nbsp;        float segmentLength = mapHeight / nrObstacles;</b>
+<b class="fc"><i>141</i>&nbsp;        for (int i = 0; i &lt; nrObstacles; i++) {</b>
+<b class="fc"><i>142</i>&nbsp;            int randomIndex = new Random().nextInt(6);</b>
+<b class="fc"><i>143</i>&nbsp;            float scale = 0f;</b>
+<b class="fc"><i>144</i>&nbsp;            if (randomIndex == 0 || randomIndex == 5)</b>
+<b class="fc"><i>145</i>&nbsp;                scale = -0.8f;</b>
+<b class="fc"><i>146</i>&nbsp;            obstacles[i] = new Obstacle(&quot;Obstacles/Obstacle&quot; + (randomIndex + 1) + &quot;.png&quot;);</b>
+<b class="fc"><i>147</i>&nbsp;            float segmentStart = i * segmentLength;</b>
+<b class="fc"><i>148</i>&nbsp;            float yPos = (float) (600f + (segmentStart + Math.random() * segmentLength));</b>
+<i>149</i>&nbsp;
+<b class="fc"><i>150</i>&nbsp;            float[] limits = this.getLimitsAt(yPos);</b>
+<b class="fc"><i>151</i>&nbsp;            float leftLimit = limits[0] + 50;</b>
+<b class="fc"><i>152</i>&nbsp;            float rightLimit = limits[1];</b>
+<b class="fc"><i>153</i>&nbsp;            float xPos = (float) (leftLimit + Math.random() * (rightLimit - leftLimit));</b>
+<i>154</i>&nbsp;
+<b class="fc"><i>155</i>&nbsp;            obstacles[i].createObstacleBody(world, xPos / GameData.METERS_TO_PIXELS, yPos / GameData.METERS_TO_PIXELS,</b>
+<i>156</i>&nbsp;                    &quot;Obstacles/Obstacle&quot; + (randomIndex + 1) + &quot;.json&quot;, scale);
+<i>157</i>&nbsp;        }
+<i>158</i>&nbsp;
+<b class="fc"><i>159</i>&nbsp;    }</b>
+<i>160</i>&nbsp;
+<i>161</i>&nbsp;    /**
+<i>162</i>&nbsp;     * Spawns powerups in the given world for this lane.
+<i>163</i>&nbsp;     * 
+<i>164</i>&nbsp;     * @param world     The world to spawn the powerups in
+<i>165</i>&nbsp;     * @param mapHeight The map height
+<i>166</i>&nbsp;     * 
+<i>167</i>&nbsp;     * @since 2
+<i>168</i>&nbsp;     * @version 2
+<i>169</i>&nbsp;     * @author Team 8
+<i>170</i>&nbsp;     * @author Matt Tomlinson
+<i>171</i>&nbsp;     */
+<i>172</i>&nbsp;    public void spawnPowerups(World world, float mapHeight) {
+<i>173</i>&nbsp;
+<b class="fc"><i>174</i>&nbsp;        int nrPowerups = powerups.length;</b>
+<b class="fc"><i>175</i>&nbsp;        float segmentLength = mapHeight / nrPowerups;</b>
+<b class="fc"><i>176</i>&nbsp;        for (int i = 0; i &lt; nrPowerups; i++) {</b>
+<b class="fc"><i>177</i>&nbsp;            int randomIndex = new Random().nextInt(5);</b>
+<i>178</i>&nbsp;
+<b class="fc"><i>179</i>&nbsp;            powerups[i] = new Powerup(randomIndex + 1);</b>
+<b class="fc"><i>180</i>&nbsp;            float segmentStart = i * segmentLength;</b>
+<b class="fc"><i>181</i>&nbsp;            float yPos = (float) (600f + (segmentStart + Math.random() * segmentLength));</b>
+<i>182</i>&nbsp;
+<b class="fc"><i>183</i>&nbsp;            float[] limits = this.getLimitsAt(yPos);</b>
+<b class="fc"><i>184</i>&nbsp;            float leftLimit = limits[0] + 50;</b>
+<b class="fc"><i>185</i>&nbsp;            float rightLimit = limits[1];</b>
+<b class="fc"><i>186</i>&nbsp;            float xPos = (float) (leftLimit + Math.random() * (rightLimit - leftLimit));</b>
+<i>187</i>&nbsp;
+<b class="fc"><i>188</i>&nbsp;            powerups[i].createObstacleBody(world, xPos / GameData.METERS_TO_PIXELS, yPos / GameData.METERS_TO_PIXELS,</b>
+<i>189</i>&nbsp;                    35f / GameData.METERS_TO_PIXELS, 20f / GameData.METERS_TO_PIXELS);
+<i>190</i>&nbsp;        }
+<i>191</i>&nbsp;
+<b class="fc"><i>192</i>&nbsp;    }</b>
+<i>193</i>&nbsp;
+<i>194</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-02-09 16:25</div>
+</div>
+</body>
+</html>

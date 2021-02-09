@@ -1,0 +1,196 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Obstacle</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.hardgforgif.dragonboatracing.core</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Obstacle (com.hardgforgif.dragonboatracing.core)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Obstacle</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66.7%
+  </span>
+  <span class="absValue">
+    (2/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    71%
+  </span>
+  <span class="absValue">
+    (22/ 31)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.hardgforgif.dragonboatracing.core;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.badlogic.gdx.Gdx;
+<i>4</i>&nbsp;import com.badlogic.gdx.graphics.Texture;
+<i>5</i>&nbsp;import com.badlogic.gdx.graphics.g2d.Batch;
+<i>6</i>&nbsp;import com.badlogic.gdx.graphics.g2d.Sprite;
+<i>7</i>&nbsp;import com.badlogic.gdx.physics.box2d.Body;
+<i>8</i>&nbsp;import com.badlogic.gdx.physics.box2d.BodyDef;
+<i>9</i>&nbsp;import com.badlogic.gdx.physics.box2d.FixtureDef;
+<i>10</i>&nbsp;import com.badlogic.gdx.physics.box2d.World;
+<i>11</i>&nbsp;import com.hardgforgif.dragonboatracing.BodyEditorLoader;
+<i>12</i>&nbsp;import com.hardgforgif.dragonboatracing.GameData;
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;/**
+<i>15</i>&nbsp; * Class representing an obstacle.
+<i>16</i>&nbsp; * 
+<i>17</i>&nbsp; * @since 1
+<i>18</i>&nbsp; * @version 2
+<i>19</i>&nbsp; * @author Team 10
+<i>20</i>&nbsp; * @author Josh Stafford
+<i>21</i>&nbsp; */
+<i>22</i>&nbsp;public class Obstacle {
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;    public Sprite obstacleSprite;
+<i>25</i>&nbsp;    public Texture obstacleTexture;
+<i>26</i>&nbsp;    public Body obstacleBody;
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    /**
+<i>29</i>&nbsp;     * Construct an obstacle object.
+<i>30</i>&nbsp;     * 
+<i>31</i>&nbsp;     * @param textureName The image path for the texture
+<i>32</i>&nbsp;     * 
+<i>33</i>&nbsp;     * @since 1
+<i>34</i>&nbsp;     * @version 1
+<i>35</i>&nbsp;     * @author Team 10
+<i>36</i>&nbsp;     */
+<b class="fc"><i>37</i>&nbsp;    public Obstacle(String textureName) {</b>
+<i>38</i>&nbsp;
+<b class="fc"><i>39</i>&nbsp;        obstacleTexture = new Texture(textureName);</b>
+<i>40</i>&nbsp;
+<b class="fc"><i>41</i>&nbsp;    }</b>
+<i>42</i>&nbsp;
+<i>43</i>&nbsp;    /**
+<i>44</i>&nbsp;     * Creates a new obstacle body.
+<i>45</i>&nbsp;     * 
+<i>46</i>&nbsp;     * @param world    World to create the body in
+<i>47</i>&nbsp;     * @param posX     x location of the body, in meters
+<i>48</i>&nbsp;     * @param posY     y location of the body, in meters
+<i>49</i>&nbsp;     * @param bodyFile The name of the box2D editor json file for the body fixture
+<i>50</i>&nbsp;     * @param scale    The body sprite scale
+<i>51</i>&nbsp;     * 
+<i>52</i>&nbsp;     * @since 1
+<i>53</i>&nbsp;     * @version 2
+<i>54</i>&nbsp;     * @author Team 10
+<i>55</i>&nbsp;     * @author Josh Stafford
+<i>56</i>&nbsp;     */
+<i>57</i>&nbsp;    public void createObstacleBody(World world, float posX, float posY, String bodyFile, float scale) {
+<i>58</i>&nbsp;
+<b class="fc"><i>59</i>&nbsp;        obstacleSprite = new Sprite(obstacleTexture);</b>
+<b class="fc"><i>60</i>&nbsp;        obstacleSprite.scale(scale);</b>
+<i>61</i>&nbsp;
+<b class="fc"><i>62</i>&nbsp;        BodyDef bodyDef = new BodyDef();</b>
+<i>63</i>&nbsp;
+<i>64</i>&nbsp;        // MODIFIED: now changed to use dynamic bodies
+<b class="fc"><i>65</i>&nbsp;        bodyDef.type = BodyDef.BodyType.DynamicBody;</b>
+<i>66</i>&nbsp;
+<b class="fc"><i>67</i>&nbsp;        bodyDef.position.set(posX, posY);</b>
+<b class="fc"><i>68</i>&nbsp;        obstacleBody = world.createBody(bodyDef);</b>
+<i>69</i>&nbsp;
+<i>70</i>&nbsp;        // MODIFIED: now gives each obstacle a set velocity downwards
+<b class="fc"><i>71</i>&nbsp;        obstacleBody.setLinearVelocity(0, -0.2f);</b>
+<i>72</i>&nbsp;
+<b class="fc"><i>73</i>&nbsp;        obstacleBody.setUserData(this);</b>
+<i>74</i>&nbsp;
+<b class="fc"><i>75</i>&nbsp;        BodyEditorLoader loader = new BodyEditorLoader(Gdx.files.internal(bodyFile));</b>
+<i>76</i>&nbsp;
+<b class="fc"><i>77</i>&nbsp;        FixtureDef fixtureDef = new FixtureDef();</b>
+<b class="fc"><i>78</i>&nbsp;        fixtureDef.density = 0f;</b>
+<b class="fc"><i>79</i>&nbsp;        fixtureDef.restitution = 0f;</b>
+<b class="fc"><i>80</i>&nbsp;        fixtureDef.friction = 0f;</b>
+<i>81</i>&nbsp;
+<b class="fc"><i>82</i>&nbsp;        scale = obstacleSprite.getWidth() / GameData.METERS_TO_PIXELS * obstacleSprite.getScaleX();</b>
+<b class="fc"><i>83</i>&nbsp;        loader.attachFixture(obstacleBody, &quot;Name&quot;, fixtureDef, scale);</b>
+<i>84</i>&nbsp;
+<b class="fc"><i>85</i>&nbsp;        obstacleSprite.setPosition(</b>
+<b class="fc"><i>86</i>&nbsp;                (obstacleBody.getPosition().x * GameData.METERS_TO_PIXELS) - obstacleSprite.getWidth() / 2,</b>
+<b class="fc"><i>87</i>&nbsp;                (obstacleBody.getPosition().y * GameData.METERS_TO_PIXELS) - obstacleSprite.getHeight() / 2);</b>
+<i>88</i>&nbsp;
+<b class="fc"><i>89</i>&nbsp;    }</b>
+<i>90</i>&nbsp;
+<i>91</i>&nbsp;    /**
+<i>92</i>&nbsp;     * Draw the obstacle.
+<i>93</i>&nbsp;     * 
+<i>94</i>&nbsp;     * @param batch Batch to draw on
+<i>95</i>&nbsp;     * 
+<i>96</i>&nbsp;     * @since 1
+<i>97</i>&nbsp;     * @version 1
+<i>98</i>&nbsp;     * @author Team 10
+<i>99</i>&nbsp;     */
+<i>100</i>&nbsp;    public void drawObstacle(Batch batch) {
+<i>101</i>&nbsp;
+<b class="nc"><i>102</i>&nbsp;        obstacleSprite.setPosition(</b>
+<b class="nc"><i>103</i>&nbsp;                (obstacleBody.getPosition().x * GameData.METERS_TO_PIXELS) - obstacleSprite.getWidth() / 2,</b>
+<b class="nc"><i>104</i>&nbsp;                (obstacleBody.getPosition().y * GameData.METERS_TO_PIXELS) - obstacleSprite.getHeight() / 2);</b>
+<b class="nc"><i>105</i>&nbsp;        batch.begin();</b>
+<b class="nc"><i>106</i>&nbsp;        batch.draw(obstacleSprite, obstacleSprite.getX(), obstacleSprite.getY(), obstacleSprite.getOriginX(),</b>
+<b class="nc"><i>107</i>&nbsp;                obstacleSprite.getOriginY(), obstacleSprite.getWidth(), obstacleSprite.getHeight(),</b>
+<b class="nc"><i>108</i>&nbsp;                obstacleSprite.getScaleX(), obstacleSprite.getScaleY(), obstacleSprite.getRotation());</b>
+<b class="nc"><i>109</i>&nbsp;        batch.end();</b>
+<i>110</i>&nbsp;
+<b class="nc"><i>111</i>&nbsp;    }</b>
+<i>112</i>&nbsp;
+<i>113</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-02-09 16:25</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,143 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: SaveLoad</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.hardgforgif.dragonboatracing</a> ]
+</div>
+
+<h1>Coverage Summary for Class: SaveLoad (com.hardgforgif.dragonboatracing)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SaveLoad</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (3/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    92.9%
+  </span>
+  <span class="absValue">
+    (13/ 14)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.hardgforgif.dragonboatracing;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.badlogic.gdx.Gdx;
+<i>4</i>&nbsp;import com.badlogic.gdx.Preferences;
+<i>5</i>&nbsp;import com.badlogic.gdx.utils.Json;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;/**
+<i>8</i>&nbsp; * Methods for saving and loading the game.
+<i>9</i>&nbsp; * 
+<i>10</i>&nbsp; * @since 2
+<i>11</i>&nbsp; * @version 2
+<i>12</i>&nbsp; * @author Team 8
+<i>13</i>&nbsp; * @author Matt Tomlinson
+<i>14</i>&nbsp; */
+<b class="nc"><i>15</i>&nbsp;public class SaveLoad {</b>
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;    // MODIFIED: get the save preference and create new json object
+<b class="fc"><i>18</i>&nbsp;    public static Preferences prefs = Gdx.app.getPreferences(&quot;save&quot;);</b>
+<b class="fc"><i>19</i>&nbsp;    static Json json = new Json();</b>
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;    /**
+<i>22</i>&nbsp;     * Save game information.
+<i>23</i>&nbsp;     * 
+<i>24</i>&nbsp;     * @since 2
+<i>25</i>&nbsp;     * @version 2
+<i>26</i>&nbsp;     * @author Team 8
+<i>27</i>&nbsp;     * @author Matt Tomlinson
+<i>28</i>&nbsp;     */
+<i>29</i>&nbsp;    public static void save() {
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;        // MODIFIED: store serialised game information in preferences
+<b class="fc"><i>32</i>&nbsp;        prefs.putString(&quot;boatTypes&quot;, json.toJson(GameData.boatTypes));</b>
+<b class="fc"><i>33</i>&nbsp;        prefs.putString(&quot;difficulty&quot;, json.toJson(GameData.difficulty));</b>
+<b class="fc"><i>34</i>&nbsp;        prefs.putString(&quot;bests&quot;, json.toJson(GameData.bests));</b>
+<b class="fc"><i>35</i>&nbsp;        prefs.putInteger(&quot;leg&quot;, GameData.currentLeg);</b>
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;        // MODIFIED: save the changes
+<b class="fc"><i>38</i>&nbsp;        prefs.flush();</b>
+<i>39</i>&nbsp;
+<b class="fc"><i>40</i>&nbsp;    }</b>
+<i>41</i>&nbsp;
+<i>42</i>&nbsp;    /**
+<i>43</i>&nbsp;     * Load game information.
+<i>44</i>&nbsp;     * 
+<i>45</i>&nbsp;     * @since 2
+<i>46</i>&nbsp;     * @version 2
+<i>47</i>&nbsp;     * @author Team 8
+<i>48</i>&nbsp;     * @author Matt Tomlinson
+<i>49</i>&nbsp;     */
+<i>50</i>&nbsp;    public static void load() {
+<i>51</i>&nbsp;
+<i>52</i>&nbsp;        // MODIFIED: retrieve serialised information from preferences and load into game
+<b class="fc"><i>53</i>&nbsp;        GameData.boatTypes = json.fromJson(int[].class, Gdx.app.getPreferences(&quot;save&quot;).getString(&quot;boatTypes&quot;));</b>
+<b class="fc"><i>54</i>&nbsp;        GameData.difficulty = json.fromJson(float[].class, Gdx.app.getPreferences(&quot;save&quot;).getString(&quot;difficulty&quot;));</b>
+<b class="fc"><i>55</i>&nbsp;        GameData.bests = json.fromJson(float[].class, Gdx.app.getPreferences(&quot;save&quot;).getString(&quot;bests&quot;));</b>
+<b class="fc"><i>56</i>&nbsp;        GameData.currentLeg = Gdx.app.getPreferences(&quot;save&quot;).getInteger(&quot;leg&quot;);</b>
+<i>57</i>&nbsp;
+<b class="fc"><i>58</i>&nbsp;    }</b>
+<i>59</i>&nbsp;
+<i>60</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-02-09 16:25</div>
+</div>
+</body>
+</html>

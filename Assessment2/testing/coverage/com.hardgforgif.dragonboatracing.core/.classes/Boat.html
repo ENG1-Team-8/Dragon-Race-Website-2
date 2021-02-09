@@ -1,0 +1,526 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Boat</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.hardgforgif.dragonboatracing.core</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Boat (com.hardgforgif.dragonboatracing.core)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Boat</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    92.9%
+  </span>
+  <span class="absValue">
+    (13/ 14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    90.1%
+  </span>
+  <span class="absValue">
+    (118/ 131)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.hardgforgif.dragonboatracing.core;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.badlogic.gdx.Gdx;
+<i>4</i>&nbsp;import com.badlogic.gdx.graphics.Texture;
+<i>5</i>&nbsp;import com.badlogic.gdx.graphics.g2d.Animation;
+<i>6</i>&nbsp;import com.badlogic.gdx.graphics.g2d.Batch;
+<i>7</i>&nbsp;import com.badlogic.gdx.graphics.g2d.Sprite;
+<i>8</i>&nbsp;import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+<i>9</i>&nbsp;import com.badlogic.gdx.graphics.g2d.TextureRegion;
+<i>10</i>&nbsp;import com.badlogic.gdx.math.MathUtils;
+<i>11</i>&nbsp;import com.badlogic.gdx.math.Vector2;
+<i>12</i>&nbsp;import com.badlogic.gdx.physics.box2d.Body;
+<i>13</i>&nbsp;import com.badlogic.gdx.physics.box2d.BodyDef;
+<i>14</i>&nbsp;import com.badlogic.gdx.physics.box2d.FixtureDef;
+<i>15</i>&nbsp;import com.badlogic.gdx.physics.box2d.World;
+<i>16</i>&nbsp;import com.hardgforgif.dragonboatracing.BodyEditorLoader;
+<i>17</i>&nbsp;import com.hardgforgif.dragonboatracing.GameData;
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;/**
+<i>20</i>&nbsp; * Class representing a boat (used by Player and AI).
+<i>21</i>&nbsp; * 
+<i>22</i>&nbsp; * @see Player
+<i>23</i>&nbsp; * @see AI
+<i>24</i>&nbsp; * 
+<i>25</i>&nbsp; * @since 1
+<i>26</i>&nbsp; * @version 2
+<i>27</i>&nbsp; * @author Team 10
+<i>28</i>&nbsp; * @author Josh Stafford
+<i>29</i>&nbsp; */
+<i>30</i>&nbsp;public class Boat {
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;    // Boat specs
+<i>33</i>&nbsp;    public float robustness;
+<i>34</i>&nbsp;    private float maxRobustness;
+<b class="fc"><i>35</i>&nbsp;    public float stamina = 120f;</b>
+<b class="fc"><i>36</i>&nbsp;    private float maxStamina = stamina;</b>
+<i>37</i>&nbsp;    public float maneuverability;
+<i>38</i>&nbsp;    public float speed;
+<i>39</i>&nbsp;    public float acceleration;
+<i>40</i>&nbsp;
+<b class="fc"><i>41</i>&nbsp;    public float current_speed = 20f;</b>
+<b class="fc"><i>42</i>&nbsp;    public float turningSpeed = 0.25f;</b>
+<b class="fc"><i>43</i>&nbsp;    public float targetAngle = 0f;</b>
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;    public Sprite boatSprite;
+<i>46</i>&nbsp;    public Texture boatTexture;
+<i>47</i>&nbsp;    public Body boatBody;
+<i>48</i>&nbsp;
+<i>49</i>&nbsp;    private TextureAtlas textureAtlas;
+<i>50</i>&nbsp;    private Animation animation;
+<i>51</i>&nbsp;
+<i>52</i>&nbsp;    public Lane lane;
+<i>53</i>&nbsp;    public float leftLimit;
+<i>54</i>&nbsp;    public float rightLimit;
+<i>55</i>&nbsp;
+<i>56</i>&nbsp;    /**
+<i>57</i>&nbsp;     * Construct a boat object.
+<i>58</i>&nbsp;     * 
+<i>59</i>&nbsp;     * @param robustness      The maximum boat &#39;health&#39;
+<i>60</i>&nbsp;     * @param speed           The boat&#39;s maximum speed
+<i>61</i>&nbsp;     * @param acceleration    The boat&#39;s acceleration
+<i>62</i>&nbsp;     * @param maneuverability The boat&#39;s turning speed
+<i>63</i>&nbsp;     * @param boatType        The array position for boat stats
+<i>64</i>&nbsp;     * @param lane            The lane the boat is racing in
+<i>65</i>&nbsp;     * 
+<i>66</i>&nbsp;     * @since 1
+<i>67</i>&nbsp;     * @version 1
+<i>68</i>&nbsp;     * @author Team 10
+<i>69</i>&nbsp;     */
+<b class="fc"><i>70</i>&nbsp;    public Boat(float robustness, float speed, float acceleration, float maneuverability, int boatType, Lane lane) {</b>
+<i>71</i>&nbsp;
+<b class="fc"><i>72</i>&nbsp;        this.robustness = robustness;</b>
+<b class="fc"><i>73</i>&nbsp;        this.maxRobustness = robustness;</b>
+<b class="fc"><i>74</i>&nbsp;        this.speed = speed;</b>
+<b class="fc"><i>75</i>&nbsp;        this.acceleration = acceleration;</b>
+<b class="fc"><i>76</i>&nbsp;        this.maneuverability = maneuverability;</b>
+<b class="fc"><i>77</i>&nbsp;        turningSpeed *= this.maneuverability / 100;</b>
+<i>78</i>&nbsp;
+<b class="fc"><i>79</i>&nbsp;        boatTexture = new Texture(&quot;Boat&quot; + (boatType + 1) + &quot;.png&quot;);</b>
+<i>80</i>&nbsp;
+<b class="fc"><i>81</i>&nbsp;        textureAtlas = new TextureAtlas(Gdx.files.internal(&quot;Boats/Boat&quot; + (boatType + 1) + &quot;.atlas&quot;));</b>
+<b class="fc"><i>82</i>&nbsp;        animation = new Animation(1 / 15f, textureAtlas.getRegions());</b>
+<i>83</i>&nbsp;
+<b class="fc"><i>84</i>&nbsp;        this.lane = lane;</b>
+<i>85</i>&nbsp;
+<b class="fc"><i>86</i>&nbsp;    }</b>
+<i>87</i>&nbsp;
+<i>88</i>&nbsp;    /**
+<i>89</i>&nbsp;     * Creates a boat body.
+<i>90</i>&nbsp;     * 
+<i>91</i>&nbsp;     * @param world    World to create the body in
+<i>92</i>&nbsp;     * @param posX     x location of the body, in meters
+<i>93</i>&nbsp;     * @param posY     y location of the body, in meters
+<i>94</i>&nbsp;     * @param bodyFile the name of the box2D editor json file for the body fixture
+<i>95</i>&nbsp;     * 
+<i>96</i>&nbsp;     * @since 1
+<i>97</i>&nbsp;     * @version 1
+<i>98</i>&nbsp;     * @author Team 10
+<i>99</i>&nbsp;     */
+<i>100</i>&nbsp;    public void createBoatBody(World world, float posX, float posY, String bodyFile) {
+<i>101</i>&nbsp;
+<b class="fc"><i>102</i>&nbsp;        boatSprite = new Sprite(boatTexture);</b>
+<b class="fc"><i>103</i>&nbsp;        boatSprite.scale(-0.8f);</b>
+<i>104</i>&nbsp;
+<i>105</i>&nbsp;        // Define the body
+<b class="fc"><i>106</i>&nbsp;        BodyDef bodyDef = new BodyDef();</b>
+<b class="fc"><i>107</i>&nbsp;        bodyDef.type = BodyDef.BodyType.DynamicBody;</b>
+<b class="fc"><i>108</i>&nbsp;        bodyDef.position.set(posX, posY);</b>
+<i>109</i>&nbsp;
+<i>110</i>&nbsp;        // Create the body
+<b class="fc"><i>111</i>&nbsp;        boatBody = world.createBody(bodyDef);</b>
+<i>112</i>&nbsp;        // Mark the body as a boat&#39;s body
+<b class="fc"><i>113</i>&nbsp;        boatBody.setUserData(this);</b>
+<i>114</i>&nbsp;
+<i>115</i>&nbsp;        // Load the body fixture from box2D editor
+<b class="fc"><i>116</i>&nbsp;        BodyEditorLoader loader = new BodyEditorLoader(Gdx.files.internal(bodyFile));</b>
+<b class="fc"><i>117</i>&nbsp;        FixtureDef fixtureDef = new FixtureDef();</b>
+<i>118</i>&nbsp;
+<i>119</i>&nbsp;        // Set the physical properties of the body
+<b class="fc"><i>120</i>&nbsp;        fixtureDef.density = 0f;</b>
+<b class="fc"><i>121</i>&nbsp;        fixtureDef.restitution = 0f;</b>
+<b class="fc"><i>122</i>&nbsp;        fixtureDef.friction = 0f;</b>
+<i>123</i>&nbsp;
+<i>124</i>&nbsp;        // Attach the fixture to the body
+<b class="fc"><i>125</i>&nbsp;        float scale = boatSprite.getWidth() / GameData.METERS_TO_PIXELS * boatSprite.getScaleX();</b>
+<b class="fc"><i>126</i>&nbsp;        loader.attachFixture(boatBody, &quot;Name&quot;, fixtureDef, scale);</b>
+<i>127</i>&nbsp;
+<b class="fc"><i>128</i>&nbsp;    }</b>
+<i>129</i>&nbsp;
+<i>130</i>&nbsp;    /**
+<i>131</i>&nbsp;     * Draws the boat on the batch, with animations.
+<i>132</i>&nbsp;     * 
+<i>133</i>&nbsp;     * @param batch The batch to draw on
+<i>134</i>&nbsp;     * 
+<i>135</i>&nbsp;     * @since 1
+<i>136</i>&nbsp;     * @version 1
+<i>137</i>&nbsp;     * @author Team 10
+<i>138</i>&nbsp;     */
+<i>139</i>&nbsp;    public void drawBoat(Batch batch) {
+<i>140</i>&nbsp;
+<b class="nc"><i>141</i>&nbsp;        batch.begin();</b>
+<b class="nc"><i>142</i>&nbsp;        batch.draw((TextureRegion) animation.getKeyFrame(GameData.currentTimer, true), boatSprite.getX(),</b>
+<b class="nc"><i>143</i>&nbsp;                boatSprite.getY(), boatSprite.getOriginX(), boatSprite.getOriginY(), boatSprite.getWidth(),</b>
+<b class="nc"><i>144</i>&nbsp;                boatSprite.getHeight(), boatSprite.getScaleX(), boatSprite.getScaleY(), boatSprite.getRotation());</b>
+<b class="nc"><i>145</i>&nbsp;        batch.end();</b>
+<i>146</i>&nbsp;
+<b class="nc"><i>147</i>&nbsp;    }</b>
+<i>148</i>&nbsp;
+<i>149</i>&nbsp;    /**
+<i>150</i>&nbsp;     * Updates the boat&#39;s limits in the lane based on its location.
+<i>151</i>&nbsp;     * 
+<i>152</i>&nbsp;     * @since 1
+<i>153</i>&nbsp;     * @version 1
+<i>154</i>&nbsp;     * @author Team 10
+<i>155</i>&nbsp;     */
+<i>156</i>&nbsp;    public void updateLimits() {
+<i>157</i>&nbsp;
+<i>158</i>&nbsp;        int i;
+<b class="fc"><i>159</i>&nbsp;        for (i = 1; i &lt; lane.leftIterator; i++) {</b>
+<b class="fc"><i>160</i>&nbsp;            if (lane.leftBoundary[i][0] &gt; boatSprite.getY() + (boatSprite.getHeight() / 2)) {</b>
+<b class="fc"><i>161</i>&nbsp;                break;</b>
+<i>162</i>&nbsp;            }
+<i>163</i>&nbsp;        }
+<b class="fc"><i>164</i>&nbsp;        leftLimit = lane.leftBoundary[i - 1][1];</b>
+<i>165</i>&nbsp;
+<b class="fc"><i>166</i>&nbsp;        for (i = 1; i &lt; lane.rightIterator; i++) {</b>
+<b class="fc"><i>167</i>&nbsp;            if (lane.rightBoundary[i][0] &gt; boatSprite.getY() + (boatSprite.getHeight() / 2)) {</b>
+<b class="fc"><i>168</i>&nbsp;                break;</b>
+<i>169</i>&nbsp;            }
+<i>170</i>&nbsp;        }
+<b class="fc"><i>171</i>&nbsp;        rightLimit = lane.rightBoundary[i - 1][1];</b>
+<i>172</i>&nbsp;
+<b class="fc"><i>173</i>&nbsp;    }</b>
+<i>174</i>&nbsp;
+<i>175</i>&nbsp;    /**
+<i>176</i>&nbsp;     * Gets the left and right limits of a boat at a given y-position.
+<i>177</i>&nbsp;     * 
+<i>178</i>&nbsp;     * @param yPosition The y-position to check left and right limits at.
+<i>179</i>&nbsp;     * @return A list of length 2, 0 index left boundary, 1 index right boundary
+<i>180</i>&nbsp;     * 
+<i>181</i>&nbsp;     * @since 1
+<i>182</i>&nbsp;     * @version 1
+<i>183</i>&nbsp;     * @author Team 10
+<i>184</i>&nbsp;     */
+<i>185</i>&nbsp;    public float[] getLimitsAt(float yPosition) {
+<i>186</i>&nbsp;
+<b class="fc"><i>187</i>&nbsp;        float[] lst = new float[2];</b>
+<i>188</i>&nbsp;        int i;
+<b class="fc"><i>189</i>&nbsp;        for (i = 1; i &lt; lane.leftIterator; i++) {</b>
+<b class="fc"><i>190</i>&nbsp;            if (lane.leftBoundary[i][0] &gt; yPosition) {</b>
+<b class="fc"><i>191</i>&nbsp;                break;</b>
+<i>192</i>&nbsp;            }
+<i>193</i>&nbsp;        }
+<b class="fc"><i>194</i>&nbsp;        lst[0] = lane.leftBoundary[i - 1][1];</b>
+<i>195</i>&nbsp;
+<b class="fc"><i>196</i>&nbsp;        for (i = 1; i &lt; lane.rightIterator; i++) {</b>
+<b class="fc"><i>197</i>&nbsp;            if (lane.rightBoundary[i][0] &gt; yPosition) {</b>
+<b class="fc"><i>198</i>&nbsp;                break;</b>
+<i>199</i>&nbsp;            }
+<i>200</i>&nbsp;        }
+<b class="fc"><i>201</i>&nbsp;        lst[1] = lane.rightBoundary[i - 1][1];</b>
+<b class="fc"><i>202</i>&nbsp;        return lst;</b>
+<i>203</i>&nbsp;
+<i>204</i>&nbsp;    }
+<i>205</i>&nbsp;
+<i>206</i>&nbsp;    /**
+<i>207</i>&nbsp;     * Checks if the boat has finished the race.
+<i>208</i>&nbsp;     * 
+<i>209</i>&nbsp;     * @return True if the boat passed the finish line, false otherwise
+<i>210</i>&nbsp;     * 
+<i>211</i>&nbsp;     * @since 1
+<i>212</i>&nbsp;     * @version 1
+<i>213</i>&nbsp;     * @author Team 10
+<i>214</i>&nbsp;     */
+<i>215</i>&nbsp;    public boolean hasFinished() {
+<i>216</i>&nbsp;
+<b class="fc"><i>217</i>&nbsp;        if (boatSprite.getY() + boatSprite.getHeight() / 2 &gt; 9000f)</b>
+<b class="fc"><i>218</i>&nbsp;            return true;</b>
+<b class="fc"><i>219</i>&nbsp;        return false;</b>
+<i>220</i>&nbsp;
+<i>221</i>&nbsp;    }
+<i>222</i>&nbsp;
+<i>223</i>&nbsp;    /**
+<i>224</i>&nbsp;     * Moves the boat forward, based on its rotation.
+<i>225</i>&nbsp;     * 
+<i>226</i>&nbsp;     * @since 1
+<i>227</i>&nbsp;     * @version 1
+<i>228</i>&nbsp;     * @author Team 10
+<i>229</i>&nbsp;     */
+<i>230</i>&nbsp;    public void moveBoat(float delta) {
+<i>231</i>&nbsp;
+<b class="fc"><i>232</i>&nbsp;        current_speed += 0.15f * (acceleration / 90) * (stamina / 100);</b>
+<b class="fc"><i>233</i>&nbsp;        if (current_speed &gt; speed)</b>
+<b class="fc"><i>234</i>&nbsp;            current_speed = speed;</b>
+<b class="fc"><i>235</i>&nbsp;        if (stamina &lt; 70f &amp;&amp; current_speed &gt; speed * 0.8f)</b>
+<b class="nc"><i>236</i>&nbsp;            current_speed = speed * 0.8f;</b>
+<b class="fc"><i>237</i>&nbsp;        if (current_speed &lt; 0)</b>
+<b class="nc"><i>238</i>&nbsp;            current_speed = 0;</b>
+<i>239</i>&nbsp;
+<i>240</i>&nbsp;        // Get the coordinates of the center of the boat
+<b class="fc"><i>241</i>&nbsp;        float originX = boatBody.getPosition().x * GameData.METERS_TO_PIXELS;</b>
+<b class="fc"><i>242</i>&nbsp;        float originY = boatBody.getPosition().y * GameData.METERS_TO_PIXELS;</b>
+<i>243</i>&nbsp;
+<i>244</i>&nbsp;        // First we need to calculate the position of the player&#39;s head (the front of
+<i>245</i>&nbsp;        // the boat)
+<i>246</i>&nbsp;        // So we can move them based on this and not the center of the boat
+<b class="fc"><i>247</i>&nbsp;        Vector2 boatHeadPos = new Vector2();</b>
+<b class="fc"><i>248</i>&nbsp;        float radius = boatSprite.getHeight() / 2;</b>
+<b class="fc"><i>249</i>&nbsp;        boatHeadPos.set(originX + radius * MathUtils.cosDeg(boatSprite.getRotation() + 90),</b>
+<b class="fc"><i>250</i>&nbsp;                originY + radius * MathUtils.sinDeg(boatSprite.getRotation() + 90));</b>
+<i>251</i>&nbsp;
+<i>252</i>&nbsp;        // Create the vector that shows which way we need to move
+<b class="fc"><i>253</i>&nbsp;        Vector2 target = new Vector2();</b>
+<i>254</i>&nbsp;
+<i>255</i>&nbsp;        // Calculate the x and y positions of the direction vector, based on the
+<i>256</i>&nbsp;        // rotation of the boat
+<b class="fc"><i>257</i>&nbsp;        double auxAngle = boatSprite.getRotation() % 90;</b>
+<b class="fc"><i>258</i>&nbsp;        if (boatSprite.getRotation() &lt; 90 || boatSprite.getRotation() &gt;= 180 &amp;&amp; boatSprite.getRotation() &lt; 270)</b>
+<b class="fc"><i>259</i>&nbsp;            auxAngle = 90 - auxAngle;</b>
+<b class="fc"><i>260</i>&nbsp;        auxAngle = auxAngle * MathUtils.degRad;</b>
+<b class="fc"><i>261</i>&nbsp;        float x = (float) (Math.cos(auxAngle) * speed);</b>
+<b class="fc"><i>262</i>&nbsp;        float y = (float) (Math.sin(auxAngle) * speed);</b>
+<i>263</i>&nbsp;
+<i>264</i>&nbsp;        // Build the direction vector based on the position of the player&#39;s head
+<b class="fc"><i>265</i>&nbsp;        if (boatSprite.getRotation() &lt; 90)</b>
+<b class="fc"><i>266</i>&nbsp;            target.set(boatHeadPos.x - x, boatHeadPos.y + y);</b>
+<b class="nc"><i>267</i>&nbsp;        else if (boatSprite.getRotation() &lt; 180)</b>
+<b class="nc"><i>268</i>&nbsp;            target.set(boatHeadPos.x - x, boatHeadPos.y - y);</b>
+<b class="nc"><i>269</i>&nbsp;        else if (boatSprite.getRotation() &lt; 270)</b>
+<b class="nc"><i>270</i>&nbsp;            target.set(boatHeadPos.x + x, boatHeadPos.y - y);</b>
+<i>271</i>&nbsp;        else
+<b class="nc"><i>272</i>&nbsp;            target.set(boatHeadPos.x + x, boatHeadPos.y + y);</b>
+<i>273</i>&nbsp;
+<b class="fc"><i>274</i>&nbsp;        Vector2 direction = new Vector2();</b>
+<b class="fc"><i>275</i>&nbsp;        Vector2 velocity = new Vector2();</b>
+<b class="fc"><i>276</i>&nbsp;        Vector2 movement = new Vector2();</b>
+<i>277</i>&nbsp;
+<b class="fc"><i>278</i>&nbsp;        direction.set(target).sub(boatHeadPos).nor();</b>
+<b class="fc"><i>279</i>&nbsp;        velocity.set(direction).scl(current_speed);</b>
+<b class="fc"><i>280</i>&nbsp;        movement.set(velocity).scl(delta);</b>
+<i>281</i>&nbsp;
+<b class="fc"><i>282</i>&nbsp;        boatBody.setLinearVelocity(movement);</b>
+<i>283</i>&nbsp;
+<b class="fc"><i>284</i>&nbsp;    }</b>
+<i>285</i>&nbsp;
+<i>286</i>&nbsp;    /**
+<i>287</i>&nbsp;     * Rotate the boat until it reaches the given angle, based on it&#39;s turning speed
+<i>288</i>&nbsp;     * and stamina.
+<i>289</i>&nbsp;     * 
+<i>290</i>&nbsp;     * @param angle angle to rotate to
+<i>291</i>&nbsp;     * 
+<i>292</i>&nbsp;     * @since 1
+<i>293</i>&nbsp;     * @version 1
+<i>294</i>&nbsp;     * @author Team 10
+<i>295</i>&nbsp;     */
+<i>296</i>&nbsp;    public float rotateBoat(float angle) {
+<i>297</i>&nbsp;
+<i>298</i>&nbsp;        // Calculate the difference between the target angle and the current rotation of
+<i>299</i>&nbsp;        // the boat
+<b class="fc"><i>300</i>&nbsp;        float angleDifference = angle - boatBody.getAngle() * MathUtils.radDeg;</b>
+<i>301</i>&nbsp;
+<b class="fc"><i>302</i>&nbsp;        if (Math.abs(angleDifference) &lt; turningSpeed) {</b>
+<b class="fc"><i>303</i>&nbsp;            boatBody.setTransform(boatBody.getPosition(), angle * MathUtils.degRad);</b>
+<b class="fc"><i>304</i>&nbsp;            return 0;</b>
+<i>305</i>&nbsp;        }
+<i>306</i>&nbsp;
+<i>307</i>&nbsp;        // Create the new angle we want the player to be rotated to every frame, based
+<i>308</i>&nbsp;        // on the turning speed and stamina
+<b class="fc"><i>309</i>&nbsp;        float newAngle = boatSprite.getRotation();</b>
+<i>310</i>&nbsp;
+<b class="fc"><i>311</i>&nbsp;        if (angleDifference &lt; 0)</b>
+<b class="fc"><i>312</i>&nbsp;            newAngle += turningSpeed * (-1) * (this.stamina / 70);</b>
+<b class="fc"><i>313</i>&nbsp;        else if (angleDifference &gt; 0)</b>
+<b class="fc"><i>314</i>&nbsp;            newAngle += turningSpeed * (this.stamina / 70);</b>
+<i>315</i>&nbsp;
+<b class="fc"><i>316</i>&nbsp;        boatBody.setTransform(boatBody.getPosition(), newAngle * MathUtils.degRad);</b>
+<i>317</i>&nbsp;
+<b class="fc"><i>318</i>&nbsp;        return newAngle;</b>
+<i>319</i>&nbsp;    }
+<i>320</i>&nbsp;
+<i>321</i>&nbsp;    /**
+<i>322</i>&nbsp;     * Applies a powerup that the boat has collided with.
+<i>323</i>&nbsp;     * 
+<i>324</i>&nbsp;     * @param powerupType The int value of the powerup dictating its type
+<i>325</i>&nbsp;     * 
+<i>326</i>&nbsp;     * @since 2
+<i>327</i>&nbsp;     * @version 2
+<i>328</i>&nbsp;     * @author Team 8
+<i>329</i>&nbsp;     * @author Josh Stafford
+<i>330</i>&nbsp;     */
+<i>331</i>&nbsp;    public void applyPowerup(int powerupType) {
+<i>332</i>&nbsp;
+<b class="fc"><i>333</i>&nbsp;        switch (powerupType) {</b>
+<i>334</i>&nbsp;
+<i>335</i>&nbsp;            // Health regeneration
+<i>336</i>&nbsp;            case 1:
+<b class="fc"><i>337</i>&nbsp;                regenRobustness();</b>
+<b class="fc"><i>338</i>&nbsp;                break;</b>
+<i>339</i>&nbsp;
+<i>340</i>&nbsp;            // Stamina boost
+<i>341</i>&nbsp;            case 2:
+<b class="fc"><i>342</i>&nbsp;                staminaBoost();</b>
+<b class="fc"><i>343</i>&nbsp;                break;</b>
+<i>344</i>&nbsp;
+<i>345</i>&nbsp;            // Speed boost
+<i>346</i>&nbsp;            case 3:
+<b class="fc"><i>347</i>&nbsp;                speedBoost();</b>
+<b class="fc"><i>348</i>&nbsp;                break;</b>
+<i>349</i>&nbsp;
+<i>350</i>&nbsp;            // Speed boost
+<i>351</i>&nbsp;            case 4:
+<b class="fc"><i>352</i>&nbsp;            accelerationBoost();</b>
+<b class="fc"><i>353</i>&nbsp;            break;</b>
+<i>354</i>&nbsp;
+<i>355</i>&nbsp;            // Speed boost
+<i>356</i>&nbsp;            case 5:
+<b class="fc"><i>357</i>&nbsp;            maneuverabilityBoost();</b>
+<i>358</i>&nbsp;            break;
+<i>359</i>&nbsp;
+<i>360</i>&nbsp;        }
+<i>361</i>&nbsp;
+<b class="fc"><i>362</i>&nbsp;    }</b>
+<i>363</i>&nbsp;
+<i>364</i>&nbsp;    /**
+<i>365</i>&nbsp;     * Gives boat 20% of it&#39;s maximum robustness back.
+<i>366</i>&nbsp;     * 
+<i>367</i>&nbsp;     * @since 2
+<i>368</i>&nbsp;     * @version 2
+<i>369</i>&nbsp;     * @author Team 8
+<i>370</i>&nbsp;     * @author Josh Stafford
+<i>371</i>&nbsp;     */
+<i>372</i>&nbsp;    private void regenRobustness() {
+<i>373</i>&nbsp;
+<b class="fc"><i>374</i>&nbsp;        this.robustness += (int) (this.maxRobustness * 0.2);</b>
+<i>375</i>&nbsp;
+<b class="fc"><i>376</i>&nbsp;        if (this.robustness &gt; this.maxRobustness) {</b>
+<b class="fc"><i>377</i>&nbsp;            this.robustness = this.maxRobustness;</b>
+<i>378</i>&nbsp;        }
+<i>379</i>&nbsp;
+<b class="fc"><i>380</i>&nbsp;    }</b>
+<i>381</i>&nbsp;
+<i>382</i>&nbsp;    /**
+<i>383</i>&nbsp;     * Gives boat 20% of it&#39;s maximum stamina back.
+<i>384</i>&nbsp;     * 
+<i>385</i>&nbsp;     * @since 2
+<i>386</i>&nbsp;     * @version 2
+<i>387</i>&nbsp;     * @author Team 8
+<i>388</i>&nbsp;     * @author Josh Stafford
+<i>389</i>&nbsp;     */
+<i>390</i>&nbsp;    private void staminaBoost() {
+<i>391</i>&nbsp;
+<b class="fc"><i>392</i>&nbsp;        this.stamina += (int) (this.maxStamina * 0.2);</b>
+<i>393</i>&nbsp;
+<b class="fc"><i>394</i>&nbsp;        if (this.stamina &gt; this.maxStamina) {</b>
+<b class="fc"><i>395</i>&nbsp;            this.stamina = this.maxStamina;</b>
+<i>396</i>&nbsp;        }
+<i>397</i>&nbsp;
+<b class="fc"><i>398</i>&nbsp;    }</b>
+<i>399</i>&nbsp;
+<i>400</i>&nbsp;    /**
+<i>401</i>&nbsp;     * Gives boat 5f max speed increase.
+<i>402</i>&nbsp;     * 
+<i>403</i>&nbsp;     * @since 2
+<i>404</i>&nbsp;     * @version 2
+<i>405</i>&nbsp;     * @author Team 8
+<i>406</i>&nbsp;     * @author Josh Stafford
+<i>407</i>&nbsp;     */
+<i>408</i>&nbsp;    private void speedBoost() {
+<i>409</i>&nbsp;
+<b class="fc"><i>410</i>&nbsp;        speed += 5f;</b>
+<i>411</i>&nbsp;
+<b class="fc"><i>412</i>&nbsp;    }</b>
+<i>413</i>&nbsp;
+<i>414</i>&nbsp;    /**
+<i>415</i>&nbsp;     * Gives boat 5f acceleration increase.
+<i>416</i>&nbsp;     * 
+<i>417</i>&nbsp;     * @since 2
+<i>418</i>&nbsp;     * @version 2
+<i>419</i>&nbsp;     * @author Team 8
+<i>420</i>&nbsp;     * @author Josh Stafford
+<i>421</i>&nbsp;     */
+<i>422</i>&nbsp;    private void accelerationBoost() {
+<i>423</i>&nbsp;
+<b class="fc"><i>424</i>&nbsp;        acceleration += 5f;</b>
+<i>425</i>&nbsp;
+<b class="fc"><i>426</i>&nbsp;    }</b>
+<i>427</i>&nbsp;
+<i>428</i>&nbsp;    /**
+<i>429</i>&nbsp;     * Gives boat 5f maneuverability increase.
+<i>430</i>&nbsp;     * 
+<i>431</i>&nbsp;     * @since 2
+<i>432</i>&nbsp;     * @version 2
+<i>433</i>&nbsp;     * @author Team 8
+<i>434</i>&nbsp;     * @author Josh Stafford
+<i>435</i>&nbsp;     */
+<i>436</i>&nbsp;    private void maneuverabilityBoost() {
+<i>437</i>&nbsp;
+<b class="fc"><i>438</i>&nbsp;        maneuverability += 5f;</b>
+<i>439</i>&nbsp;
+<b class="fc"><i>440</i>&nbsp;    }</b>
+<i>441</i>&nbsp;    
+<i>442</i>&nbsp;
+<i>443</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-02-09 16:25</div>
+</div>
+</body>
+</html>

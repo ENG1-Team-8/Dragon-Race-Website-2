@@ -1,0 +1,159 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: GameData</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.hardgforgif.dragonboatracing</a> ]
+</div>
+
+<h1>Coverage Summary for Class: GameData (com.hardgforgif.dragonboatracing)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GameData</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (1/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    95.5%
+  </span>
+  <span class="absValue">
+    (21/ 22)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.hardgforgif.dragonboatracing;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import java.util.ArrayList;
+<i>4</i>&nbsp;import java.util.List;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;import com.badlogic.gdx.Gdx;
+<i>7</i>&nbsp;import com.badlogic.gdx.audio.Music;
+<i>8</i>&nbsp;import com.hardgforgif.dragonboatracing.UI.MenuUI;
+<i>9</i>&nbsp;import com.hardgforgif.dragonboatracing.UI.UI;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;/**
+<i>12</i>&nbsp; * Stores general game data which are static.
+<i>13</i>&nbsp; * 
+<i>14</i>&nbsp; * @since 1
+<i>15</i>&nbsp; * @version 2
+<i>16</i>&nbsp; * @author Team 10
+<i>17</i>&nbsp; * @author Matt Tomlinson
+<i>18</i>&nbsp; * 
+<i>19</i>&nbsp; */
+<b class="nc"><i>20</i>&nbsp;public class GameData {</b>
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;    // Create the game state variables
+<b class="fc"><i>23</i>&nbsp;    public static boolean mainMenuState = true;</b>
+<b class="fc"><i>24</i>&nbsp;    public static boolean choosingBoatState = false;</b>
+<b class="fc"><i>25</i>&nbsp;    public static boolean gamePlayState = false;</b>
+<b class="fc"><i>26</i>&nbsp;    public static boolean showResultsState = false;</b>
+<b class="fc"><i>27</i>&nbsp;    public static boolean resetGameState = false;</b>
+<b class="fc"><i>28</i>&nbsp;    public static boolean GameOverState = false;</b>
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;    // MODIFIED: check required on first startup to delay obstacle generation until
+<i>31</i>&nbsp;    // difficulty has been picked
+<b class="fc"><i>32</i>&nbsp;    public static boolean obstaclesGenerated = false;</b>
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;    // Create the game UI and the game music
+<b class="fc"><i>35</i>&nbsp;    public static UI currentUI = new MenuUI();</b>
+<b class="fc"><i>36</i>&nbsp;    public static Music music = Gdx.audio.newMusic(Gdx.files.internal(&quot;Vibing.ogg&quot;));</b>
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;    // Set the rations between the pixels, meters and tiles
+<i>39</i>&nbsp;    public final static float METERS_TO_PIXELS = 100f;
+<b class="fc"><i>40</i>&nbsp;    public static float TILES_TO_METERS = 0.128f;</b>
+<b class="fc"><i>41</i>&nbsp;    public static float PIXELS_TO_TILES = 1 / (GameData.METERS_TO_PIXELS * GameData.TILES_TO_METERS);</b>
+<i>42</i>&nbsp;
+<i>43</i>&nbsp;    // Create a list of possible boat stats
+<i>44</i>&nbsp;    // Ordered by: robustness, speed, acceleration, maneuverability
+<b class="fc"><i>45</i>&nbsp;    public static float[][] boatsStats = new float[][] { { 120, 110, 100, 80 }, { 55, 110, 130, 60 },</b>
+<i>46</i>&nbsp;            { 90, 110, 100, 130 }, { 65, 120, 90, 55 } };
+<i>47</i>&nbsp;
+<i>48</i>&nbsp;    // Store information about each lane&#39;s boat
+<i>49</i>&nbsp;    // Boat&#39;s starting location
+<b class="fc"><i>50</i>&nbsp;    public static float[][] startingPoints = new float[][] { { 2.3f, 4f }, { 4f, 4f }, { 7f, 4f }, { 10f, 4f } };</b>
+<i>51</i>&nbsp;    // Boat&#39;s type
+<b class="fc"><i>52</i>&nbsp;    public static int[] boatTypes = new int[4];</b>
+<i>53</i>&nbsp;    // Boat&#39;s standing
+<b class="fc"><i>54</i>&nbsp;    public static int[] standings = new int[4];</b>
+<i>55</i>&nbsp;    // Boat&#39;s penalties
+<b class="fc"><i>56</i>&nbsp;    public static float[] penalties = new float[4];</b>
+<i>57</i>&nbsp;    // Result of the boat as a Pair&lt;lane number, result&gt;
+<b class="fc"><i>58</i>&nbsp;    public static List&lt;Float[]&gt; results = new ArrayList&lt;&gt;();</b>
+<i>59</i>&nbsp;
+<i>60</i>&nbsp;    // MODIFIED: stores each position&#39;s best time with index corresponding to boat
+<i>61</i>&nbsp;    // number
+<b class="fc"><i>62</i>&nbsp;    public static float[] bests = { Float.MAX_VALUE, Float.MAX_VALUE, Float.MAX_VALUE, Float.MAX_VALUE };</b>
+<i>63</i>&nbsp;
+<i>64</i>&nbsp;    // MODIFIED: used to determine if the game is over because the player did not
+<i>65</i>&nbsp;    // qualify for the final
+<b class="fc"><i>66</i>&nbsp;    public static boolean dnq = false;</b>
+<i>67</i>&nbsp;
+<i>68</i>&nbsp;    // Current leg and the current timer in the leg
+<b class="fc"><i>69</i>&nbsp;    public static int currentLeg = 0;</b>
+<b class="fc"><i>70</i>&nbsp;    public static float currentTimer = 0f;</b>
+<i>71</i>&nbsp;
+<i>72</i>&nbsp;    // Difficulty constants for the AI
+<i>73</i>&nbsp;    // MODIFIED: no longer uses set value, is instead selected in MenuUI
+<i>74</i>&nbsp;    public static float[] difficulty;
+<i>75</i>&nbsp;
+<i>76</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-02-09 16:25</div>
+</div>
+</body>
+</html>

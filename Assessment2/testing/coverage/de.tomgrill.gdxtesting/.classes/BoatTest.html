@@ -1,0 +1,235 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: BoatTest</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">de.tomgrill.gdxtesting</a> ]
+</div>
+
+<h1>Coverage Summary for Class: BoatTest (de.tomgrill.gdxtesting)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">BoatTest</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (11/ 11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (58/ 58)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package de.tomgrill.gdxtesting;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.badlogic.gdx.math.Vector2;
+<i>4</i>&nbsp;import com.badlogic.gdx.physics.box2d.World;
+<i>5</i>&nbsp;import com.hardgforgif.dragonboatracing.core.Boat;
+<i>6</i>&nbsp;import com.hardgforgif.dragonboatracing.core.Map;
+<i>7</i>&nbsp;import org.junit.Before;
+<i>8</i>&nbsp;import org.junit.Test;
+<i>9</i>&nbsp;import org.junit.runner.RunWith;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;import static org.junit.Assert.*;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;@RunWith(GdxTestRunner.class)
+<b class="fc"><i>15</i>&nbsp;public class BoatTest {</b>
+<i>16</i>&nbsp;
+<b class="fc"><i>17</i>&nbsp;    World testWorld = new World(new Vector2(0f, 0f), true);</b>
+<b class="fc"><i>18</i>&nbsp;    Map testMap = new Map(&quot;Map1/Map1.tmx&quot;, 1000);</b>
+<i>19</i>&nbsp;    Boat testBoat;
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;    @Before
+<i>23</i>&nbsp;    public void initializeVariables()
+<i>24</i>&nbsp;    {
+<b class="fc"><i>25</i>&nbsp;        testMap.createLanes(testWorld,1);</b>
+<b class="fc"><i>26</i>&nbsp;        testBoat = new Boat(100f, 100f, 100f, 100f, 1, testMap.lanes[1]);</b>
+<b class="fc"><i>27</i>&nbsp;        testBoat.createBoatBody(testWorld,2,0,&quot;boat1.json&quot;);</b>
+<b class="fc"><i>28</i>&nbsp;    }</b>
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;    //test if the boat limits in the lane are created successfully
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;    @Test
+<i>33</i>&nbsp;    public void testLimits()
+<i>34</i>&nbsp;    {
+<b class="fc"><i>35</i>&nbsp;        float expectedLeftLimit = testBoat.lane.leftBoundary[0][1];</b>
+<b class="fc"><i>36</i>&nbsp;        float expectedRightLimit = testBoat.lane.rightBoundary[0][1];</b>
+<b class="fc"><i>37</i>&nbsp;        testBoat.updateLimits();</b>
+<b class="fc"><i>38</i>&nbsp;        assertEquals(expectedLeftLimit,testBoat.getLimitsAt(0)[0],0);</b>
+<b class="fc"><i>39</i>&nbsp;        assertEquals(expectedRightLimit,testBoat.getLimitsAt(0)[1],0);</b>
+<b class="fc"><i>40</i>&nbsp;    }</b>
+<i>41</i>&nbsp;
+<i>42</i>&nbsp;    //test if the boat has its at a finishing position
+<i>43</i>&nbsp;
+<i>44</i>&nbsp;    @Test
+<i>45</i>&nbsp;    public void testFinished()
+<i>46</i>&nbsp;    {
+<b class="fc"><i>47</i>&nbsp;        testBoat.boatSprite.setCenterY(900);</b>
+<b class="fc"><i>48</i>&nbsp;        assertFalse(testBoat.hasFinished());</b>
+<i>49</i>&nbsp;
+<b class="fc"><i>50</i>&nbsp;        testBoat.boatSprite.setCenterY(900000);</b>
+<b class="fc"><i>51</i>&nbsp;        assertTrue(testBoat.hasFinished());</b>
+<b class="fc"><i>52</i>&nbsp;    }</b>
+<i>53</i>&nbsp;
+<i>54</i>&nbsp;    //test if the boat gains speed in the right direction while updating its movement
+<i>55</i>&nbsp;
+<i>56</i>&nbsp;    @Test
+<i>57</i>&nbsp;    public void testLinearMovement()
+<i>58</i>&nbsp;    {
+<b class="fc"><i>59</i>&nbsp;        float initialSpeed = testBoat.current_speed;</b>
+<i>60</i>&nbsp;        float i;
+<b class="fc"><i>61</i>&nbsp;        for (i=0;i&lt;10000;i++)</b>
+<i>62</i>&nbsp;        {
+<b class="fc"><i>63</i>&nbsp;            testBoat.moveBoat(1);</b>
+<i>64</i>&nbsp;        }
+<b class="fc"><i>65</i>&nbsp;        float expectedSpeed = initialSpeed+(0.15f*(testBoat.acceleration/90)*(testBoat.stamina/100)*i);</b>
+<i>66</i>&nbsp;
+<i>67</i>&nbsp;
+<i>68</i>&nbsp;        //check that the speed does not exceed maximum speed
+<b class="fc"><i>69</i>&nbsp;        assertTrue(testBoat.current_speed&lt;=testBoat.speed);</b>
+<i>70</i>&nbsp;
+<b class="fc"><i>71</i>&nbsp;        if (expectedSpeed&gt;this.testBoat.speed)</b>
+<i>72</i>&nbsp;        {
+<b class="fc"><i>73</i>&nbsp;            expectedSpeed = testBoat.speed;</b>
+<i>74</i>&nbsp;        }
+<i>75</i>&nbsp;
+<i>76</i>&nbsp;
+<i>77</i>&nbsp;        // as our boat moves at 0 degree angle, we test that the speed is added correctly in relation to the number of frames i,
+<i>78</i>&nbsp;        // time delta, and boat acceleration and stamina
+<i>79</i>&nbsp;
+<b class="fc"><i>80</i>&nbsp;        assertEquals(expectedSpeed,testBoat.current_speed,0.1);</b>
+<i>81</i>&nbsp;
+<b class="fc"><i>82</i>&nbsp;    }</b>
+<i>83</i>&nbsp;
+<i>84</i>&nbsp;    //test if the boat rotates in the right direction
+<i>85</i>&nbsp;
+<i>86</i>&nbsp;    @Test
+<i>87</i>&nbsp;    public void testRotation ()
+<i>88</i>&nbsp;    {
+<b class="fc"><i>89</i>&nbsp;        assertTrue(testBoat.rotateBoat(90)&gt;0);</b>
+<b class="fc"><i>90</i>&nbsp;        assertTrue(testBoat.rotateBoat(-90)&lt;0);</b>
+<b class="fc"><i>91</i>&nbsp;    }</b>
+<i>92</i>&nbsp;
+<i>93</i>&nbsp;    //test stamina boost at max stamina and less than max robustness
+<i>94</i>&nbsp;
+<i>95</i>&nbsp;    @Test
+<i>96</i>&nbsp;    public void testPowerUpRegen ()
+<i>97</i>&nbsp;    {
+<b class="fc"><i>98</i>&nbsp;        float initialRobustness = testBoat.robustness;</b>
+<b class="fc"><i>99</i>&nbsp;        testBoat.applyPowerup(1);</b>
+<b class="fc"><i>100</i>&nbsp;        assertEquals(initialRobustness,testBoat.robustness,0);</b>
+<i>101</i>&nbsp;
+<b class="fc"><i>102</i>&nbsp;        testBoat.robustness = 50;</b>
+<b class="fc"><i>103</i>&nbsp;        float expectedRobustness = testBoat.robustness + initialRobustness*0.2f;</b>
+<b class="fc"><i>104</i>&nbsp;        testBoat.applyPowerup(1);</b>
+<b class="fc"><i>105</i>&nbsp;        assertEquals(expectedRobustness,testBoat.robustness,0);</b>
+<b class="fc"><i>106</i>&nbsp;    }</b>
+<i>107</i>&nbsp;
+<i>108</i>&nbsp;    //test stamina boost at max stamina and less than max stamina
+<i>109</i>&nbsp;
+<i>110</i>&nbsp;    @Test
+<i>111</i>&nbsp;    public void testPowerUpStamina ()
+<i>112</i>&nbsp;    {
+<b class="fc"><i>113</i>&nbsp;        float initialStamina = testBoat.stamina;</b>
+<b class="fc"><i>114</i>&nbsp;        testBoat.applyPowerup(2);</b>
+<b class="fc"><i>115</i>&nbsp;        assertEquals(initialStamina,testBoat.stamina,0);</b>
+<i>116</i>&nbsp;
+<b class="fc"><i>117</i>&nbsp;        testBoat.stamina = 50;</b>
+<b class="fc"><i>118</i>&nbsp;        float expectedStamina = testBoat.stamina+ initialStamina*0.2f;</b>
+<b class="fc"><i>119</i>&nbsp;        testBoat.applyPowerup(2);</b>
+<b class="fc"><i>120</i>&nbsp;        assertEquals(expectedStamina,testBoat.stamina,0);</b>
+<b class="fc"><i>121</i>&nbsp;    }</b>
+<i>122</i>&nbsp;
+<i>123</i>&nbsp;
+<i>124</i>&nbsp;    //test speed boost
+<i>125</i>&nbsp;    @Test
+<i>126</i>&nbsp;    public void testPowerUpSpeed()
+<i>127</i>&nbsp;    {
+<b class="fc"><i>128</i>&nbsp;        float initialSpeed = testBoat.speed;</b>
+<b class="fc"><i>129</i>&nbsp;        testBoat.applyPowerup(3);</b>
+<b class="fc"><i>130</i>&nbsp;        assertEquals(initialSpeed + 5f,testBoat.speed,0);</b>
+<b class="fc"><i>131</i>&nbsp;    }</b>
+<i>132</i>&nbsp;
+<i>133</i>&nbsp;    // test the acceleration boost
+<i>134</i>&nbsp;    @Test
+<i>135</i>&nbsp;    public void testPowerUpAcceleration()
+<i>136</i>&nbsp;    {
+<b class="fc"><i>137</i>&nbsp;        float initialAcceleration = testBoat.acceleration;</b>
+<b class="fc"><i>138</i>&nbsp;        testBoat.applyPowerup(4);</b>
+<b class="fc"><i>139</i>&nbsp;        assertEquals(initialAcceleration + 5f,testBoat.acceleration,0);</b>
+<b class="fc"><i>140</i>&nbsp;    }</b>
+<i>141</i>&nbsp;
+<i>142</i>&nbsp;    //test the handling boost
+<i>143</i>&nbsp;    @Test
+<i>144</i>&nbsp;    public void testPowerUpManeuverability()
+<i>145</i>&nbsp;    {
+<b class="fc"><i>146</i>&nbsp;        float initialManeuverability = testBoat.maneuverability;</b>
+<b class="fc"><i>147</i>&nbsp;        testBoat.applyPowerup(5);</b>
+<b class="fc"><i>148</i>&nbsp;        assertEquals(initialManeuverability + 5f,testBoat.maneuverability,0);</b>
+<b class="fc"><i>149</i>&nbsp;    }</b>
+<i>150</i>&nbsp;
+<i>151</i>&nbsp;
+<i>152</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-02-09 16:25</div>
+</div>
+</body>
+</html>

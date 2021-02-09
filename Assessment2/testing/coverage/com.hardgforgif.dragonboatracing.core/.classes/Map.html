@@ -1,0 +1,345 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Map</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.hardgforgif.dragonboatracing.core</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Map (com.hardgforgif.dragonboatracing.core)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Map</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    28.6%
+  </span>
+  <span class="absValue">
+    (2/ 7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    44.7%
+  </span>
+  <span class="absValue">
+    (34/ 76)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.hardgforgif.dragonboatracing.core;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.badlogic.gdx.graphics.OrthographicCamera;
+<i>4</i>&nbsp;import com.badlogic.gdx.graphics.Texture;
+<i>5</i>&nbsp;import com.badlogic.gdx.graphics.g2d.Batch;
+<i>6</i>&nbsp;import com.badlogic.gdx.graphics.g2d.Sprite;
+<i>7</i>&nbsp;import com.badlogic.gdx.maps.MapLayer;
+<i>8</i>&nbsp;import com.badlogic.gdx.maps.MapObjects;
+<i>9</i>&nbsp;import com.badlogic.gdx.maps.MapProperties;
+<i>10</i>&nbsp;import com.badlogic.gdx.maps.objects.RectangleMapObject;
+<i>11</i>&nbsp;import com.badlogic.gdx.maps.tiled.TiledMap;
+<i>12</i>&nbsp;import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
+<i>13</i>&nbsp;import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+<i>14</i>&nbsp;import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+<i>15</i>&nbsp;import com.badlogic.gdx.math.Rectangle;
+<i>16</i>&nbsp;import com.badlogic.gdx.physics.box2d.Body;
+<i>17</i>&nbsp;import com.badlogic.gdx.physics.box2d.BodyDef;
+<i>18</i>&nbsp;import com.badlogic.gdx.physics.box2d.Fixture;
+<i>19</i>&nbsp;import com.badlogic.gdx.physics.box2d.FixtureDef;
+<i>20</i>&nbsp;import com.badlogic.gdx.physics.box2d.PolygonShape;
+<i>21</i>&nbsp;import com.badlogic.gdx.physics.box2d.World;
+<i>22</i>&nbsp;import com.hardgforgif.dragonboatracing.GameData;
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;/**
+<i>25</i>&nbsp; * Class representing the game map.
+<i>26</i>&nbsp; * 
+<i>27</i>&nbsp; * @since 1
+<i>28</i>&nbsp; * @version 2
+<i>29</i>&nbsp; * @author Team 10
+<i>30</i>&nbsp; * @author Matt Tomlinson
+<i>31</i>&nbsp; */
+<i>32</i>&nbsp;public class Map {
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;    // Map components
+<i>35</i>&nbsp;    private TiledMap tiledMap;
+<i>36</i>&nbsp;    private TiledMapRenderer tiledMapRenderer;
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;    // The size of the screen we will render the map on
+<i>39</i>&nbsp;    private float screenWidth;
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;    // The width and the height of the map in tiles, used to calculate ratios
+<i>42</i>&nbsp;    private int mapWidth;
+<i>43</i>&nbsp;    private int mapHeight;
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;    // The width of each tile in Pixels
+<i>46</i>&nbsp;    private float unitScale;
+<i>47</i>&nbsp;
+<b class="fc"><i>48</i>&nbsp;    public Lane[] lanes = new Lane[4];</b>
+<i>49</i>&nbsp;
+<i>50</i>&nbsp;    private Texture finishLineTexture;
+<i>51</i>&nbsp;    private Sprite finishLineSprite;
+<i>52</i>&nbsp;
+<i>53</i>&nbsp;    /**
+<i>54</i>&nbsp;     * Construct a game map.
+<i>55</i>&nbsp;     * 
+<i>56</i>&nbsp;     * @param tmxFile The tiled map file to generate the map from
+<i>57</i>&nbsp;     * @param width   The width to use for the game map
+<i>58</i>&nbsp;     * 
+<i>59</i>&nbsp;     * @since 1
+<i>60</i>&nbsp;     * @version 1
+<i>61</i>&nbsp;     * @author Team 10
+<i>62</i>&nbsp;     */
+<b class="fc"><i>63</i>&nbsp;    public Map(String tmxFile, float width) {</b>
+<i>64</i>&nbsp;
+<b class="fc"><i>65</i>&nbsp;        tiledMap = new TmxMapLoader().load(tmxFile);</b>
+<b class="fc"><i>66</i>&nbsp;        screenWidth = width;</b>
+<i>67</i>&nbsp;
+<b class="fc"><i>68</i>&nbsp;        MapProperties prop = tiledMap.getProperties();</b>
+<b class="fc"><i>69</i>&nbsp;        mapWidth = prop.get(&quot;width&quot;, Integer.class);</b>
+<b class="fc"><i>70</i>&nbsp;        mapHeight = prop.get(&quot;height&quot;, Integer.class);</b>
+<i>71</i>&nbsp;
+<b class="fc"><i>72</i>&nbsp;        unitScale = screenWidth / mapWidth / 32f;</b>
+<i>73</i>&nbsp;
+<i>74</i>&nbsp;        // MODIFIED: map renderer is created via function for testing purposes
+<i>75</i>&nbsp;
+<b class="fc"><i>76</i>&nbsp;    }</b>
+<i>77</i>&nbsp;
+<i>78</i>&nbsp;    /**
+<i>79</i>&nbsp;     * Create the map renderer outside of the constructor.
+<i>80</i>&nbsp;     * 
+<i>81</i>&nbsp;     * @since 2
+<i>82</i>&nbsp;     * @version 2
+<i>83</i>&nbsp;     * @author Team 8
+<i>84</i>&nbsp;     * @author Matt Tomlinson
+<i>85</i>&nbsp;     */
+<i>86</i>&nbsp;    public void createMapRenderer() {
+<i>87</i>&nbsp;
+<b class="nc"><i>88</i>&nbsp;        tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, unitScale);</b>
+<i>89</i>&nbsp;
+<b class="nc"><i>90</i>&nbsp;    }</b>
+<i>91</i>&nbsp;
+<i>92</i>&nbsp;    /**
+<i>93</i>&nbsp;     * Calculates the ration between the tiles of the tiled map and in-game metres.
+<i>94</i>&nbsp;     * 
+<i>95</i>&nbsp;     * @return The ratio between a tile and a meter in the game world
+<i>96</i>&nbsp;     * 
+<i>97</i>&nbsp;     * @since 1
+<i>98</i>&nbsp;     * @version 1
+<i>99</i>&nbsp;     * @author Team 10
+<i>100</i>&nbsp;     * 
+<i>101</i>&nbsp;     */
+<i>102</i>&nbsp;    public float getTilesToMetersRatio() {
+<i>103</i>&nbsp;
+<b class="nc"><i>104</i>&nbsp;        return ((this.screenWidth / GameData.METERS_TO_PIXELS) / this.mapWidth);</b>
+<i>105</i>&nbsp;
+<i>106</i>&nbsp;    }
+<i>107</i>&nbsp;
+<i>108</i>&nbsp;    /**
+<i>109</i>&nbsp;     * Creates bodies on the edges of the river, based on a pre-made layer of
+<i>110</i>&nbsp;     * objects in Tiled.
+<i>111</i>&nbsp;     * 
+<i>112</i>&nbsp;     * @param collisionLayerName Name of the Tiled layer with the rectangle objects
+<i>113</i>&nbsp;     * @param world              World to spawn the bodies in
+<i>114</i>&nbsp;     * 
+<i>115</i>&nbsp;     * @since 1
+<i>116</i>&nbsp;     * @version 1
+<i>117</i>&nbsp;     * @author Team 10
+<i>118</i>&nbsp;     */
+<i>119</i>&nbsp;    public void createMapCollisions(String collisionLayerName, World world) {
+<i>120</i>&nbsp;
+<i>121</i>&nbsp;        // Get the objects from the object layer in the tilemap
+<b class="nc"><i>122</i>&nbsp;        MapLayer collisionLayer = tiledMap.getLayers().get(collisionLayerName);</b>
+<b class="nc"><i>123</i>&nbsp;        MapObjects objects = collisionLayer.getObjects();</b>
+<i>124</i>&nbsp;
+<i>125</i>&nbsp;        // Iterate through the rectangles and create their physic bodies
+<b class="nc"><i>126</i>&nbsp;        for (RectangleMapObject rectangleObject : objects.getByType(RectangleMapObject.class)) {</b>
+<b class="nc"><i>127</i>&nbsp;            Rectangle rectangle = rectangleObject.getRectangle();</b>
+<i>128</i>&nbsp;
+<b class="nc"><i>129</i>&nbsp;            BodyDef bodyDef = new BodyDef();</b>
+<b class="nc"><i>130</i>&nbsp;            bodyDef.type = BodyDef.BodyType.StaticBody;</b>
+<i>131</i>&nbsp;
+<i>132</i>&nbsp;            // Find where we need to place the physics body
+<b class="nc"><i>133</i>&nbsp;            float positionX = (rectangle.getX() * unitScale / GameData.METERS_TO_PIXELS)</b>
+<b class="nc"><i>134</i>&nbsp;                    + (rectangle.getWidth() * unitScale / GameData.METERS_TO_PIXELS / 2);</b>
+<b class="nc"><i>135</i>&nbsp;            float positionY = (rectangle.getY() * unitScale / GameData.METERS_TO_PIXELS)</b>
+<b class="nc"><i>136</i>&nbsp;                    + (rectangle.getHeight() * unitScale / GameData.METERS_TO_PIXELS / 2);</b>
+<b class="nc"><i>137</i>&nbsp;            bodyDef.position.set(positionX, positionY);</b>
+<i>138</i>&nbsp;
+<b class="nc"><i>139</i>&nbsp;            Body objectBody = world.createBody(bodyDef);</b>
+<i>140</i>&nbsp;
+<i>141</i>&nbsp;            // Create the objects fixture, aka shape and physical properties
+<b class="nc"><i>142</i>&nbsp;            PolygonShape shape = new PolygonShape();</b>
+<b class="nc"><i>143</i>&nbsp;            shape.setAsBox(rectangle.getWidth() * unitScale / GameData.METERS_TO_PIXELS / 2,</b>
+<b class="nc"><i>144</i>&nbsp;                    rectangle.getHeight() * unitScale / GameData.METERS_TO_PIXELS / 2);</b>
+<b class="nc"><i>145</i>&nbsp;            FixtureDef fixtureDef = new FixtureDef();</b>
+<b class="nc"><i>146</i>&nbsp;            fixtureDef.shape = shape;</b>
+<b class="nc"><i>147</i>&nbsp;            fixtureDef.density = 0f;</b>
+<b class="nc"><i>148</i>&nbsp;            fixtureDef.restitution = 0f;</b>
+<b class="nc"><i>149</i>&nbsp;            fixtureDef.friction = 0f;</b>
+<b class="nc"><i>150</i>&nbsp;            Fixture fixture = objectBody.createFixture(fixtureDef);</b>
+<i>151</i>&nbsp;
+<b class="nc"><i>152</i>&nbsp;            shape.dispose();</b>
+<i>153</i>&nbsp;
+<b class="nc"><i>154</i>&nbsp;        }</b>
+<b class="nc"><i>155</i>&nbsp;    }</b>
+<i>156</i>&nbsp;
+<i>157</i>&nbsp;    /**
+<i>158</i>&nbsp;     * Renders the map on the screen.
+<i>159</i>&nbsp;     * 
+<i>160</i>&nbsp;     * @param camera The game camera
+<i>161</i>&nbsp;     * @param batch  The batch to render on
+<i>162</i>&nbsp;     * 
+<i>163</i>&nbsp;     * @since 1
+<i>164</i>&nbsp;     * @version 1
+<i>165</i>&nbsp;     * @author Team 10
+<i>166</i>&nbsp;     */
+<i>167</i>&nbsp;    public void renderMap(OrthographicCamera camera, Batch batch) {
+<i>168</i>&nbsp;
+<b class="nc"><i>169</i>&nbsp;        tiledMapRenderer.setView(camera);</b>
+<b class="nc"><i>170</i>&nbsp;        tiledMapRenderer.render();</b>
+<b class="nc"><i>171</i>&nbsp;        batch.begin();</b>
+<b class="nc"><i>172</i>&nbsp;        batch.draw(finishLineSprite, finishLineSprite.getX(), finishLineSprite.getY(), finishLineSprite.getOriginX(),</b>
+<b class="nc"><i>173</i>&nbsp;                finishLineSprite.getOriginY(), finishLineSprite.getWidth(), finishLineSprite.getHeight(),</b>
+<b class="nc"><i>174</i>&nbsp;                finishLineSprite.getScaleX(), finishLineSprite.getScaleY(), finishLineSprite.getRotation());</b>
+<b class="nc"><i>175</i>&nbsp;        batch.end();</b>
+<i>176</i>&nbsp;
+<b class="nc"><i>177</i>&nbsp;    }</b>
+<i>178</i>&nbsp;
+<i>179</i>&nbsp;    /**
+<i>180</i>&nbsp;     * Instantiates the lane array and spawns obstacles on each of the lanes.
+<i>181</i>&nbsp;     * 
+<i>182</i>&nbsp;     * @param world      World to spawn the obstacles in
+<i>183</i>&nbsp;     * @param difficulty The difficulty of the lane
+<i>184</i>&nbsp;     * 
+<i>185</i>&nbsp;     * @since 1
+<i>186</i>&nbsp;     * @version 1
+<i>187</i>&nbsp;     * @author Team 10
+<i>188</i>&nbsp;     * @author Matt Tomlinson
+<i>189</i>&nbsp;     */
+<i>190</i>&nbsp;    public void createLanes(World world, float difficulty) {
+<i>191</i>&nbsp;
+<b class="fc"><i>192</i>&nbsp;        MapLayer leftLayer = tiledMap.getLayers().get(&quot;CollisionLayerLeft&quot;);</b>
+<b class="fc"><i>193</i>&nbsp;        MapLayer rightLayer = tiledMap.getLayers().get(&quot;Lane1&quot;);</b>
+<i>194</i>&nbsp;
+<i>195</i>&nbsp;        // MODIFIED: Lane now takes difficulty parameter
+<b class="fc"><i>196</i>&nbsp;        lanes[0] = new Lane(mapHeight, leftLayer, rightLayer, difficulty);</b>
+<i>197</i>&nbsp;
+<b class="fc"><i>198</i>&nbsp;        lanes[0].constructBoundaries(unitScale);</b>
+<b class="fc"><i>199</i>&nbsp;        lanes[0].spawnObstacles(world, mapHeight / GameData.PIXELS_TO_TILES);</b>
+<i>200</i>&nbsp;
+<i>201</i>&nbsp;        // MODIFIED: spawn the powerups for the given lane
+<b class="fc"><i>202</i>&nbsp;        lanes[0].spawnPowerups(world, mapHeight / GameData.PIXELS_TO_TILES);</b>
+<i>203</i>&nbsp;
+<b class="fc"><i>204</i>&nbsp;        leftLayer = tiledMap.getLayers().get(&quot;Lane1&quot;);</b>
+<b class="fc"><i>205</i>&nbsp;        rightLayer = tiledMap.getLayers().get(&quot;Lane2&quot;);</b>
+<i>206</i>&nbsp;
+<b class="fc"><i>207</i>&nbsp;        lanes[1] = new Lane(mapHeight, leftLayer, rightLayer, difficulty);</b>
+<b class="fc"><i>208</i>&nbsp;        lanes[1].constructBoundaries(unitScale);</b>
+<b class="fc"><i>209</i>&nbsp;        lanes[1].spawnObstacles(world, mapHeight / GameData.PIXELS_TO_TILES);</b>
+<i>210</i>&nbsp;
+<i>211</i>&nbsp;        // MODIFIED: spawn the powerups for the given lane
+<b class="fc"><i>212</i>&nbsp;        lanes[1].spawnPowerups(world, mapHeight / GameData.PIXELS_TO_TILES);</b>
+<i>213</i>&nbsp;
+<b class="fc"><i>214</i>&nbsp;        leftLayer = tiledMap.getLayers().get(&quot;Lane2&quot;);</b>
+<b class="fc"><i>215</i>&nbsp;        rightLayer = tiledMap.getLayers().get(&quot;Lane3&quot;);</b>
+<i>216</i>&nbsp;
+<b class="fc"><i>217</i>&nbsp;        lanes[2] = new Lane(mapHeight, leftLayer, rightLayer, difficulty);</b>
+<b class="fc"><i>218</i>&nbsp;        lanes[2].constructBoundaries(unitScale);</b>
+<b class="fc"><i>219</i>&nbsp;        lanes[2].spawnObstacles(world, mapHeight / GameData.PIXELS_TO_TILES);</b>
+<i>220</i>&nbsp;
+<i>221</i>&nbsp;        // MODIFIED: spawn the powerups for the given lane
+<b class="fc"><i>222</i>&nbsp;        lanes[2].spawnPowerups(world, mapHeight / GameData.PIXELS_TO_TILES);</b>
+<i>223</i>&nbsp;
+<b class="fc"><i>224</i>&nbsp;        leftLayer = tiledMap.getLayers().get(&quot;Lane3&quot;);</b>
+<b class="fc"><i>225</i>&nbsp;        rightLayer = tiledMap.getLayers().get(&quot;CollisionLayerRight&quot;);</b>
+<i>226</i>&nbsp;
+<b class="fc"><i>227</i>&nbsp;        lanes[3] = new Lane(mapHeight, leftLayer, rightLayer, difficulty);</b>
+<b class="fc"><i>228</i>&nbsp;        lanes[3].constructBoundaries(unitScale);</b>
+<b class="fc"><i>229</i>&nbsp;        lanes[3].spawnObstacles(world, mapHeight / GameData.PIXELS_TO_TILES);</b>
+<i>230</i>&nbsp;
+<i>231</i>&nbsp;        // MODIFIED: spawn the powerups for the given lane
+<b class="fc"><i>232</i>&nbsp;        lanes[3].spawnPowerups(world, mapHeight / GameData.PIXELS_TO_TILES);</b>
+<i>233</i>&nbsp;
+<b class="fc"><i>234</i>&nbsp;    }</b>
+<i>235</i>&nbsp;
+<i>236</i>&nbsp;    /**
+<i>237</i>&nbsp;     * Creates the finish line at a fixed position.
+<i>238</i>&nbsp;     * 
+<i>239</i>&nbsp;     * @param textureFile The texture oof the finish line
+<i>240</i>&nbsp;     * 
+<i>241</i>&nbsp;     * @since 1
+<i>242</i>&nbsp;     * @version 1
+<i>243</i>&nbsp;     * @author Team 10
+<i>244</i>&nbsp;     */
+<i>245</i>&nbsp;    public void createFinishLine(String textureFile) {
+<i>246</i>&nbsp;
+<i>247</i>&nbsp;        // Create the texture and the sprite of the finish line
+<b class="nc"><i>248</i>&nbsp;        finishLineTexture = new Texture(textureFile);</b>
+<b class="nc"><i>249</i>&nbsp;        finishLineSprite = new Sprite(finishLineTexture);</b>
+<i>250</i>&nbsp;
+<i>251</i>&nbsp;        // Find out where it&#39;s going to start at, and how wide it will be, based on the
+<i>252</i>&nbsp;        // limits of the edge lanes
+<b class="nc"><i>253</i>&nbsp;        float startpoint = lanes[0].getLimitsAt(9000f)[0];</b>
+<b class="nc"><i>254</i>&nbsp;        float width = lanes[3].getLimitsAt(9000f)[1] - startpoint;</b>
+<i>255</i>&nbsp;
+<i>256</i>&nbsp;        // Set it&#39;s new found position and width
+<b class="nc"><i>257</i>&nbsp;        finishLineSprite.setPosition(startpoint, 9000f);</b>
+<b class="nc"><i>258</i>&nbsp;        finishLineSprite.setSize(width, 100);</b>
+<i>259</i>&nbsp;
+<b class="nc"><i>260</i>&nbsp;    }</b>
+<i>261</i>&nbsp;
+<i>262</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-02-09 16:25</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,247 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: GamePlayUI</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.hardgforgif.dragonboatracing.UI</a> ]
+</div>
+
+<h1>Coverage Summary for Class: GamePlayUI (com.hardgforgif.dragonboatracing.UI)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GamePlayUI</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 46)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.hardgforgif.dragonboatracing.UI;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.badlogic.gdx.Gdx;
+<i>4</i>&nbsp;import com.badlogic.gdx.graphics.Color;
+<i>5</i>&nbsp;import com.badlogic.gdx.graphics.Texture;
+<i>6</i>&nbsp;import com.badlogic.gdx.graphics.g2d.Batch;
+<i>7</i>&nbsp;import com.badlogic.gdx.graphics.g2d.BitmapFont;
+<i>8</i>&nbsp;import com.badlogic.gdx.graphics.g2d.Sprite;
+<i>9</i>&nbsp;import com.badlogic.gdx.math.Vector2;
+<i>10</i>&nbsp;import com.hardgforgif.dragonboatracing.GameData;
+<i>11</i>&nbsp;import com.hardgforgif.dragonboatracing.core.Player;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;/**
+<i>14</i>&nbsp; * The UI during gameplay (racing), extends UI.
+<i>15</i>&nbsp; * &lt;p&gt;
+<i>16</i>&nbsp; * Responsible for displaying stamina/health bars, leg number, timer and
+<i>17</i>&nbsp; * controls.
+<i>18</i>&nbsp; * 
+<i>19</i>&nbsp; * @see UI
+<i>20</i>&nbsp; * 
+<i>21</i>&nbsp; * @since 1
+<i>22</i>&nbsp; * @version 2
+<i>23</i>&nbsp; * @author Team 10
+<i>24</i>&nbsp; * @author Matt Tomlinson
+<i>25</i>&nbsp; */
+<i>26</i>&nbsp;public class GamePlayUI extends UI {
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    private BitmapFont positionLabel;
+<i>29</i>&nbsp;    private BitmapFont robustnessLabel;
+<i>30</i>&nbsp;    private BitmapFont staminaLabel;
+<i>31</i>&nbsp;    private BitmapFont timerLabel;
+<i>32</i>&nbsp;    private BitmapFont legLabel;
+<i>33</i>&nbsp;    private Texture stamina;
+<i>34</i>&nbsp;    private Texture robustness;
+<i>35</i>&nbsp;    private Sprite rBar;
+<i>36</i>&nbsp;    private Sprite sBar;
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;    // MODIFIED: used to display speed
+<i>39</i>&nbsp;    private BitmapFont speedLabel;
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;    // MODIFIED: new texture and sprite for on-screen controls
+<i>42</i>&nbsp;    private Texture controls;
+<i>43</i>&nbsp;    private Sprite controlsDisplay;
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;    // MODIFIED: variable to store the text to display the leg
+<i>46</i>&nbsp;    private String legText;
+<i>47</i>&nbsp;
+<i>48</i>&nbsp;    /**
+<i>49</i>&nbsp;     * Constructs a new UI for gameplay.
+<i>50</i>&nbsp;     * 
+<i>51</i>&nbsp;     * @since 1
+<i>52</i>&nbsp;     * @version 2
+<i>53</i>&nbsp;     * @author Team 10
+<i>54</i>&nbsp;     * @author Matt Tomlinson
+<i>55</i>&nbsp;     */
+<b class="nc"><i>56</i>&nbsp;    public GamePlayUI() {</b>
+<i>57</i>&nbsp;
+<b class="nc"><i>58</i>&nbsp;        positionLabel = new BitmapFont();</b>
+<b class="nc"><i>59</i>&nbsp;        positionLabel.getData().setScale(1.4f);</b>
+<i>60</i>&nbsp;
+<i>61</i>&nbsp;        // MODIFIED: white text colour for better readability
+<b class="nc"><i>62</i>&nbsp;        positionLabel.setColor(Color.WHITE);</b>
+<i>63</i>&nbsp;
+<b class="nc"><i>64</i>&nbsp;        robustnessLabel = new BitmapFont();</b>
+<b class="nc"><i>65</i>&nbsp;        staminaLabel = new BitmapFont();</b>
+<i>66</i>&nbsp;
+<b class="nc"><i>67</i>&nbsp;        timerLabel = new BitmapFont();</b>
+<b class="nc"><i>68</i>&nbsp;        timerLabel.getData().setScale(1.4f);</b>
+<i>69</i>&nbsp;
+<i>70</i>&nbsp;        // MODIFIED: white text colour for better readability
+<b class="nc"><i>71</i>&nbsp;        timerLabel.setColor(Color.WHITE);</b>
+<i>72</i>&nbsp;
+<b class="nc"><i>73</i>&nbsp;        legLabel = new BitmapFont();</b>
+<b class="nc"><i>74</i>&nbsp;        legLabel.getData().setScale(1.4f);</b>
+<i>75</i>&nbsp;
+<i>76</i>&nbsp;        // MODIFIED: white text colour for better readability
+<b class="nc"><i>77</i>&nbsp;        legLabel.setColor(Color.WHITE);</b>
+<i>78</i>&nbsp;
+<i>79</i>&nbsp;        // MODIFIED: set the font for displaying speed
+<b class="nc"><i>80</i>&nbsp;        speedLabel = new BitmapFont();</b>
+<i>81</i>&nbsp;
+<b class="nc"><i>82</i>&nbsp;        stamina = new Texture(Gdx.files.internal(&quot;Stamina_bar.png&quot;));</b>
+<b class="nc"><i>83</i>&nbsp;        robustness = new Texture(Gdx.files.internal(&quot;Robustness_bar.png&quot;));</b>
+<i>84</i>&nbsp;
+<b class="nc"><i>85</i>&nbsp;        rBar = new Sprite(robustness);</b>
+<b class="nc"><i>86</i>&nbsp;        sBar = new Sprite(stamina);</b>
+<b class="nc"><i>87</i>&nbsp;        sBar.setPosition(10, 120);</b>
+<b class="nc"><i>88</i>&nbsp;        rBar.setPosition(10, 60);</b>
+<i>89</i>&nbsp;
+<i>90</i>&nbsp;        // MODIFIED: load texture and create, scale and position sprite for controls
+<b class="nc"><i>91</i>&nbsp;        controls = new Texture(Gdx.files.internal(&quot;controls.png&quot;));</b>
+<b class="nc"><i>92</i>&nbsp;        controlsDisplay = new Sprite(controls);</b>
+<b class="nc"><i>93</i>&nbsp;        controlsDisplay.scale(-0.74f);</b>
+<b class="nc"><i>94</i>&nbsp;        controlsDisplay.setPosition(-276, -54);</b>
+<i>95</i>&nbsp;
+<b class="nc"><i>96</i>&nbsp;    }</b>
+<i>97</i>&nbsp;
+<i>98</i>&nbsp;    /**
+<i>99</i>&nbsp;     * @since 1
+<i>100</i>&nbsp;     * @version 1
+<i>101</i>&nbsp;     * @author Team 10
+<i>102</i>&nbsp;     */
+<i>103</i>&nbsp;    @Override
+<i>104</i>&nbsp;    public void drawUI(Batch batch, Vector2 mousePos, float screenWidth, float delta) {
+<i>105</i>&nbsp;
+<b class="nc"><i>106</i>&nbsp;    }</b>
+<i>107</i>&nbsp;
+<i>108</i>&nbsp;    /**
+<i>109</i>&nbsp;     * @since 1
+<i>110</i>&nbsp;     * @version 2
+<i>111</i>&nbsp;     * @author Team 10
+<i>112</i>&nbsp;     * @author Matt Tomlinson
+<i>113</i>&nbsp;     */
+<i>114</i>&nbsp;    @Override
+<i>115</i>&nbsp;    public void drawPlayerUI(Batch batch, Player playerBoat) {
+<i>116</i>&nbsp;
+<i>117</i>&nbsp;        // Set the robustness and stamina bars size based on the player boat
+<b class="nc"><i>118</i>&nbsp;        sBar.setSize(playerBoat.stamina, 30);</b>
+<b class="nc"><i>119</i>&nbsp;        rBar.setSize(playerBoat.robustness, 30);</b>
+<i>120</i>&nbsp;
+<i>121</i>&nbsp;        // MODIFIED: Used to display more descriptive text for key legs rather than just
+<i>122</i>&nbsp;        // numbers
+<b class="nc"><i>123</i>&nbsp;        if (GameData.currentLeg == 0)</b>
+<b class="nc"><i>124</i>&nbsp;            legText = &quot;Practice&quot;;</b>
+<b class="nc"><i>125</i>&nbsp;        else if (GameData.currentLeg == 3)</b>
+<b class="nc"><i>126</i>&nbsp;            legText = &quot;Final&quot;;</b>
+<i>127</i>&nbsp;        else
+<b class="nc"><i>128</i>&nbsp;            legText = Integer.toString(GameData.currentLeg + 1);</b>
+<i>129</i>&nbsp;
+<b class="nc"><i>130</i>&nbsp;        batch.begin();</b>
+<i>131</i>&nbsp;        // Draw the robustness and stamina bars
+<b class="nc"><i>132</i>&nbsp;        sBar.draw(batch);</b>
+<b class="nc"><i>133</i>&nbsp;        rBar.draw(batch);</b>
+<i>134</i>&nbsp;
+<i>135</i>&nbsp;        // MODIFIED: draw the on-screen controls
+<b class="nc"><i>136</i>&nbsp;        controlsDisplay.draw(batch);</b>
+<i>137</i>&nbsp;
+<i>138</i>&nbsp;        // MODIFIED: Displays &quot;Boat health&quot; instead of &quot;Robustness&quot; for clarity and displays player speed
+<b class="nc"><i>139</i>&nbsp;        speedLabel.draw(batch, &quot;Speed: &quot; + Math.round(playerBoat.current_speed), 10, 200);</b>
+<b class="nc"><i>140</i>&nbsp;        robustnessLabel.draw(batch, &quot;Boat health&quot;, 10, 110);</b>
+<b class="nc"><i>141</i>&nbsp;        staminaLabel.draw(batch, &quot;Stamina&quot;, 10, 170);</b>
+<i>142</i>&nbsp;
+<i>143</i>&nbsp;        // Draw the position label, the timer and the leg label
+<i>144</i>&nbsp;        // MODIFIED: Labels for each UI element for more clarity
+<b class="nc"><i>145</i>&nbsp;        positionLabel.draw(batch, &quot;Position: &quot; + GameData.standings[0] + &quot;/4&quot;, 1140, 700);</b>
+<b class="nc"><i>146</i>&nbsp;        timerLabel.draw(batch, &quot;Timer: &quot; + String.valueOf(Math.round(GameData.currentTimer * 10.0) / 10.0), 10, 700);</b>
+<b class="nc"><i>147</i>&nbsp;        legLabel.draw(batch, &quot;Leg: &quot; + legText, 10, 650);</b>
+<b class="nc"><i>148</i>&nbsp;        batch.end();</b>
+<i>149</i>&nbsp;
+<b class="nc"><i>150</i>&nbsp;        playMusic();</b>
+<i>151</i>&nbsp;
+<b class="nc"><i>152</i>&nbsp;    }</b>
+<i>153</i>&nbsp;
+<i>154</i>&nbsp;    /**
+<i>155</i>&nbsp;     * @since 1
+<i>156</i>&nbsp;     * @version 1
+<i>157</i>&nbsp;     * @author Team 10
+<i>158</i>&nbsp;     */
+<i>159</i>&nbsp;    @Override
+<i>160</i>&nbsp;    public void getInput(float screenWidth, Vector2 mousePos) {
+<i>161</i>&nbsp;
+<b class="nc"><i>162</i>&nbsp;    }</b>
+<i>163</i>&nbsp;
+<i>164</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-02-09 16:25</div>
+</div>
+</body>
+</html>

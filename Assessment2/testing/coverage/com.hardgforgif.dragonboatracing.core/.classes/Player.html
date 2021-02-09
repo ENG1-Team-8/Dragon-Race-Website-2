@@ -1,0 +1,156 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Player</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.hardgforgif.dragonboatracing.core</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Player (com.hardgforgif.dragonboatracing.core)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Player</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (16/ 16)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.hardgforgif.dragonboatracing.core;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.hardgforgif.dragonboatracing.GameData;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;/**
+<i>6</i>&nbsp; * Class representing the player&#39;s boat, extending from Boat.
+<i>7</i>&nbsp; * 
+<i>8</i>&nbsp; * @see Boat
+<i>9</i>&nbsp; * 
+<i>10</i>&nbsp; * @since 1
+<i>11</i>&nbsp; * @version 1
+<i>12</i>&nbsp; * @author Team 10
+<i>13</i>&nbsp; */
+<i>14</i>&nbsp;public class Player extends Boat {
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;    /**
+<i>17</i>&nbsp;     * Construct a player object.
+<i>18</i>&nbsp;     * 
+<i>19</i>&nbsp;     * @param robustness      The maximum boat &#39;health&#39;
+<i>20</i>&nbsp;     * @param speed           The boat&#39;s maximum speed
+<i>21</i>&nbsp;     * @param acceleration    The boat&#39;s acceleration
+<i>22</i>&nbsp;     * @param maneuverability The boat&#39;s turning speed
+<i>23</i>&nbsp;     * @param boatType        The array position for boat stats
+<i>24</i>&nbsp;     * @param lane            The lane the boat is racing in
+<i>25</i>&nbsp;     * 
+<i>26</i>&nbsp;     * @since 1
+<i>27</i>&nbsp;     * @version 1
+<i>28</i>&nbsp;     * @author Team 10
+<i>29</i>&nbsp;     */
+<i>30</i>&nbsp;    public Player(float robustness, float speed, float acceleration, float maneuverability, int boatType, Lane lane) {
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;        // Construct a boat with the player boat&#39;s parameters
+<b class="fc"><i>33</i>&nbsp;        super(robustness, speed, acceleration, maneuverability, boatType, lane);</b>
+<i>34</i>&nbsp;
+<b class="fc"><i>35</i>&nbsp;    }</b>
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;    /**
+<i>38</i>&nbsp;     * Updates the player based on the input given.
+<i>39</i>&nbsp;     * 
+<i>40</i>&nbsp;     * @param pressedKeys W, A, S, D pressed status
+<i>41</i>&nbsp;     * @param delta       Time since last frame
+<i>42</i>&nbsp;     * 
+<i>43</i>&nbsp;     * @since 1
+<i>44</i>&nbsp;     * @version 1
+<i>45</i>&nbsp;     * @author Team 10
+<i>46</i>&nbsp;     */
+<i>47</i>&nbsp;    public void updatePlayer(boolean[] pressedKeys, float delta) {
+<i>48</i>&nbsp;
+<i>49</i>&nbsp;        // Check which angle you need to rotate to, then apply the rotation
+<b class="fc"><i>50</i>&nbsp;        if (pressedKeys[1] &amp;&amp; !pressedKeys[3])</b>
+<b class="fc"><i>51</i>&nbsp;            targetAngle = 90f;</b>
+<b class="fc"><i>52</i>&nbsp;        else if (pressedKeys[3] &amp;&amp; !pressedKeys[1])</b>
+<b class="fc"><i>53</i>&nbsp;            targetAngle = -90f;</b>
+<i>54</i>&nbsp;        else
+<b class="fc"><i>55</i>&nbsp;            targetAngle = 0f;</b>
+<b class="fc"><i>56</i>&nbsp;        rotateBoat(targetAngle);</b>
+<i>57</i>&nbsp;
+<i>58</i>&nbsp;        // Move the boat
+<b class="fc"><i>59</i>&nbsp;        moveBoat(delta);</b>
+<i>60</i>&nbsp;
+<i>61</i>&nbsp;        // Update the sprite location to match the body
+<b class="fc"><i>62</i>&nbsp;        boatSprite.setRotation((float) Math.toDegrees(boatBody.getAngle()));</b>
+<b class="fc"><i>63</i>&nbsp;        boatSprite.setPosition((boatBody.getPosition().x * GameData.METERS_TO_PIXELS) - boatSprite.getWidth() / 2,</b>
+<b class="fc"><i>64</i>&nbsp;                (boatBody.getPosition().y * GameData.METERS_TO_PIXELS) - boatSprite.getHeight() / 2);</b>
+<i>65</i>&nbsp;
+<i>66</i>&nbsp;        // Update the lane limits
+<b class="fc"><i>67</i>&nbsp;        updateLimits();</b>
+<b class="fc"><i>68</i>&nbsp;        if (stamina &gt; 30f)</b>
+<b class="fc"><i>69</i>&nbsp;            stamina -= 1.5 * delta;</b>
+<i>70</i>&nbsp;
+<b class="fc"><i>71</i>&nbsp;    }</b>
+<i>72</i>&nbsp;
+<i>73</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-02-09 16:25</div>
+</div>
+</body>
+</html>

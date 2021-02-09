@@ -1,0 +1,297 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ResultsUI</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.hardgforgif.dragonboatracing.UI</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ResultsUI (com.hardgforgif.dragonboatracing.UI)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ResultsUI</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 61)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">ResultsUI$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 7)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 68)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.hardgforgif.dragonboatracing.UI;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import java.util.Comparator;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;import com.badlogic.gdx.Gdx;
+<i>6</i>&nbsp;import com.badlogic.gdx.graphics.Color;
+<i>7</i>&nbsp;import com.badlogic.gdx.graphics.Texture;
+<i>8</i>&nbsp;import com.badlogic.gdx.graphics.g2d.Batch;
+<i>9</i>&nbsp;import com.badlogic.gdx.graphics.g2d.BitmapFont;
+<i>10</i>&nbsp;import com.badlogic.gdx.graphics.g2d.Sprite;
+<i>11</i>&nbsp;import com.badlogic.gdx.math.Vector2;
+<i>12</i>&nbsp;import com.hardgforgif.dragonboatracing.GameData;
+<i>13</i>&nbsp;import com.hardgforgif.dragonboatracing.core.Player;
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;/**
+<i>16</i>&nbsp; * Class representing the UI for displaying the results of each leg, extends UI.
+<i>17</i>&nbsp; * 
+<i>18</i>&nbsp; * @see UI
+<i>19</i>&nbsp; * 
+<i>20</i>&nbsp; * @since 1
+<i>21</i>&nbsp; * @version 2
+<i>22</i>&nbsp; * @author Team 10
+<i>23</i>&nbsp; * @author Matt Tomlinson
+<i>24</i>&nbsp; */
+<i>25</i>&nbsp;public class ResultsUI extends UI {
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;    private Texture background;
+<i>28</i>&nbsp;    private Sprite backgroundSprite;
+<i>29</i>&nbsp;    private Texture entryTexture;
+<i>30</i>&nbsp;    private Sprite[] entrySprites;
+<i>31</i>&nbsp;    private BitmapFont[] resultFonts;
+<i>32</i>&nbsp;    private BitmapFont titleFont;
+<i>33</i>&nbsp;    private BitmapFont timerFont;
+<i>34</i>&nbsp;
+<b class="nc"><i>35</i>&nbsp;    public ResultsUI() {</b>
+<b class="nc"><i>36</i>&nbsp;        entrySprites = new Sprite[4];</b>
+<b class="nc"><i>37</i>&nbsp;        resultFonts = new BitmapFont[4];</b>
+<b class="nc"><i>38</i>&nbsp;        titleFont = new BitmapFont();</b>
+<b class="nc"><i>39</i>&nbsp;        titleFont.getData().setScale(1.8f);</b>
+<b class="nc"><i>40</i>&nbsp;        titleFont.setColor(Color.BLACK);</b>
+<b class="nc"><i>41</i>&nbsp;        timerFont = new BitmapFont();</b>
+<b class="nc"><i>42</i>&nbsp;        timerFont.getData().setScale(1.4f);</b>
+<b class="nc"><i>43</i>&nbsp;        timerFont.setColor(Color.BLACK);</b>
+<i>44</i>&nbsp;
+<b class="nc"><i>45</i>&nbsp;        background = new Texture(Gdx.files.internal(&quot;Background.png&quot;));</b>
+<b class="nc"><i>46</i>&nbsp;        backgroundSprite = new Sprite(background);</b>
+<b class="nc"><i>47</i>&nbsp;        backgroundSprite.setPosition(200, 150);</b>
+<b class="nc"><i>48</i>&nbsp;        backgroundSprite.setSize(Gdx.graphics.getWidth() - 400, Gdx.graphics.getHeight() - 300);</b>
+<i>49</i>&nbsp;
+<b class="nc"><i>50</i>&nbsp;        entryTexture = new Texture(Gdx.files.internal(&quot;Background.png&quot;));</b>
+<i>51</i>&nbsp;
+<i>52</i>&nbsp;        // Give the position of all the entries in the result table
+<b class="nc"><i>53</i>&nbsp;        for (int i = 0; i &lt; 4; i++) {</b>
+<b class="nc"><i>54</i>&nbsp;            entrySprites[i] = new Sprite(entryTexture);</b>
+<b class="nc"><i>55</i>&nbsp;            entrySprites[i].setSize(backgroundSprite.getWidth() - 100, 50);</b>
+<b class="nc"><i>56</i>&nbsp;            entrySprites[i].setPosition(backgroundSprite.getX() + 50,</b>
+<b class="nc"><i>57</i>&nbsp;                    backgroundSprite.getY() + backgroundSprite.getHeight() - 200 - (i * 60));</b>
+<i>58</i>&nbsp;
+<b class="nc"><i>59</i>&nbsp;            resultFonts[i] = new BitmapFont();</b>
+<b class="nc"><i>60</i>&nbsp;            resultFonts[i].getData().setScale(1.2f);</b>
+<b class="nc"><i>61</i>&nbsp;            resultFonts[i].setColor(Color.BLACK);</b>
+<i>62</i>&nbsp;        }
+<i>63</i>&nbsp;
+<i>64</i>&nbsp;    }
+<i>65</i>&nbsp;
+<i>66</i>&nbsp;    /**
+<i>67</i>&nbsp;     * @since 1
+<i>68</i>&nbsp;     * @version 2
+<i>69</i>&nbsp;     * @author Team 10
+<i>70</i>&nbsp;     * @author Matt Tomlinson
+<i>71</i>&nbsp;     */
+<i>72</i>&nbsp;    @Override
+<i>73</i>&nbsp;    public void drawUI(Batch batch, Vector2 mousePos, float screenWidth, float delta) {
+<i>74</i>&nbsp;
+<b class="nc"><i>75</i>&nbsp;        batch.begin();</b>
+<b class="nc"><i>76</i>&nbsp;        backgroundSprite.draw(batch);</b>
+<b class="nc"><i>77</i>&nbsp;        titleFont.draw(batch, &quot;Results&quot;, backgroundSprite.getX() + backgroundSprite.getWidth() / 2 - 30,</b>
+<b class="nc"><i>78</i>&nbsp;                backgroundSprite.getY() + backgroundSprite.getHeight() - 50);</b>
+<i>79</i>&nbsp;
+<i>80</i>&nbsp;        // MODIFIED: Informs the user of how to progress form the results UI
+<b class="nc"><i>81</i>&nbsp;        titleFont.draw(batch, &quot;Wait for opponents to finish then click to continue...&quot;,</b>
+<b class="nc"><i>82</i>&nbsp;                backgroundSprite.getX() + backgroundSprite.getWidth() / 2 - 280,</b>
+<b class="nc"><i>83</i>&nbsp;                backgroundSprite.getY() + backgroundSprite.getHeight() - 90);</b>
+<i>84</i>&nbsp;
+<i>85</i>&nbsp;        // Sort the currently available results in ascending order
+<b class="nc"><i>86</i>&nbsp;        GameData.results.sort(new Comparator&lt;Float[]&gt;() {</b>
+<i>87</i>&nbsp;            @Override
+<i>88</i>&nbsp;            public int compare(Float[] o1, Float[] o2) {
+<b class="nc"><i>89</i>&nbsp;                if (o1[1] + GameData.penalties[o1[0].intValue()] &gt; o2[1] + GameData.penalties[o2[0].intValue()]) {</b>
+<b class="nc"><i>90</i>&nbsp;                    return 1;</b>
+<b class="nc"><i>91</i>&nbsp;                } else if (o1[1] + GameData.penalties[o1[0].intValue()] == o2[1]</b>
+<b class="nc"><i>92</i>&nbsp;                        + GameData.penalties[o2[0].intValue()]) {</b>
+<b class="nc"><i>93</i>&nbsp;                    return 0;</b>
+<i>94</i>&nbsp;                } else {
+<b class="nc"><i>95</i>&nbsp;                    return -1;</b>
+<i>96</i>&nbsp;                }
+<i>97</i>&nbsp;            }
+<i>98</i>&nbsp;        });
+<i>99</i>&nbsp;        // Go through the results and display them on the screen
+<b class="nc"><i>100</i>&nbsp;        for (int i = 0; i &lt; GameData.results.size(); i++) {</b>
+<b class="nc"><i>101</i>&nbsp;            int boatNr = GameData.results.get(i)[0].intValue();</b>
+<b class="nc"><i>102</i>&nbsp;            float result = GameData.results.get(i)[1];</b>
+<b class="nc"><i>103</i>&nbsp;            float penalties = 0f;</b>
+<i>104</i>&nbsp;
+<i>105</i>&nbsp;            // Draw the result background element
+<b class="nc"><i>106</i>&nbsp;            entrySprites[i].draw(batch);</b>
+<i>107</i>&nbsp;
+<i>108</i>&nbsp;            // Prepare the text based on the boat who&#39;s result this is
+<b class="nc"><i>109</i>&nbsp;            String text = (i + 1) + &quot;. &quot;;</b>
+<b class="nc"><i>110</i>&nbsp;            if (boatNr == 0) {</b>
+<b class="nc"><i>111</i>&nbsp;                text += &quot;Player: &quot;;</b>
+<i>112</i>&nbsp;            }
+<i>113</i>&nbsp;
+<i>114</i>&nbsp;            else {
+<b class="nc"><i>115</i>&nbsp;                text += &quot;Opponent&quot; + boatNr + &quot;: &quot;;</b>
+<i>116</i>&nbsp;            }
+<i>117</i>&nbsp;
+<i>118</i>&nbsp;            // Add the penalties
+<b class="nc"><i>119</i>&nbsp;            penalties += GameData.penalties[boatNr];</b>
+<b class="nc"><i>120</i>&nbsp;            result += penalties;</b>
+<b class="nc"><i>121</i>&nbsp;            if (result != Float.MAX_VALUE) {</b>
+<b class="nc"><i>122</i>&nbsp;                text += result;</b>
+<i>123</i>&nbsp;            } else {
+<b class="nc"><i>124</i>&nbsp;                text += &quot;DNF/DNQ&quot;;</b>
+<i>125</i>&nbsp;            }
+<i>126</i>&nbsp;
+<i>127</i>&nbsp;            // MODIFIED: calculates and stores a String representation of a boat&#39;s best time
+<i>128</i>&nbsp;            String bestText;
+<b class="nc"><i>129</i>&nbsp;            if (GameData.bests[boatNr] != Float.MAX_VALUE) {</b>
+<b class="nc"><i>130</i>&nbsp;                bestText = Float.toString(GameData.bests[boatNr]);</b>
+<i>131</i>&nbsp;            } else
+<b class="nc"><i>132</i>&nbsp;                bestText = &quot;No best&quot;;</b>
+<i>133</i>&nbsp;
+<i>134</i>&nbsp;            // Display the text
+<b class="nc"><i>135</i>&nbsp;            resultFonts[i].draw(batch, text, entrySprites[i].getX() + 50, entrySprites[i].getY() + 30);</b>
+<b class="nc"><i>136</i>&nbsp;            resultFonts[i].draw(batch, &quot;Penalties: &quot; + GameData.penalties[boatNr], entrySprites[i].getX() + 300,</b>
+<b class="nc"><i>137</i>&nbsp;                    entrySprites[i].getY() + 30);</b>
+<i>138</i>&nbsp;
+<i>139</i>&nbsp;            // MODIFIED: displays the best time
+<b class="nc"><i>140</i>&nbsp;            resultFonts[i].draw(batch, &quot;Best: &quot; + bestText, entrySprites[i].getX() + 550, entrySprites[i].getY() + 30);</b>
+<i>141</i>&nbsp;
+<i>142</i>&nbsp;        }
+<b class="nc"><i>143</i>&nbsp;        timerFont.draw(batch, String.valueOf(Math.round(GameData.currentTimer * 10.0) / 10.0), 10, 700);</b>
+<b class="nc"><i>144</i>&nbsp;        batch.end();</b>
+<i>145</i>&nbsp;
+<b class="nc"><i>146</i>&nbsp;        playMusic();</b>
+<i>147</i>&nbsp;
+<i>148</i>&nbsp;    }
+<i>149</i>&nbsp;
+<i>150</i>&nbsp;    /**
+<i>151</i>&nbsp;     * @since 1
+<i>152</i>&nbsp;     * @version 1
+<i>153</i>&nbsp;     * @author Team 10
+<i>154</i>&nbsp;     */
+<i>155</i>&nbsp;    @Override
+<i>156</i>&nbsp;    public void drawPlayerUI(Batch batch, Player playerBoat) {
+<i>157</i>&nbsp;
+<i>158</i>&nbsp;    }
+<i>159</i>&nbsp;
+<i>160</i>&nbsp;    /**
+<i>161</i>&nbsp;     * @since 1
+<i>162</i>&nbsp;     * @version 2
+<i>163</i>&nbsp;     * @author Team 10
+<i>164</i>&nbsp;     * @author Matt Tomlinson
+<i>165</i>&nbsp;     */
+<i>166</i>&nbsp;    @Override
+<i>167</i>&nbsp;    public void getInput(float screenWidth, Vector2 mousePos) {
+<i>168</i>&nbsp;
+<i>169</i>&nbsp;        // When the user clicks anywhere on the screen, switch the game state as
+<i>170</i>&nbsp;        // necessary
+<b class="nc"><i>171</i>&nbsp;        if (mousePos.x != 0f &amp;&amp; mousePos.y != 0f &amp;&amp; GameData.results.size() == 4) {</b>
+<b class="nc"><i>172</i>&nbsp;            GameData.gamePlayState = false;</b>
+<i>173</i>&nbsp;
+<i>174</i>&nbsp;            // MODIFIED: If the game is over due to victory, switch to the endgame screen
+<b class="nc"><i>175</i>&nbsp;            if (GameData.currentLeg == 3) {</b>
+<b class="nc"><i>176</i>&nbsp;                GameData.showResultsState = false;</b>
+<b class="nc"><i>177</i>&nbsp;                GameData.GameOverState = true;</b>
+<b class="nc"><i>178</i>&nbsp;                GameData.currentUI = new GameOverUI();</b>
+<i>179</i>&nbsp;            }
+<i>180</i>&nbsp;            // Otherwise prepare for the next leg
+<i>181</i>&nbsp;            else {
+<b class="nc"><i>182</i>&nbsp;                GameData.resetGameState = true;</b>
+<i>183</i>&nbsp;            }
+<i>184</i>&nbsp;        }
+<i>185</i>&nbsp;
+<i>186</i>&nbsp;    }
+<i>187</i>&nbsp;
+<i>188</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-02-09 16:25</div>
+</div>
+</body>
+</html>

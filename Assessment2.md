@@ -25,7 +25,7 @@ nav_order: 1
 
 ## Software Testing
 ### Report: [Here](Assessment2/new_deliverables/Test2.pdf)
-### Testing materials: [Here](Assessment2/testing.md)
+### Testing material: [Here](Assessment2/testing.md)
 ---
 
 ## Continous Integration

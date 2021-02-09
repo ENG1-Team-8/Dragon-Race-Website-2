@@ -1,0 +1,905 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Game</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.hardgforgif.dragonboatracing</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Game (com.hardgforgif.dragonboatracing)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Game</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 20)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 218)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Game$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 24)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 22)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 242)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.hardgforgif.dragonboatracing;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import java.util.ArrayList;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;import com.badlogic.gdx.ApplicationAdapter;
+<i>6</i>&nbsp;import com.badlogic.gdx.Gdx;
+<i>7</i>&nbsp;import com.badlogic.gdx.Input;
+<i>8</i>&nbsp;import com.badlogic.gdx.InputProcessor;
+<i>9</i>&nbsp;import com.badlogic.gdx.graphics.GL20;
+<i>10</i>&nbsp;import com.badlogic.gdx.graphics.OrthographicCamera;
+<i>11</i>&nbsp;import com.badlogic.gdx.graphics.g2d.Batch;
+<i>12</i>&nbsp;import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+<i>13</i>&nbsp;import com.badlogic.gdx.math.Vector2;
+<i>14</i>&nbsp;import com.badlogic.gdx.math.Vector3;
+<i>15</i>&nbsp;import com.badlogic.gdx.physics.box2d.Body;
+<i>16</i>&nbsp;import com.badlogic.gdx.physics.box2d.Contact;
+<i>17</i>&nbsp;import com.badlogic.gdx.physics.box2d.ContactImpulse;
+<i>18</i>&nbsp;import com.badlogic.gdx.physics.box2d.ContactListener;
+<i>19</i>&nbsp;import com.badlogic.gdx.physics.box2d.Fixture;
+<i>20</i>&nbsp;import com.badlogic.gdx.physics.box2d.Manifold;
+<i>21</i>&nbsp;import com.badlogic.gdx.physics.box2d.World;
+<i>22</i>&nbsp;import com.hardgforgif.dragonboatracing.UI.GameOverUI;
+<i>23</i>&nbsp;import com.hardgforgif.dragonboatracing.UI.GamePlayUI;
+<i>24</i>&nbsp;import com.hardgforgif.dragonboatracing.UI.MenuUI;
+<i>25</i>&nbsp;import com.hardgforgif.dragonboatracing.UI.ResultsUI;
+<i>26</i>&nbsp;import com.hardgforgif.dragonboatracing.core.AI;
+<i>27</i>&nbsp;import com.hardgforgif.dragonboatracing.core.Boat;
+<i>28</i>&nbsp;import com.hardgforgif.dragonboatracing.core.Lane;
+<i>29</i>&nbsp;import com.hardgforgif.dragonboatracing.core.Map;
+<i>30</i>&nbsp;import com.hardgforgif.dragonboatracing.core.Obstacle;
+<i>31</i>&nbsp;import com.hardgforgif.dragonboatracing.core.Player;
+<i>32</i>&nbsp;import com.hardgforgif.dragonboatracing.core.Powerup;
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;/**
+<i>35</i>&nbsp; * The main game class.
+<i>36</i>&nbsp; * 
+<i>37</i>&nbsp; * @since 1
+<i>38</i>&nbsp; * @version 2
+<i>39</i>&nbsp; * @author Team 10
+<i>40</i>&nbsp; * @author Matt Tomlinson
+<i>41</i>&nbsp; * @author Josh Stafford
+<i>42</i>&nbsp; */
+<b class="nc"><i>43</i>&nbsp;public class Game extends ApplicationAdapter implements InputProcessor {</b>
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;	private Player player;
+<b class="nc"><i>46</i>&nbsp;	private AI[] opponents = new AI[3];</b>
+<i>47</i>&nbsp;	private Map map; // MODIFIED: array not necessary
+<i>48</i>&nbsp;	private Batch batch;
+<i>49</i>&nbsp;	private Batch UIbatch;
+<i>50</i>&nbsp;	private OrthographicCamera camera;
+<i>51</i>&nbsp;	private World world; // MODIFIED: array not necessary
+<i>52</i>&nbsp;
+<b class="nc"><i>53</i>&nbsp;	private Vector2 mousePosition = new Vector2();</b>
+<b class="nc"><i>54</i>&nbsp;	private Vector2 clickPosition = new Vector2();</b>
+<b class="nc"><i>55</i>&nbsp;	private boolean[] pressedKeys = new boolean[4]; // W, A, S, D buttons status</b>
+<i>56</i>&nbsp;
+<b class="nc"><i>57</i>&nbsp;	private ArrayList&lt;Body&gt; toBeRemovedBodies = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>58</i>&nbsp;	private ArrayList&lt;Body&gt; toUpdateHealth = new ArrayList&lt;&gt;();</b>
+<i>59</i>&nbsp;
+<i>60</i>&nbsp;	/**
+<i>61</i>&nbsp;	 * @since 1
+<i>62</i>&nbsp;	 * @version 2
+<i>63</i>&nbsp;	 * @author Team 10
+<i>64</i>&nbsp;	 * @author Team 8
+<i>65</i>&nbsp;	 */
+<i>66</i>&nbsp;	@Override
+<i>67</i>&nbsp;	public void create() {
+<i>68</i>&nbsp;
+<i>69</i>&nbsp;		// Initialize the sprite batches
+<b class="nc"><i>70</i>&nbsp;		batch = new SpriteBatch();</b>
+<b class="nc"><i>71</i>&nbsp;		UIbatch = new SpriteBatch();</b>
+<i>72</i>&nbsp;
+<i>73</i>&nbsp;		// Get the values of the screen dimensions
+<b class="nc"><i>74</i>&nbsp;		float w = Gdx.graphics.getWidth();</b>
+<b class="nc"><i>75</i>&nbsp;		float h = Gdx.graphics.getHeight();</b>
+<i>76</i>&nbsp;
+<i>77</i>&nbsp;		// Initialise the world and the map arrays
+<i>78</i>&nbsp;		// Initialize the physics game World
+<i>79</i>&nbsp;		// MODIFIED: For efficiency, a single world and map is used
+<i>80</i>&nbsp;		// Rather than iterating through an array of worlds
+<b class="nc"><i>81</i>&nbsp;		world = new World(new Vector2(0f, 0f), true);</b>
+<i>82</i>&nbsp;
+<i>83</i>&nbsp;		// Initialize the map
+<b class="nc"><i>84</i>&nbsp;		map = new Map(&quot;Map1/Map1.tmx&quot;, w);</b>
+<i>85</i>&nbsp;
+<i>86</i>&nbsp;		// MODIFIED: create map renderer
+<b class="nc"><i>87</i>&nbsp;		map.createMapRenderer();</b>
+<i>88</i>&nbsp;
+<i>89</i>&nbsp;		// Calculate the ratio between pixels, meters and tiles
+<b class="nc"><i>90</i>&nbsp;		GameData.TILES_TO_METERS = map.getTilesToMetersRatio();</b>
+<b class="nc"><i>91</i>&nbsp;		GameData.PIXELS_TO_TILES = 1 / (GameData.METERS_TO_PIXELS * GameData.TILES_TO_METERS);</b>
+<i>92</i>&nbsp;
+<i>93</i>&nbsp;		// Create the collision with the land
+<b class="nc"><i>94</i>&nbsp;		map.createMapCollisions(&quot;CollisionLayerLeft&quot;, world);</b>
+<b class="nc"><i>95</i>&nbsp;		map.createMapCollisions(&quot;CollisionLayerRight&quot;, world);</b>
+<i>96</i>&nbsp;
+<i>97</i>&nbsp;		// MODIFIED: Now called when the leg loads
+<i>98</i>&nbsp;		// Create the lanes, and the obstacles in the physics game world
+<i>99</i>&nbsp;		// map[i].createLanes(world[i]);
+<i>100</i>&nbsp;
+<i>101</i>&nbsp;		// Create the finish line
+<i>102</i>&nbsp;		// map[i].createFinishLine(&quot;finishLine.png&quot;);
+<i>103</i>&nbsp;
+<i>104</i>&nbsp;		// Create a new collision handler for the world
+<b class="nc"><i>105</i>&nbsp;		createContactListener(world);</b>
+<i>106</i>&nbsp;
+<i>107</i>&nbsp;		// Initialize the camera
+<b class="nc"><i>108</i>&nbsp;		camera = new OrthographicCamera();</b>
+<b class="nc"><i>109</i>&nbsp;		camera.setToOrtho(false, w, h);</b>
+<i>110</i>&nbsp;
+<i>111</i>&nbsp;		// Set the app&#39;s input processor
+<b class="nc"><i>112</i>&nbsp;		Gdx.input.setInputProcessor(this);</b>
+<i>113</i>&nbsp;
+<i>114</i>&nbsp;	}
+<i>115</i>&nbsp;
+<i>116</i>&nbsp;	/**
+<i>117</i>&nbsp;	 * This method creates new ContactListener who&#39;s methods are executed when
+<i>118</i>&nbsp;	 * objects collide.
+<i>119</i>&nbsp;	 * 
+<i>120</i>&nbsp;	 * @param world This is the physics world in which the collisions happen
+<i>121</i>&nbsp;	 * @since 1
+<i>122</i>&nbsp;	 * @version 2
+<i>123</i>&nbsp;	 * @author Team 10
+<i>124</i>&nbsp;	 * @author Josh Stafford
+<i>125</i>&nbsp;	 */
+<i>126</i>&nbsp;	private void createContactListener(World world) {
+<i>127</i>&nbsp;
+<b class="nc"><i>128</i>&nbsp;		world.setContactListener(new ContactListener() {</b>
+<i>129</i>&nbsp;			@Override
+<i>130</i>&nbsp;			public void beginContact(Contact contact) {
+<b class="nc"><i>131</i>&nbsp;				Fixture fixtureA = contact.getFixtureA();</b>
+<b class="nc"><i>132</i>&nbsp;				Fixture fixtureB = contact.getFixtureB();</b>
+<i>133</i>&nbsp;
+<i>134</i>&nbsp;				// MODIFIED: Now detects if boat collides with powerup and applies power to boat
+<b class="nc"><i>135</i>&nbsp;				if (fixtureA.getBody().getUserData() instanceof Powerup</b>
+<b class="nc"><i>136</i>&nbsp;						&amp;&amp; fixtureB.getBody().getUserData() instanceof Boat) {</b>
+<b class="nc"><i>137</i>&nbsp;					Powerup p = (Powerup) fixtureA.getBody().getUserData();</b>
+<b class="nc"><i>138</i>&nbsp;					Boat b = (Boat) fixtureB.getBody().getUserData();</b>
+<b class="nc"><i>139</i>&nbsp;					toBeRemovedBodies.add(fixtureA.getBody());</b>
+<b class="nc"><i>140</i>&nbsp;					b.applyPowerup(p.getType());</b>
+<b class="nc"><i>141</i>&nbsp;				} else if (fixtureB.getBody().getUserData() instanceof Powerup</b>
+<b class="nc"><i>142</i>&nbsp;						&amp;&amp; fixtureA.getBody().getUserData() instanceof Boat) {</b>
+<b class="nc"><i>143</i>&nbsp;					Powerup p = (Powerup) fixtureB.getBody().getUserData();</b>
+<b class="nc"><i>144</i>&nbsp;					Boat b = (Boat) fixtureA.getBody().getUserData();</b>
+<b class="nc"><i>145</i>&nbsp;					toBeRemovedBodies.add(fixtureB.getBody());</b>
+<b class="nc"><i>146</i>&nbsp;					b.applyPowerup(p.getType());</b>
+<b class="nc"><i>147</i>&nbsp;				} else {</b>
+<b class="nc"><i>148</i>&nbsp;					if (fixtureA.getBody().getUserData() instanceof Obstacle) {</b>
+<b class="nc"><i>149</i>&nbsp;						toBeRemovedBodies.add(fixtureA.getBody());</b>
+<b class="nc"><i>150</i>&nbsp;					} else if (fixtureB.getBody().getUserData() instanceof Obstacle) {</b>
+<b class="nc"><i>151</i>&nbsp;						toBeRemovedBodies.add(fixtureB.getBody());</b>
+<i>152</i>&nbsp;					}
+<i>153</i>&nbsp;
+<b class="nc"><i>154</i>&nbsp;					if (fixtureA.getBody().getUserData() instanceof Boat) {</b>
+<b class="nc"><i>155</i>&nbsp;						toUpdateHealth.add(fixtureA.getBody());</b>
+<b class="nc"><i>156</i>&nbsp;					} else if (fixtureB.getBody().getUserData() instanceof Boat) {</b>
+<b class="nc"><i>157</i>&nbsp;						toUpdateHealth.add(fixtureB.getBody());</b>
+<i>158</i>&nbsp;					}
+<i>159</i>&nbsp;				}
+<i>160</i>&nbsp;			}
+<i>161</i>&nbsp;
+<i>162</i>&nbsp;			@Override
+<i>163</i>&nbsp;			public void endContact(Contact contact) {
+<i>164</i>&nbsp;
+<i>165</i>&nbsp;			}
+<i>166</i>&nbsp;
+<i>167</i>&nbsp;			@Override
+<i>168</i>&nbsp;			public void preSolve(Contact contact, Manifold manifold) {
+<i>169</i>&nbsp;
+<i>170</i>&nbsp;			}
+<i>171</i>&nbsp;
+<i>172</i>&nbsp;			@Override
+<i>173</i>&nbsp;			public void postSolve(Contact contact, ContactImpulse contactImpulse) {
+<i>174</i>&nbsp;
+<i>175</i>&nbsp;			}
+<i>176</i>&nbsp;		});
+<i>177</i>&nbsp;
+<i>178</i>&nbsp;	}
+<i>179</i>&nbsp;
+<i>180</i>&nbsp;	/**
+<i>181</i>&nbsp;	 * Sets the camera y position at the y position of a player&#39;s sprite.
+<i>182</i>&nbsp;	 * 
+<i>183</i>&nbsp;	 * @param player The target player
+<i>184</i>&nbsp;	 * 
+<i>185</i>&nbsp;	 * @since 1
+<i>186</i>&nbsp;	 * @version 1
+<i>187</i>&nbsp;	 * @author Team 10
+<i>188</i>&nbsp;	 */
+<i>189</i>&nbsp;	private void updateCamera(Player player) {
+<i>190</i>&nbsp;
+<b class="nc"><i>191</i>&nbsp;		camera.position.set(camera.position.x, player.boatSprite.getY() + 600, 0);</b>
+<b class="nc"><i>192</i>&nbsp;		camera.update();</b>
+<i>193</i>&nbsp;
+<i>194</i>&nbsp;	}
+<i>195</i>&nbsp;
+<i>196</i>&nbsp;	/**
+<i>197</i>&nbsp;	 * Updates the GameData.standings array by comparing boats positions.
+<i>198</i>&nbsp;	 * 
+<i>199</i>&nbsp;	 * @since 1
+<i>200</i>&nbsp;	 * @version 1
+<i>201</i>&nbsp;	 * @author Team 10
+<i>202</i>&nbsp;	 */
+<i>203</i>&nbsp;	private void updateStandings() {
+<i>204</i>&nbsp;
+<i>205</i>&nbsp;		// If the player hasn&#39;t finished the race...
+<b class="nc"><i>206</i>&nbsp;		if (!player.hasFinished()) {</b>
+<i>207</i>&nbsp;			// Reset their position
+<b class="nc"><i>208</i>&nbsp;			GameData.standings[0] = 1;</b>
+<i>209</i>&nbsp;
+<i>210</i>&nbsp;			// For every AI that is ahead, increment by 1
+<b class="nc"><i>211</i>&nbsp;			for (Boat boat : opponents)</b>
+<b class="nc"><i>212</i>&nbsp;				if (boat.boatSprite.getY() + boat.boatSprite.getHeight() / 2 &gt; player.boatSprite.getY()</b>
+<b class="nc"><i>213</i>&nbsp;						+ player.boatSprite.getHeight() / 2) {</b>
+<b class="nc"><i>214</i>&nbsp;					GameData.standings[0]++;</b>
+<i>215</i>&nbsp;				}
+<i>216</i>&nbsp;
+<i>217</i>&nbsp;		}
+<i>218</i>&nbsp;
+<i>219</i>&nbsp;		// Iterate through all the AIs to update their standings too
+<b class="nc"><i>220</i>&nbsp;		for (int i = 0; i &lt; 3; i++)</b>
+<i>221</i>&nbsp;			// If the AI hasn&#39;t finished the race...
+<b class="nc"><i>222</i>&nbsp;			if (!opponents[i].hasFinished()) {</b>
+<i>223</i>&nbsp;				// Reset their position
+<b class="nc"><i>224</i>&nbsp;				GameData.standings[i + 1] = 1;</b>
+<i>225</i>&nbsp;
+<i>226</i>&nbsp;				// If the player is ahead, increment the standing by 1
+<b class="nc"><i>227</i>&nbsp;				if (player.boatSprite.getY() &gt; opponents[i].boatSprite.getY())</b>
+<b class="nc"><i>228</i>&nbsp;					GameData.standings[i + 1]++;</b>
+<i>229</i>&nbsp;
+<i>230</i>&nbsp;				// For every other AI that is ahead, increment by 1
+<b class="nc"><i>231</i>&nbsp;				for (int j = 0; j &lt; 3; j++)</b>
+<b class="nc"><i>232</i>&nbsp;					if (opponents[j].boatSprite.getY() &gt; opponents[i].boatSprite.getY())</b>
+<b class="nc"><i>233</i>&nbsp;						GameData.standings[i + 1]++;</b>
+<i>234</i>&nbsp;			}
+<i>235</i>&nbsp;
+<i>236</i>&nbsp;	}
+<i>237</i>&nbsp;
+<i>238</i>&nbsp;	/**
+<i>239</i>&nbsp;	 * Check if the leg results need updating.
+<i>240</i>&nbsp;	 * &lt;p&gt;
+<i>241</i>&nbsp;	 * Updates the GameData.results list by adding a new result every time a boat
+<i>242</i>&nbsp;	 * finishes the game.
+<i>243</i>&nbsp;	 * 
+<i>244</i>&nbsp;	 * @since 1
+<i>245</i>&nbsp;	 * @version 2
+<i>246</i>&nbsp;	 * @author Team 10
+<i>247</i>&nbsp;	 * @author Matt Tomlinson
+<i>248</i>&nbsp;	 */
+<i>249</i>&nbsp;	private void checkForResults() {
+<i>250</i>&nbsp;
+<i>251</i>&nbsp;		// MODIFIED: store the current leg time and penalties for easier access
+<b class="nc"><i>252</i>&nbsp;		float time = GameData.currentTimer;</b>
+<b class="nc"><i>253</i>&nbsp;		float[] penalties = GameData.penalties;</b>
+<i>254</i>&nbsp;
+<i>255</i>&nbsp;		// If the player has finished and we haven&#39;t added their result already...
+<b class="nc"><i>256</i>&nbsp;		if (player.hasFinished() &amp;&amp; player.acceleration &gt; 0 &amp;&amp; GameData.results.size() &lt; 4) {</b>
+<i>257</i>&nbsp;			// Add the result to the list with key 0, the player&#39;s lane
+<b class="nc"><i>258</i>&nbsp;			GameData.results.add(new Float[] { 0f, time });</b>
+<i>259</i>&nbsp;
+<i>260</i>&nbsp;			// MODIFIED: store the finishing time in &#39;bests&#39; if it is the player&#39;s fastest
+<i>261</i>&nbsp;			// yet
+<b class="nc"><i>262</i>&nbsp;			if (GameData.currentLeg != 0 &amp;&amp; time + penalties[0] &lt; GameData.bests[0]) {</b>
+<b class="nc"><i>263</i>&nbsp;				GameData.bests[0] = time + penalties[0];</b>
+<i>264</i>&nbsp;			}
+<i>265</i>&nbsp;
+<i>266</i>&nbsp;			// Transition to the results UI
+<b class="nc"><i>267</i>&nbsp;			GameData.showResultsState = true;</b>
+<b class="nc"><i>268</i>&nbsp;			GameData.currentUI = new ResultsUI();</b>
+<i>269</i>&nbsp;
+<i>270</i>&nbsp;			// Change the player&#39;s acceleration so the boat stops moving
+<b class="nc"><i>271</i>&nbsp;			player.acceleration = -200f;</b>
+<i>272</i>&nbsp;		}
+<i>273</i>&nbsp;
+<i>274</i>&nbsp;		// Iterate through the AI to see if any of them finished the race
+<b class="nc"><i>275</i>&nbsp;		for (int i = 0; i &lt; 3; i++) {</b>
+<i>276</i>&nbsp;			// If the AI has finished and we haven&#39;t added their result already...
+<b class="nc"><i>277</i>&nbsp;			if (opponents[i].hasFinished() &amp;&amp; opponents[i].acceleration &gt; 0 &amp;&amp; GameData.results.size() &lt; 4) {</b>
+<i>278</i>&nbsp;				// Add the result to the list with the their lane numer as key
+<b class="nc"><i>279</i>&nbsp;				GameData.results.add(new Float[] { Float.valueOf(i + 1), time });</b>
+<i>280</i>&nbsp;
+<i>281</i>&nbsp;				// MODIFIED: store the finishing time in &#39;bests&#39; if it is the opponent&#39;s fastest
+<i>282</i>&nbsp;				// yet
+<b class="nc"><i>283</i>&nbsp;				if (GameData.currentLeg != 0 &amp;&amp; time + penalties[i + 1] &lt; GameData.bests[i + 1]) {</b>
+<b class="nc"><i>284</i>&nbsp;					GameData.bests[i + 1] = time + penalties[i + 1];</b>
+<i>285</i>&nbsp;				}
+<i>286</i>&nbsp;
+<i>287</i>&nbsp;				// Change the AI&#39;s acceleration so the boat stops moving
+<b class="nc"><i>288</i>&nbsp;				opponents[i].acceleration = -200f;</b>
+<i>289</i>&nbsp;			}
+<i>290</i>&nbsp;		}
+<i>291</i>&nbsp;
+<i>292</i>&nbsp;	}
+<i>293</i>&nbsp;
+<i>294</i>&nbsp;	/**
+<i>295</i>&nbsp;	 * This method checks the position of all the boats to add penalties if
+<i>296</i>&nbsp;	 * necessary.
+<i>297</i>&nbsp;	 * 
+<i>298</i>&nbsp;	 * @since 1
+<i>299</i>&nbsp;	 * @version 1
+<i>300</i>&nbsp;	 * @author Team 10
+<i>301</i>&nbsp;	 */
+<i>302</i>&nbsp;	private void updatePenalties() {
+<i>303</i>&nbsp;
+<i>304</i>&nbsp;		// Update the penalties for the player, if they is outside their lane
+<b class="nc"><i>305</i>&nbsp;		float boatCenter = player.boatSprite.getX() + player.boatSprite.getWidth() / 2;</b>
+<b class="nc"><i>306</i>&nbsp;		if (!player.hasFinished() &amp;&amp; player.robustness &gt; 0</b>
+<i>307</i>&nbsp;				&amp;&amp; (boatCenter &lt; player.leftLimit || boatCenter &gt; player.rightLimit)) {
+<b class="nc"><i>308</i>&nbsp;			GameData.penalties[0] += Gdx.graphics.getDeltaTime();</b>
+<i>309</i>&nbsp;		}
+<i>310</i>&nbsp;
+<i>311</i>&nbsp;		// Update the penalties for the opponents, if they are outside the lane
+<b class="nc"><i>312</i>&nbsp;		for (int i = 0; i &lt; 3; i++) {</b>
+<b class="nc"><i>313</i>&nbsp;			boatCenter = opponents[i].boatSprite.getX() + opponents[i].boatSprite.getWidth() / 2;</b>
+<b class="nc"><i>314</i>&nbsp;			if (!opponents[i].hasFinished() &amp;&amp; opponents[i].robustness &gt; 0</b>
+<i>315</i>&nbsp;					&amp;&amp; (boatCenter &lt; opponents[i].leftLimit || boatCenter &gt; opponents[i].rightLimit)) {
+<b class="nc"><i>316</i>&nbsp;				GameData.penalties[i + 1] += Gdx.graphics.getDeltaTime();</b>
+<i>317</i>&nbsp;			}
+<i>318</i>&nbsp;		}
+<i>319</i>&nbsp;
+<i>320</i>&nbsp;	}
+<i>321</i>&nbsp;
+<i>322</i>&nbsp;	/**
+<i>323</i>&nbsp;	 * This method marks all the boats that haven&#39;t finished the race as dnfs.
+<i>324</i>&nbsp;	 * &lt;p&gt;
+<i>325</i>&nbsp;	 * Useful for forcing DNF on AI stuck on terrain.
+<i>326</i>&nbsp;	 * 
+<i>327</i>&nbsp;	 * @since 1
+<i>328</i>&nbsp;	 * @version 2
+<i>329</i>&nbsp;	 * @author Team 10
+<i>330</i>&nbsp;	 * @author Matt Tomlinson
+<i>331</i>&nbsp;	 */
+<i>332</i>&nbsp;	private void dnfRemainingBoats() {
+<i>333</i>&nbsp;
+<i>334</i>&nbsp;		// MODIFIED: don&#39;t force dnf player
+<i>335</i>&nbsp;		// // If the player hasn&#39;t finished
+<i>336</i>&nbsp;		// if (!player.hasFinished() &amp;&amp; player.robustness &gt; 0 &amp;&amp; GameData.results.size()
+<i>337</i>&nbsp;		// &lt; 4) {
+<i>338</i>&nbsp;		// // Add a dnf result
+<i>339</i>&nbsp;		// GameData.results.add(new Float[] { 0f, Float.MAX_VALUE });
+<i>340</i>&nbsp;
+<i>341</i>&nbsp;		// // Transition to the showResult screen
+<i>342</i>&nbsp;		// GameData.showResultsState = true;
+<i>343</i>&nbsp;		// GameData.currentUI = new ResultsUI();
+<i>344</i>&nbsp;		// }
+<i>345</i>&nbsp;
+<i>346</i>&nbsp;		// Iterate through the AI and add a dnf result for any who haven&#39;t finished
+<b class="nc"><i>347</i>&nbsp;		for (int i = 0; i &lt; 3; i++) {</b>
+<b class="nc"><i>348</i>&nbsp;			if (!opponents[i].hasFinished() &amp;&amp; opponents[i].robustness &gt; 0 &amp;&amp; GameData.results.size() &lt; 4)</b>
+<b class="nc"><i>349</i>&nbsp;				GameData.results.add(new Float[] { Float.valueOf(i + 1), Float.MAX_VALUE });</b>
+<i>350</i>&nbsp;		}
+<i>351</i>&nbsp;	}
+<i>352</i>&nbsp;
+<i>353</i>&nbsp;	/**
+<i>354</i>&nbsp;	 * @since 1
+<i>355</i>&nbsp;	 * @version 2
+<i>356</i>&nbsp;	 * @author Team 10
+<i>357</i>&nbsp;	 * @author Matt Tomlinson
+<i>358</i>&nbsp;	 */
+<i>359</i>&nbsp;	@Override
+<i>360</i>&nbsp;	public void render() {
+<i>361</i>&nbsp;
+<i>362</i>&nbsp;		// Reset the screen
+<b class="nc"><i>363</i>&nbsp;		Gdx.gl.glClearColor(0.15f, 0.15f, 0.3f, 1);</b>
+<b class="nc"><i>364</i>&nbsp;		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);</b>
+<i>365</i>&nbsp;
+<i>366</i>&nbsp;		// If the game is in one of the static state
+<b class="nc"><i>367</i>&nbsp;		if (GameData.mainMenuState || GameData.choosingBoatState || GameData.GameOverState) {</b>
+<i>368</i>&nbsp;			// Draw the UI and wait for the input
+<b class="nc"><i>369</i>&nbsp;			GameData.currentUI.drawUI(UIbatch, mousePosition, Gdx.graphics.getWidth(), Gdx.graphics.getDeltaTime());</b>
+<b class="nc"><i>370</i>&nbsp;			GameData.currentUI.getInput(Gdx.graphics.getWidth(), clickPosition);</b>
+<i>371</i>&nbsp;
+<i>372</i>&nbsp;		}
+<i>373</i>&nbsp;
+<i>374</i>&nbsp;		// MODIFIED: Obstacles now generated after difficulty and boat selection
+<i>375</i>&nbsp;		// To facilitate scaled number of obstacles
+<b class="nc"><i>376</i>&nbsp;		else if (!GameData.obstaclesGenerated) {</b>
+<b class="nc"><i>377</i>&nbsp;			map.createLanes(world, GameData.difficulty[GameData.currentLeg]);</b>
+<b class="nc"><i>378</i>&nbsp;			map.createFinishLine(&quot;finishLine.png&quot;);</b>
+<b class="nc"><i>379</i>&nbsp;			GameData.obstaclesGenerated = true;</b>
+<i>380</i>&nbsp;		}
+<i>381</i>&nbsp;
+<i>382</i>&nbsp;		// Otherwise, if we are in the game play state
+<b class="nc"><i>383</i>&nbsp;		else if (GameData.gamePlayState) {</b>
+<i>384</i>&nbsp;			// If it&#39;s the first iteration in this state, the boats need to be created at
+<i>385</i>&nbsp;			// their starting positions
+<b class="nc"><i>386</i>&nbsp;			if (player == null) {</b>
+<i>387</i>&nbsp;				// Create the player boat
+<b class="nc"><i>388</i>&nbsp;				int playerBoatType = GameData.boatTypes[0];</b>
+<b class="nc"><i>389</i>&nbsp;				player = new Player(GameData.boatsStats[playerBoatType][0], GameData.boatsStats[playerBoatType][1],</b>
+<i>390</i>&nbsp;						GameData.boatsStats[playerBoatType][2], GameData.boatsStats[playerBoatType][3], playerBoatType,
+<i>391</i>&nbsp;						map.lanes[0]);
+<b class="nc"><i>392</i>&nbsp;				player.createBoatBody(world, GameData.startingPoints[0][0], GameData.startingPoints[0][1],</b>
+<i>393</i>&nbsp;						&quot;Boat1.json&quot;);
+<i>394</i>&nbsp;				// Create the AI boats
+<b class="nc"><i>395</i>&nbsp;				for (int i = 1; i &lt;= 3; i++) {</b>
+<b class="nc"><i>396</i>&nbsp;					int AIBoatType = GameData.boatTypes[i];</b>
+<b class="nc"><i>397</i>&nbsp;					opponents[i - 1] = new AI(GameData.boatsStats[AIBoatType][0], GameData.boatsStats[AIBoatType][1],</b>
+<i>398</i>&nbsp;							GameData.boatsStats[AIBoatType][2], GameData.boatsStats[AIBoatType][3], AIBoatType,
+<i>399</i>&nbsp;							map.lanes[i]);
+<b class="nc"><i>400</i>&nbsp;					opponents[i - 1].createBoatBody(world, GameData.startingPoints[i][0], GameData.startingPoints[i][1],</b>
+<i>401</i>&nbsp;							&quot;Boat1.json&quot;);
+<i>402</i>&nbsp;				}
+<i>403</i>&nbsp;
+<i>404</i>&nbsp;				// MODIFIED: if it is the final leg, determine who did not qualify
+<b class="nc"><i>405</i>&nbsp;				if (GameData.currentLeg == 3) {</b>
+<b class="nc"><i>406</i>&nbsp;					int maxIndex = 0;</b>
+<i>407</i>&nbsp;
+<i>408</i>&nbsp;					// MODIFIED: find the boat number with the highest best time
+<b class="nc"><i>409</i>&nbsp;					for (int i = 1; i &lt; GameData.bests.length; i++) {</b>
+<b class="nc"><i>410</i>&nbsp;						if (GameData.bests[i] &gt;= GameData.bests[maxIndex]) {</b>
+<b class="nc"><i>411</i>&nbsp;							maxIndex = i;</b>
+<i>412</i>&nbsp;						}
+<i>413</i>&nbsp;					}
+<i>414</i>&nbsp;
+<i>415</i>&nbsp;					// MODIFIED: if the boat with the highest time is the player
+<b class="nc"><i>416</i>&nbsp;					if (maxIndex == 0) {</b>
+<i>417</i>&nbsp;						// MODIFIED: set the game to be over with dnq = true
+<b class="nc"><i>418</i>&nbsp;						GameData.GameOverState = true;</b>
+<b class="nc"><i>419</i>&nbsp;						GameData.gamePlayState = false;</b>
+<b class="nc"><i>420</i>&nbsp;						GameData.dnq = true;</b>
+<b class="nc"><i>421</i>&nbsp;						GameData.currentLeg = 0;</b>
+<b class="nc"><i>422</i>&nbsp;						GameData.currentUI = new GameOverUI();</b>
+<i>423</i>&nbsp;					}
+<i>424</i>&nbsp;
+<i>425</i>&nbsp;					// MODIFIED: otherwise, destroy the opponent that did not qualify and set time
+<i>426</i>&nbsp;					// to DNF
+<i>427</i>&nbsp;					else {
+<b class="nc"><i>428</i>&nbsp;						world.destroyBody(opponents[maxIndex - 1].boatBody);</b>
+<b class="nc"><i>429</i>&nbsp;						GameData.results.add(new Float[] { Float.valueOf(maxIndex), Float.MAX_VALUE });</b>
+<i>430</i>&nbsp;					}
+<i>431</i>&nbsp;				}
+<i>432</i>&nbsp;			}
+<i>433</i>&nbsp;
+<i>434</i>&nbsp;			// Iterate through the bodies that need to be removed from the world after a
+<i>435</i>&nbsp;			// collision
+<b class="nc"><i>436</i>&nbsp;			for (Body body : toBeRemovedBodies) {</b>
+<i>437</i>&nbsp;				// Find the obstacle that has this body and mark it as null
+<i>438</i>&nbsp;				// so it&#39;s sprite doesn&#39;t get rendered in future frames
+<b class="nc"><i>439</i>&nbsp;				for (Lane lane : map.lanes) {</b>
+<b class="nc"><i>440</i>&nbsp;					for (Obstacle obstacle : lane.obstacles)</b>
+<b class="nc"><i>441</i>&nbsp;						if (obstacle.obstacleBody == body) {</b>
+<b class="nc"><i>442</i>&nbsp;							obstacle.obstacleBody = null;</b>
+<i>443</i>&nbsp;						}
+<i>444</i>&nbsp;
+<i>445</i>&nbsp;					// MODIFIED: for each powerup to be removed, set the body to null
+<b class="nc"><i>446</i>&nbsp;					for (Powerup powerup : lane.powerups)</b>
+<b class="nc"><i>447</i>&nbsp;						if (powerup.obstacleBody == body) {</b>
+<b class="nc"><i>448</i>&nbsp;							powerup.obstacleBody = null;</b>
+<i>449</i>&nbsp;						}
+<i>450</i>&nbsp;				}
+<i>451</i>&nbsp;
+<i>452</i>&nbsp;				// Remove the body from the world to avoid other collisions with it
+<b class="nc"><i>453</i>&nbsp;				world.destroyBody(body);</b>
+<b class="nc"><i>454</i>&nbsp;			}</b>
+<i>455</i>&nbsp;
+<i>456</i>&nbsp;			// Iterate through the bodies marked to be damaged after a collision
+<b class="nc"><i>457</i>&nbsp;			for (Body body : toUpdateHealth) {</b>
+<i>458</i>&nbsp;				// if it&#39;s the player body
+<b class="nc"><i>459</i>&nbsp;				if (player.boatBody == body &amp;&amp; !player.hasFinished()) {</b>
+<i>460</i>&nbsp;					// Reduce the health and the speed
+<b class="nc"><i>461</i>&nbsp;					player.robustness -= 10f;</b>
+<b class="nc"><i>462</i>&nbsp;					player.current_speed -= 30f;</b>
+<i>463</i>&nbsp;
+<i>464</i>&nbsp;					// If all the health is lost
+<b class="nc"><i>465</i>&nbsp;					if (player.robustness &lt;= 0 &amp;&amp; GameData.results.size() &lt; 4) {</b>
+<i>466</i>&nbsp;						// Remove the body from the world, but keep it&#39;s sprite in place
+<b class="nc"><i>467</i>&nbsp;						world.destroyBody(player.boatBody);</b>
+<i>468</i>&nbsp;
+<i>469</i>&nbsp;						// Add a DNF result
+<b class="nc"><i>470</i>&nbsp;						GameData.results.add(new Float[] { 0f, Float.MAX_VALUE });</b>
+<i>471</i>&nbsp;
+<i>472</i>&nbsp;						// Transition to the show result screen
+<b class="nc"><i>473</i>&nbsp;						GameData.showResultsState = true;</b>
+<b class="nc"><i>474</i>&nbsp;						GameData.currentUI = new ResultsUI();</b>
+<i>475</i>&nbsp;					}
+<i>476</i>&nbsp;				}
+<i>477</i>&nbsp;
+<i>478</i>&nbsp;				// Otherwise, one of the AI has to be updated similarly
+<i>479</i>&nbsp;				else {
+<b class="nc"><i>480</i>&nbsp;					for (int i = 0; i &lt; 3; i++) {</b>
+<b class="nc"><i>481</i>&nbsp;						if (opponents[i].boatBody == body &amp;&amp; !opponents[i].hasFinished()) {</b>
+<i>482</i>&nbsp;
+<b class="nc"><i>483</i>&nbsp;							opponents[i].robustness -= 10f;</b>
+<b class="nc"><i>484</i>&nbsp;							opponents[i].current_speed -= 30f;</b>
+<i>485</i>&nbsp;
+<b class="nc"><i>486</i>&nbsp;							if (opponents[i].robustness &lt; 0 &amp;&amp; GameData.results.size() &lt; 4) {</b>
+<b class="nc"><i>487</i>&nbsp;								world.destroyBody(opponents[i].boatBody);</b>
+<b class="nc"><i>488</i>&nbsp;								GameData.results.add(new Float[] { Float.valueOf(i + 1), Float.MAX_VALUE });</b>
+<i>489</i>&nbsp;							}
+<i>490</i>&nbsp;						}
+<i>491</i>&nbsp;
+<i>492</i>&nbsp;					}
+<i>493</i>&nbsp;				}
+<i>494</i>&nbsp;
+<b class="nc"><i>495</i>&nbsp;			}</b>
+<i>496</i>&nbsp;
+<b class="nc"><i>497</i>&nbsp;			toBeRemovedBodies.clear();</b>
+<b class="nc"><i>498</i>&nbsp;			toUpdateHealth.clear();</b>
+<i>499</i>&nbsp;
+<i>500</i>&nbsp;			// Advance the game world physics
+<b class="nc"><i>501</i>&nbsp;			world.step(1f / 60f, 6, 2);</b>
+<i>502</i>&nbsp;			// Update the timer
+<b class="nc"><i>503</i>&nbsp;			GameData.currentTimer += Gdx.graphics.getDeltaTime();</b>
+<i>504</i>&nbsp;
+<i>505</i>&nbsp;			// Update the player&#39;s and the AI&#39;s movement
+<b class="nc"><i>506</i>&nbsp;			player.updatePlayer(pressedKeys, Gdx.graphics.getDeltaTime());</b>
+<b class="nc"><i>507</i>&nbsp;			for (AI opponent : opponents)</b>
+<b class="nc"><i>508</i>&nbsp;				opponent.updateAI(Gdx.graphics.getDeltaTime());</b>
+<i>509</i>&nbsp;
+<i>510</i>&nbsp;			// Set the camera as the batches projection matrix
+<b class="nc"><i>511</i>&nbsp;			batch.setProjectionMatrix(camera.combined);</b>
+<i>512</i>&nbsp;
+<i>513</i>&nbsp;			// Render the map
+<b class="nc"><i>514</i>&nbsp;			map.renderMap(camera, batch);</b>
+<i>515</i>&nbsp;
+<i>516</i>&nbsp;			// Render the player and the AIs
+<b class="nc"><i>517</i>&nbsp;			player.drawBoat(batch);</b>
+<b class="nc"><i>518</i>&nbsp;			for (AI opponent : opponents)</b>
+<b class="nc"><i>519</i>&nbsp;				opponent.drawBoat(batch);</b>
+<i>520</i>&nbsp;
+<i>521</i>&nbsp;			// Render the objects that weren&#39;t destroyed yet
+<b class="nc"><i>522</i>&nbsp;			for (Lane lane : map.lanes) {</b>
+<b class="nc"><i>523</i>&nbsp;				for (Obstacle obstacle : lane.obstacles) {</b>
+<b class="nc"><i>524</i>&nbsp;					if (obstacle.obstacleBody != null)</b>
+<b class="nc"><i>525</i>&nbsp;						obstacle.drawObstacle(batch);</b>
+<i>526</i>&nbsp;				}
+<i>527</i>&nbsp;
+<i>528</i>&nbsp;				// MODIFIED: for each powerup with a body, draw them
+<b class="nc"><i>529</i>&nbsp;				for (Powerup powerup : lane.powerups) {</b>
+<b class="nc"><i>530</i>&nbsp;					if (powerup.obstacleBody != null)</b>
+<b class="nc"><i>531</i>&nbsp;						powerup.drawObstacle(batch);</b>
+<i>532</i>&nbsp;				}
+<i>533</i>&nbsp;			}
+<i>534</i>&nbsp;
+<i>535</i>&nbsp;			// Update the camera at the player&#39;s position
+<b class="nc"><i>536</i>&nbsp;			updateCamera(player);</b>
+<i>537</i>&nbsp;
+<b class="nc"><i>538</i>&nbsp;			updatePenalties();</b>
+<i>539</i>&nbsp;
+<i>540</i>&nbsp;			// Update the standings of each boat
+<b class="nc"><i>541</i>&nbsp;			updateStandings();</b>
+<i>542</i>&nbsp;
+<i>543</i>&nbsp;			// If it&#39;s been 15 seconds since the winner completed the race, dnf all boats
+<i>544</i>&nbsp;			// who haven&#39;t finished yet MODIFIED: except the player
+<i>545</i>&nbsp;			// Then transition to the result state
+<b class="nc"><i>546</i>&nbsp;			if (GameData.results.size() &gt; 0 &amp;&amp; GameData.results.size() &lt; 4</b>
+<b class="nc"><i>547</i>&nbsp;					&amp;&amp; GameData.currentTimer &gt; GameData.results.get(0)[1] + 15f &amp;&amp; player.hasFinished()) {</b>
+<b class="nc"><i>548</i>&nbsp;				dnfRemainingBoats();</b>
+<i>549</i>&nbsp;			} else {
+<i>550</i>&nbsp;				// Otherwise keep checking for new results
+<b class="nc"><i>551</i>&nbsp;				checkForResults();</b>
+<i>552</i>&nbsp;			}
+<i>553</i>&nbsp;
+<i>554</i>&nbsp;			// Choose which UI to display based on the current state
+<b class="nc"><i>555</i>&nbsp;			if (!GameData.showResultsState)</b>
+<b class="nc"><i>556</i>&nbsp;				GameData.currentUI.drawPlayerUI(UIbatch, player);</b>
+<i>557</i>&nbsp;			else {
+<b class="nc"><i>558</i>&nbsp;				GameData.currentUI.drawUI(UIbatch, mousePosition, Gdx.graphics.getWidth(), Gdx.graphics.getDeltaTime());</b>
+<b class="nc"><i>559</i>&nbsp;				GameData.currentUI.getInput(Gdx.graphics.getWidth(), clickPosition);</b>
+<i>560</i>&nbsp;			}
+<i>561</i>&nbsp;
+<i>562</i>&nbsp;			// MODIFIED: if the player is in gameplay, not results and presses escape, save
+<i>563</i>&nbsp;			// the game and reset
+<b class="nc"><i>564</i>&nbsp;			if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) &amp;&amp; !GameData.showResultsState) {</b>
+<b class="nc"><i>565</i>&nbsp;				SaveLoad.save();</b>
+<b class="nc"><i>566</i>&nbsp;				GameData.gamePlayState = false;</b>
+<b class="nc"><i>567</i>&nbsp;				GameData.resetGameState = true;</b>
+<i>568</i>&nbsp;			}
+<i>569</i>&nbsp;
+<i>570</i>&nbsp;		}
+<i>571</i>&nbsp;
+<i>572</i>&nbsp;		// Otherwise we need need to reset elements of the game to prepare for the next
+<i>573</i>&nbsp;		// race
+<b class="nc"><i>574</i>&nbsp;		else if (GameData.resetGameState) {</b>
+<i>575</i>&nbsp;			// MODIFIED: large portion of code turned into reset function
+<b class="nc"><i>576</i>&nbsp;			reset();</b>
+<i>577</i>&nbsp;		}
+<i>578</i>&nbsp;
+<i>579</i>&nbsp;		// If we haven&#39;t clicked anywhere in the last frame, reset the click position
+<b class="nc"><i>580</i>&nbsp;		if (clickPosition.x != 0f &amp;&amp; clickPosition.y != 0f)</b>
+<b class="nc"><i>581</i>&nbsp;			clickPosition.set(0f, 0f);</b>
+<i>582</i>&nbsp;
+<i>583</i>&nbsp;	}
+<i>584</i>&nbsp;
+<i>585</i>&nbsp;	/**
+<i>586</i>&nbsp;	 * A function to reset the game state.
+<i>587</i>&nbsp;	 * &lt;p&gt;
+<i>588</i>&nbsp;	 * Will partially reset for a new leg if showResultsState is still true,
+<i>589</i>&nbsp;	 * otherwise fully reset for a new game.
+<i>590</i>&nbsp;	 * 
+<i>591</i>&nbsp;	 * 
+<i>592</i>&nbsp;	 * @since 2
+<i>593</i>&nbsp;	 * @version 2
+<i>594</i>&nbsp;	 * @author Team 8
+<i>595</i>&nbsp;	 * @author Matt Tomlinson
+<i>596</i>&nbsp;	 */
+<i>597</i>&nbsp;	public void reset() {
+<b class="nc"><i>598</i>&nbsp;		player = null;</b>
+<b class="nc"><i>599</i>&nbsp;		for (int i = 0; i &lt; 3; i++)</b>
+<b class="nc"><i>600</i>&nbsp;			opponents[i] = null;</b>
+<b class="nc"><i>601</i>&nbsp;		GameData.results.clear();</b>
+<b class="nc"><i>602</i>&nbsp;		GameData.currentTimer = 0f;</b>
+<b class="nc"><i>603</i>&nbsp;		GameData.penalties = new float[4];</b>
+<i>604</i>&nbsp;
+<i>605</i>&nbsp;		// If we&#39;re coming from the result screen, then we need to advance to the next
+<i>606</i>&nbsp;		// leg
+<i>607</i>&nbsp;
+<b class="nc"><i>608</i>&nbsp;		camera.position.set(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 0);</b>
+<b class="nc"><i>609</i>&nbsp;		camera.update();</b>
+<i>610</i>&nbsp;
+<i>611</i>&nbsp;		// Reset everything for the next game
+<i>612</i>&nbsp;		// Initialize the physics game World
+<b class="nc"><i>613</i>&nbsp;		world = new World(new Vector2(0f, 0f), true);</b>
+<i>614</i>&nbsp;
+<i>615</i>&nbsp;		// MODIFIED: new map not needed
+<i>616</i>&nbsp;		// Initialize the map
+<i>617</i>&nbsp;		// map = new Map(&quot;Map1/Map1.tmx&quot;, Gdx.graphics.getWidth());
+<i>618</i>&nbsp;
+<i>619</i>&nbsp;		// MODIFIED: no longer needs recalculating
+<i>620</i>&nbsp;		// Calculate the ratio between pixels, meters and tiles
+<i>621</i>&nbsp;		// GameData.TILES_TO_METERS = map.getTilesToMetersRatio();
+<i>622</i>&nbsp;		// GameData.PIXELS_TO_TILES = 1 / (GameData.METERS_TO_PIXELS *
+<i>623</i>&nbsp;		// GameData.TILES_TO_METERS);
+<i>624</i>&nbsp;
+<i>625</i>&nbsp;		// Create the collision with the land
+<b class="nc"><i>626</i>&nbsp;		map.createMapCollisions(&quot;CollisionLayerLeft&quot;, world);</b>
+<b class="nc"><i>627</i>&nbsp;		map.createMapCollisions(&quot;CollisionLayerRight&quot;, world);</b>
+<i>628</i>&nbsp;
+<i>629</i>&nbsp;		// Create the lanes, and the obstacles in the physics game world
+<b class="nc"><i>630</i>&nbsp;		map.createLanes(world, GameData.difficulty[GameData.currentLeg]);</b>
+<i>631</i>&nbsp;
+<i>632</i>&nbsp;		// Create the finish line
+<b class="nc"><i>633</i>&nbsp;		map.createFinishLine(&quot;finishLine.png&quot;);</b>
+<i>634</i>&nbsp;
+<i>635</i>&nbsp;		// Create a new collision handler for the world
+<b class="nc"><i>636</i>&nbsp;		createContactListener(world);</b>
+<i>637</i>&nbsp;
+<i>638</i>&nbsp;		// MODIFIED: if player is coming from the results screen...
+<b class="nc"><i>639</i>&nbsp;		if (GameData.showResultsState) {</b>
+<b class="nc"><i>640</i>&nbsp;			GameData.currentLeg += 1;</b>
+<b class="nc"><i>641</i>&nbsp;			GameData.showResultsState = false;</b>
+<b class="nc"><i>642</i>&nbsp;			GameData.gamePlayState = true;</b>
+<b class="nc"><i>643</i>&nbsp;			GameData.currentUI = new GamePlayUI();</b>
+<i>644</i>&nbsp;		} else {
+<i>645</i>&nbsp;
+<i>646</i>&nbsp;			// MODIFIED: clear the body update ArrayLists to avoid null pointer exceptions
+<b class="nc"><i>647</i>&nbsp;			toBeRemovedBodies.clear();</b>
+<b class="nc"><i>648</i>&nbsp;			toUpdateHealth.clear();</b>
+<i>649</i>&nbsp;
+<b class="nc"><i>650</i>&nbsp;			GameData.currentLeg = 0;</b>
+<b class="nc"><i>651</i>&nbsp;			GameData.mainMenuState = true;</b>
+<b class="nc"><i>652</i>&nbsp;			GameData.dnq = false;</b>
+<i>653</i>&nbsp;
+<i>654</i>&nbsp;			// MODIFIED: reset the best times array
+<b class="nc"><i>655</i>&nbsp;			GameData.bests = new float[] { Float.MAX_VALUE, Float.MAX_VALUE, Float.MAX_VALUE, Float.MAX_VALUE };</b>
+<i>656</i>&nbsp;
+<i>657</i>&nbsp;			// MODIFIED: change back to main menu music before loading the main menu
+<b class="nc"><i>658</i>&nbsp;			GameData.music.stop();</b>
+<b class="nc"><i>659</i>&nbsp;			GameData.music = Gdx.audio.newMusic(Gdx.files.internal(&quot;Vibing.ogg&quot;));</b>
+<i>660</i>&nbsp;
+<b class="nc"><i>661</i>&nbsp;			GameData.currentUI = new MenuUI();</b>
+<i>662</i>&nbsp;		}
+<b class="nc"><i>663</i>&nbsp;		GameData.resetGameState = false;</b>
+<i>664</i>&nbsp;
+<i>665</i>&nbsp;	}
+<i>666</i>&nbsp;
+<i>667</i>&nbsp;	/**
+<i>668</i>&nbsp;	 * @since 1
+<i>669</i>&nbsp;	 * @version 2
+<i>670</i>&nbsp;	 * @author Team 10
+<i>671</i>&nbsp;	 */
+<i>672</i>&nbsp;	@Override
+<i>673</i>&nbsp;	public void dispose() {
+<i>674</i>&nbsp;
+<i>675</i>&nbsp;		// MODIFIED: dispose of singular world, not array
+<b class="nc"><i>676</i>&nbsp;		world.dispose();</b>
+<i>677</i>&nbsp;
+<i>678</i>&nbsp;	}
+<i>679</i>&nbsp;
+<i>680</i>&nbsp;	/**
+<i>681</i>&nbsp;	 * @since 1
+<i>682</i>&nbsp;	 * @version 1
+<i>683</i>&nbsp;	 * @author Team 10
+<i>684</i>&nbsp;	 */
+<i>685</i>&nbsp;	@Override
+<i>686</i>&nbsp;	public boolean keyDown(int keycode) {
+<i>687</i>&nbsp;
+<b class="nc"><i>688</i>&nbsp;		if (keycode == Input.Keys.W)</b>
+<b class="nc"><i>689</i>&nbsp;			pressedKeys[0] = true;</b>
+<b class="nc"><i>690</i>&nbsp;		if (keycode == Input.Keys.A)</b>
+<b class="nc"><i>691</i>&nbsp;			pressedKeys[1] = true;</b>
+<b class="nc"><i>692</i>&nbsp;		if (keycode == Input.Keys.S)</b>
+<b class="nc"><i>693</i>&nbsp;			pressedKeys[2] = true;</b>
+<b class="nc"><i>694</i>&nbsp;		if (keycode == Input.Keys.D)</b>
+<b class="nc"><i>695</i>&nbsp;			pressedKeys[3] = true;</b>
+<b class="nc"><i>696</i>&nbsp;		return true;</b>
+<i>697</i>&nbsp;
+<i>698</i>&nbsp;	}
+<i>699</i>&nbsp;
+<i>700</i>&nbsp;	/**
+<i>701</i>&nbsp;	 * @since 1
+<i>702</i>&nbsp;	 * @version 1
+<i>703</i>&nbsp;	 * @author Team 10
+<i>704</i>&nbsp;	 */
+<i>705</i>&nbsp;	@Override
+<i>706</i>&nbsp;	public boolean keyUp(int keycode) {
+<i>707</i>&nbsp;
+<b class="nc"><i>708</i>&nbsp;		if (keycode == Input.Keys.W)</b>
+<b class="nc"><i>709</i>&nbsp;			pressedKeys[0] = false;</b>
+<b class="nc"><i>710</i>&nbsp;		if (keycode == Input.Keys.A)</b>
+<b class="nc"><i>711</i>&nbsp;			pressedKeys[1] = false;</b>
+<b class="nc"><i>712</i>&nbsp;		if (keycode == Input.Keys.S)</b>
+<b class="nc"><i>713</i>&nbsp;			pressedKeys[2] = false;</b>
+<b class="nc"><i>714</i>&nbsp;		if (keycode == Input.Keys.D)</b>
+<b class="nc"><i>715</i>&nbsp;			pressedKeys[3] = false;</b>
+<b class="nc"><i>716</i>&nbsp;		return true;</b>
+<i>717</i>&nbsp;
+<i>718</i>&nbsp;	}
+<i>719</i>&nbsp;
+<i>720</i>&nbsp;	/**
+<i>721</i>&nbsp;	 * @since 1
+<i>722</i>&nbsp;	 * @version 1
+<i>723</i>&nbsp;	 * @author Team 10
+<i>724</i>&nbsp;	 */
+<i>725</i>&nbsp;	@Override
+<i>726</i>&nbsp;	public boolean keyTyped(char character) {
+<i>727</i>&nbsp;
+<b class="nc"><i>728</i>&nbsp;		return false;</b>
+<i>729</i>&nbsp;
+<i>730</i>&nbsp;	}
+<i>731</i>&nbsp;
+<i>732</i>&nbsp;	/**
+<i>733</i>&nbsp;	 * @since 1
+<i>734</i>&nbsp;	 * @version 1
+<i>735</i>&nbsp;	 * @author Team 10
+<i>736</i>&nbsp;	 */
+<i>737</i>&nbsp;	@Override
+<i>738</i>&nbsp;	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+<i>739</i>&nbsp;
+<b class="nc"><i>740</i>&nbsp;		Vector3 position = camera.unproject(new Vector3(screenX, screenY, 0));</b>
+<b class="nc"><i>741</i>&nbsp;		clickPosition.set(position.x, position.y);</b>
+<b class="nc"><i>742</i>&nbsp;		return true;</b>
+<i>743</i>&nbsp;
+<i>744</i>&nbsp;	}
+<i>745</i>&nbsp;
+<i>746</i>&nbsp;	/**
+<i>747</i>&nbsp;	 * @since 1
+<i>748</i>&nbsp;	 * @version 1
+<i>749</i>&nbsp;	 * @author Team 10
+<i>750</i>&nbsp;	 */
+<i>751</i>&nbsp;	@Override
+<i>752</i>&nbsp;	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+<i>753</i>&nbsp;
+<b class="nc"><i>754</i>&nbsp;		return false;</b>
+<i>755</i>&nbsp;
+<i>756</i>&nbsp;	}
+<i>757</i>&nbsp;
+<i>758</i>&nbsp;	/**
+<i>759</i>&nbsp;	 * @since 1
+<i>760</i>&nbsp;	 * @version 1
+<i>761</i>&nbsp;	 * @author Team 10
+<i>762</i>&nbsp;	 */
+<i>763</i>&nbsp;	@Override
+<i>764</i>&nbsp;	public boolean touchDragged(int screenX, int screenY, int pointer) {
+<i>765</i>&nbsp;
+<b class="nc"><i>766</i>&nbsp;		return false;</b>
+<i>767</i>&nbsp;
+<i>768</i>&nbsp;	}
+<i>769</i>&nbsp;
+<i>770</i>&nbsp;	/**
+<i>771</i>&nbsp;	 * @since 1
+<i>772</i>&nbsp;	 * @version 1
+<i>773</i>&nbsp;	 * @author Team 10
+<i>774</i>&nbsp;	 */
+<i>775</i>&nbsp;	@Override
+<i>776</i>&nbsp;	public boolean mouseMoved(int screenX, int screenY) {
+<i>777</i>&nbsp;
+<b class="nc"><i>778</i>&nbsp;		Vector3 position = camera.unproject(new Vector3(screenX, screenY, 0));</b>
+<b class="nc"><i>779</i>&nbsp;		mousePosition.set(position.x, position.y);</b>
+<b class="nc"><i>780</i>&nbsp;		return true;</b>
+<i>781</i>&nbsp;
+<i>782</i>&nbsp;	}
+<i>783</i>&nbsp;
+<i>784</i>&nbsp;	/**
+<i>785</i>&nbsp;	 * @since 1
+<i>786</i>&nbsp;	 * @version 1
+<i>787</i>&nbsp;	 * @author Team 10
+<i>788</i>&nbsp;	 */
+<i>789</i>&nbsp;	@Override
+<i>790</i>&nbsp;	public boolean scrolled(int amount) {
+<i>791</i>&nbsp;
+<b class="nc"><i>792</i>&nbsp;		return false;</b>
+<i>793</i>&nbsp;
+<i>794</i>&nbsp;	}
+<i>795</i>&nbsp;
+<i>796</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-02-09 16:25</div>
+</div>
+</body>
+</html>

@@ -9,4 +9,4 @@ nav_order: 4
 
 ### Testing and evidence: [Here](testing/Testing.pdf)
 ### Traceability matrix: [Here](testing/Traceability_matrix.pdf)
-### Coverage report: [Here](testing/coverage_report.html)
+### Coverage report: [Here](testing/coverage/index.html)
