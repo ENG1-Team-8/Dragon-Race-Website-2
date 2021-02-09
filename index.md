@@ -18,7 +18,7 @@ We are attempting to complete the development of a game called "Dragon Boat Punk
 
 **The testing evidence, updated plan and original plan + meetings can be found on the side-bar or below:**
 
-[UTesting evidence](Assessment2/testing){: .btn .fs-5 .mb-4 .mb-md-0 } [Updated Plan](Assessment2/plan/plan){: .btn .fs-5 .mb-4 .mb-md-0 } [Original Plan](Assessment1/meetings/meetings){: .btn .fs-5 .mb-4 .mb-md-0 }
+[Testing evidence](Assessment2/testing){: .btn .fs-5 .mb-4 .mb-md-0 } [Updated Plan](Assessment2/plan/plan){: .btn .fs-5 .mb-4 .mb-md-0 } [Original Plan](Assessment1/meetings/meetings){: .btn .fs-5 .mb-4 .mb-md-0 }
 
 ---
 
