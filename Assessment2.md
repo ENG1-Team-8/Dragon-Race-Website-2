@@ -10,7 +10,7 @@ nav_order: 1
 ---
 ## Change Report
 
-### File:
+### File: [Here](Assessment2/new_deliverables/Change2.pdf)
 ### Assessment 1 - Original deliverables: [Here](Assessment1/Assessment1.md)
 ### Assessment 2 - Updated deliverables: [Here](Assessment2/updated_deliverables.md)
 ---
@@ -24,8 +24,8 @@ nav_order: 1
 ---
 
 ## Software Testing
-### Report:
-### Testing materials:
+### Report: [Here](Assessment2/new_deliverables/Test2.pdf)
+### Testing materials: [Here](Assessment2/testing.md)
 ---
 
 ## Continous Integration
